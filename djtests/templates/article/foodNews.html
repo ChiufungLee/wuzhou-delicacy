@@ -1,0 +1,21 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block content %}
+<span>最新发布</span>
+{% for atc in article %}
+<div>
+<a href="">{{ atc.title }}</a>
+<a href="">{{ atc.created_time|date:'Y-m-d' }}</a>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}

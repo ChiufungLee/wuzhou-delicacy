@@ -1,0 +1,212 @@
+.uc_left{
+	width: 200px;
+	min-height: 400px;
+	/*background: red;*/
+	background: #f8f8f8;
+	float: left;
+	border-right: 1px solid #e7e7e7;
+	text-align: center;
+}
+.uc_left .nav-stacked a:hover{
+	cursor: pointer;
+}
+.uc_left ul li:visited{
+	background: #f8f8f8;
+}
+
+.uc_right{
+	width: 880px;
+	margin-left: 10px;
+	padding: 10px;
+	float: left;
+	/*border-left: 1px solid #e7e7e7;*/
+}
+
+/*我的菜谱*/
+.rcp_item{
+	
+	margin-bottom: 10px;
+	padding: 10px;
+	background: #f8f8f8;
+	position: relative;
+}
+.rcp_item:hover{
+	background: #e7e7e7;
+}
+.pic{
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
+}
+.glyphicon-play{
+	position: absolute;
+	left: 50px;
+	top: 120px;
+	font-size: 28px;
+	color: #fff; 
+}
+.pic img{
+	width: 150px;
+	height: 150px;
+	transition: all 0.5s ease-in-out;
+	transition-property: all;
+    transition-duration: 0.5s;
+}
+.pic img:hover{  
+    transform: scale(1.1);  
+}
+.detail{
+
+	padding-left: 10px;
+	height: 150px;
+	overflow: hidden;
+}
+.rcp_descript{
+	max-width: 680px;
+	word-break: break-all;
+	word-wrap:break-word;
+	white-space:pre-wrap;
+}
+.ingres{
+	line-height: 28px;
+}
+.detail p{
+	padding: 10px 0;
+}
+
+/*个人信息*/
+.uc_detail{
+	padding: 5px 10px 5px 30px;
+	
+}
+.uc_detxt{
+	margin: 30px 0 20px 0;
+}
+.uc_detxt p{
+	font-size: 15px;
+}
+.up_form{
+	display: none;
+}
+.focus{
+	background: #e7e7e7;
+}
+#avatar_img{
+	width: 400px;
+	height: 300px;
+}
+.msg{
+	color: #ff6767;
+	padding: 20px;
+}
+.table td{
+	max-width: 200px;
+	white-space:nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	text-align: center;
+}
+.myaction{
+	top: 120px;
+	position: absolute;
+	right: 0;
+}
+.myaction a{
+	padding: 10px 20px;
+}
+a{
+	cursor: pointer;
+}
+.scContent{
+	width: 500px;
+}
+
+/*日志样式*/
+.rizhi_item{
+	background: white;
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	padding-bottom: 30px;
+	position: relative;
+}
+.rz_img{
+	width: 60px;
+	position: absolute;
+}
+.ri_detail{
+	/*float: left;*/
+	margin-left: 70px;
+	height: 100%;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+
+}
+
+.rz_title{
+	height: 60px;
+	padding: 10px;
+	line-height: 40px;
+}
+.rz_name{
+
+	padding: 10px;
+	font-size: 16px;
+}
+.rz_time{
+	/*padding-top: 10px;*/
+	font-size: 12px;
+}
+.zhankai{
+	padding: 8px 20px;
+	color: red;
+}
+.zhankai:hover{
+	cursor: pointer;
+}
+.title_width{
+	/*background: red;*/
+	max-width: 135px;
+	white-space:nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	display: inline-block;
+}
+.limti_content{
+	max-width: 400px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.content-body{
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+/*	.content-body p img{
+	width: 400px;
+	height: 300px;
+}*/
+.listContentshow a{
+	max-width: 400px;
+	max-height: 80px;
+	overflow: hidden;
+	/*white-space: nowrap;*/
+	text-overflow: ellipsis;
+	word-break: break-all;
+	word-wrap:break-word;
+	white-space:pre-wrap;
+}
+.listContentshow a p{
+	display: inline-block;
+}
+.listContentshow a img{
+	display: none;
+}
+.table-width table{
+	/*width: 860px;*/
+}
+.ajax_page{
+	padding: 20px 0;
+	text-align: center;
+}

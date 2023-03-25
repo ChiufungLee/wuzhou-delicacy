@@ -1,0 +1,101 @@
+<div class="listArea">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>评论信息管理</li>
+	</ol>
+	<table class="table table-hover">
+		<tr class="tb_head">
+			<td>编号</td>
+			<td>评论对象</td>
+			<td>评论的对象编号</td>
+			<td class="limit-width">评论内容</td>
+			<td>评论时间</td>
+			<td>发表评论用户</td>
+			
+			<td>编辑操作</td>
+		</tr>
+		{% for comment in commentsList %}
+		<tr>
+			<td>{{ comment.id }}</td>
+			<td>{{ comment.object_id }}</td>
+			<td>{{ comment.content_type_id }}</td>
+			<td class="limit-width">
+				{{ comment.text }}
+			</td>
+			
+			<td>{{ comment.comment_time|date:'Y-m-d H:m:s' }} </td>
+			<td>{{ comment.user.username }}</td>
+
+			<td class="adAction">
+				<a onclick="delComment('/user/delComment/?id={{ comment.id }}')">删除</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+	<div class="paging">
+		<!-- 上一页开始 -->
+		<!--  如果当前页有上一页 -->
+		<span style="font-size: 15px;padding: 5px;">共&nbsp;{{ countComments }}&nbsp;条记录</span>
+
+		{% if commentsList.has_previous %}
+			<a class="btnactive" onclick="toPaging('/user/commentsList/?page={{ commentsList.previous_page_number }}')">上一页</a>
+		{% else %}
+		<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<a class="notactive">上一页</a></li>
+		{% endif %}
+	
+		<!-- 页码开始 -->
+		{% for num in paginator.page_range %}
+			{% if num == currentPage %}
+				<a onclick="toPaging('/user/commentsList/?page={{ num }}')">{{ num }}</a>
+			{% else %}
+				<a onclick="toPaging('/user/commentsList/?page={{ num }}')" class="active">{{ num }}</a>
+			{% endif %}
+		{% endfor %}
+		<!-- 下一页 -->
+		{% if commentsList.has_next %}
+			<a class="btnactive" onclick="toPaging('/user/commentsList/?page={{ commentsList.next_page_number }}')">下一页</a>
+		{% else %}
+			<a class="notactive">下一页</a></li>
+		{% endif %}
+	</div>
+</div>
+<script>
+	function toPaging(url){
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".listArea").empty();
+				$(".listArea").html(data);
+			},
+			error:function(){
+				$(".listArea").html("获取数据失败！");
+			}
+		});
+	}
+
+	function delComment(url){
+		var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+		if(delconfirm){
+			$.ajax({
+				type :"GET",
+				url : url,
+				async: false,
+				global:false,
+				dataType:"json",
+				success: function(data) {
+					$(".listArea").empty();
+					$(".listArea").html(data.msg);
+				},
+				error:function(){
+					$(".listArea").html("获取数据失败！");
+				}
+			});
+		}
+	}
+</script>

@@ -1,0 +1,178 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/common/admin_common.css">
+<link href="/static/recipe/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/static/recipe/css/addform.css">
+
+<!-- <script src="/static/recipe/js/jquery-2.0.3.min.js"></script> -->
+<script src="/static/recipe/js/fileinput.js"></script>
+
+<style type="text/css">
+	
+</style>
+{% endblock %}
+
+{% block content %}
+
+	<ol class="breadcrumb">
+		<li><a href="/">首页</a></li>
+		<li><a href="">发表菜谱</a></li>
+	</ol>
+
+<br>
+<div class="pg_form">
+	<form method="post" action="/recipe/addRecipe/" enctype="multipart/form-data">
+	{% csrf_token %}
+		<div class="form_group">
+			<label> 菜品名称：</label><br>
+			<input type="text" name="name" id="name" class="form-control"><br/>
+		</div>
+		<br>
+		<div class="form_title">
+			<!-- <span class="form_text">菜品描述：</span> -->
+			<label> 菜品描述：</label><br>
+			<textarea id="description" name="description" class="form-control" rows="3"></textarea>
+		</div>
+		<br/>
+		<!-- <div class="form_title">作者：<input type="text" name="author" placeholder="默认为登录用户"></div><br/> -->
+		<div class="form_title">
+			<label>菜品分类：</label>
+			<select name="category" class="form-control xiala">
+				{% for cate in category %}
+				<option value="{{ cate.catename }}">{{ cate.catename }}</option>
+				{% endfor %}						
+			</select>
+			&nbsp;&nbsp;
+			<label> 菜品口味：</label>
+			<select name="taste" class="form-control xiala">
+				{% for taste in tastes %}
+				<option value="{{ taste.tastename }}">{{ taste.tastename }}</option>
+				{% endfor %}
+			</select>
+
+		</div>
+
+		<br />
+		<div class="form_title">
+			<label>	上传成品图：</label>
+			<!-- <input type="file" > -->
+			<input type="file" id="file-0b" class="file" name="productPic">
+		</div>
+		<br/>
+		<br>
+		
+		<div id="inge_box">
+			<p id="show_inline">
+				<label>所需食材：</label><br>
+				<input type="text" name="ingeName" class="form-control limit_width" placeholder="输入配料名：">
+				<input type="text" name="ingeQuantity" class="form-control limit_width" placeholder="输入配料的量">
+				<input type="button" name="" value="+" id='addp' class="btn btn-primary">
+		        <input type="button" name="" value="-" id='delp' class="btn btn-primary">
+			</p>
+		</div>
+		<br><br><br>
+
+		<!-- 上传步骤 -->
+		<div id="box">
+		    <div id="pp">
+		        <span id="stepnum">1</span><span>.&nbsp;请输入步骤：</span><br>
+		        <!-- <input type="file" id="file-0b" class="file" name="stepImg"> -->
+		        <label for="stepfile" class="uplabel" id="uplabel">
+					<span id="tubiao" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					<p id="up">点击上传步骤图</p>
+					<img id="previewImg" class="ulpic"/>
+				</label>
+				<input type="file" id="stepfile" class="hidef" name="stepImg" />
+		        <textarea id="textarea" name="stepDesp" class="form-control steptxt" rows="4" placeholder="输入步骤："></textarea>
+		        <!-- <button >+</button> -->
+		        <input type="button" name="" value="+" id='addp' class="btn btn-default let">
+		        <input type="button" name="" value="-" id='delp' class="btn btn-default let">
+		    </div>
+		    
+		</div>
+
+		<input type="submit" value="发布" class="btn btn-primary btn-lg" onclick="return checknull()">
+	</form>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    var i = 1;
+    $(function () {
+        $("#box").on('click','#addp',function () {
+            //$('#pp').after($("#pp").clone());
+            var addP = $(this).parent().clone();
+            $(this).parent().after(addP);
+            $('#pp #stepnum').each(function (i,e) {
+                $(e).text(i+1);
+            });
+            
+            $('#pp label').each(function (i,e) {
+                // $(e).text(i+1);
+                $(e).attr('for', 'stepfile'+(i+1))
+            });
+            $('#pp .hidef').each(function (i,e) {
+                // $(e).text(i+1);
+                $(e).attr('id', 'stepfile'+(i+1));
+
+                 $(this).on('change',function(){
+                 	var file = $(this)[0].files[0];
+	                var showImg = $(this).parent().children('label.uplabel').children('img.ulpic');
+					var tb = $(this).parent().children('label.uplabel').children('#tubiao');
+					var up = $(this).parent().children('label.uplabel').children('p#up');
+					var ulb = $(this).parent().children('label.uplabel');
+					
+					// alert(showImg);
+					// alert($(".hidef").length);
+					var read = new FileReader();
+					read.readAsDataURL(file);
+
+					// $(document).ready(function(){
+					read.onload = function(e) {
+						var src = e.target.result;
+						
+						tb.css('display','none');
+						up.css('display','none');
+						ulb.css('text-align','left');
+
+						showImg.attr('src',src);
+					};
+                 });
+                
+
+            });
+
+        });
+        $("#box").on("click",'#delp',function () {
+            $(this).parent().remove();
+            $('#pp #stepnum').each(function (i,e) {
+                $(e).text(i+1);
+            })
+        });
+
+         $("#inge_box").on('click','#addp',function () {
+            //$('#pp').after($("#pp").clone());
+            var addP = $(this).parent().clone();
+            $(this).parent().after(addP);
+        });
+         $("#inge_box").on("click",'#delp',function () {
+            $(this).parent().remove();
+        });
+
+    });
+    function checknull(){
+    	var name = $('#name').val();
+    	var description = $('#description').val();
+    	var file = $('#file-0b').val();
+    	if(name=='' || description=='' || file==''){
+    		alert('请检查输入内容！');
+    		return false;
+    	}
+    }
+    
+</script>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'login/base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "user/css/user_center.css" %}">
+{% endblock %}
+
+
+{% block content %}
+{% include 'login/head_img.html' %}
+<div class="uc_left">
+	<br>
+	<ul class="nav nav-pills nav-stacked">
+		<li role="presentation"><a onclick="loadPage('/user/userInfo/')">个人信息</a></li>
+		<li role="presentation"><a onclick="loadPage('/recipe/myRecipes/')">我的菜谱</a></li>
+		<li role="presentation"><a onclick="loadPage('/article/myTravels/')">我的日志</a></li>
+		<li role="presentation"><a onclick="loadPage('/recipe/myVlogs/')">我的VLOG</a></li>
+		<li role="presentation"><a onclick="loadPage('/activity/myActivity/')">活动记录</a></li>
+		<li role="presentation"><a onclick="loadPage('/likes/myCollect/')">我的收藏</a></li>
+		<li role="presentation"><a id="direct_uppwd">修改密码</a></li>
+	</ul>
+</div>
+<div class="uc_right">
+	<div class="msg">{{ message }}</div>
+</div>
+<div class="clearfix"></div>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+function loadPage(url){
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".uc_right").empty();
+			$(".uc_right").html(data);
+		},
+		error:function(){
+			$("#uc_right").html("获取数据失败！");
+		}
+	});
+}
+	$("#direct_uppwd").on("click",function(){
+		// alert('hhh');
+		$(".uc_right").empty();
+		$('.uc_right').append("<div class='msg'>{{ message }}</div> <div><label class='msg'>将发送验证码到你的邮箱，点击确认发送！</label><a onclick='toSend_pwdEmail()' class='btn btn-primary'>发送验证码</a><div id='getMsg'></div></div>");
+
+	});
+
+	$(".uc_left ul").on("click","li",function(){
+		$(".uc_left ul li").removeClass("focus");
+		$(this).addClass("focus");
+	});
+
+	function toSend_pwdEmail(){
+		$.ajax({
+			type :"GET",
+			url : /toSend_pwdEmail/,
+			async: false,
+			global:false,
+			dataType:"json",
+			success: function(data) {
+				$("#getMsg").empty();
+				$("#getMsg").html(data['message']);
+			},
+			error:function(){
+				$("#getMsg").html("邮件已发送，请前往邮箱确认！");
+			}
+		});
+	}
+
+</script>
+
+{% endblock %}

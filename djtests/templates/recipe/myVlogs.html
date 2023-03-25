@@ -1,0 +1,116 @@
+{% if flag != 0 %}
+<div class="tableList">
+	{% for vlog in myVlogs %}
+		<div class="rcp_item clearfix">
+
+			<div class="vlog pic left">
+				<a href="/recipe/vlogDetail/?id={{ vlog.id }}">
+					<img src="{{ vlog.cover.url }}">
+					
+				</a>
+			</div>
+			<div class="detail left">
+				<h4><a href="/recipe/vlogDetail/?id={{ vlog.id }}">{{ vlog.title }}</a></h4>
+				
+				<div class="rcp_descript">描述：{{ vlog.desc }}</div>
+				<p class="maker">发布于&nbsp;{{ vlog.create_time }}</p>
+				<p class="maker">观看次数&nbsp;{{ vlog.view_count }}</p>
+			</div>
+			<a href="/recipe/vlogDetail/?id={{ vlog.id }}"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a>
+			<div class="myaction">
+				<a onclick="delVlog('/recipe/delVlog/?id={{ vlog.id }}')" class="btn-default btn">删除</a></div>
+		</div> 
+	{% endfor %}
+
+	<div class="ajax_page">
+		<nav aria-label="Page navigation text-center">
+			<ul class="pagination">
+				<li><a>共&nbsp;{{ countAtc }}&nbsp;条</a></li>
+				{% if myVlogs.has_previous %}
+				<li>
+					<a onclick="toPaging('/recipe/myVlogs/?page={{ myVlogs.previous_page_number }}')" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% else %}
+				<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+				<li>
+					<a aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% endif %}
+
+				<!-- 页码开始 -->
+				{% for num in paginator.page_range %}
+					{% if num == currentPage %}
+						<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}">{{ num }}</a> -->
+						<li><a onclick="toPaging('/recipe/myVlogs/?page={{ num }}')" id="{{num}}">{{ num }}</a></li>
+					{% else %}
+						<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}" class="active">{{ num }}</a> -->
+						<li><a onclick="toPaging('/recipe/myVlogs/?page={{ num }}')" class="active">{{ num }}</a></li>
+					{% endif %}
+				{% endfor %}
+
+				<!-- 下一页 -->
+				{% if myVlogs.has_next %}
+					<li>
+						<a onclick="toPaging('/recipe/myVlogs/?page={{ myVlogs.next_page_number }}')" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% else %}
+					<li>
+						<a aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</nav>
+	</div>
+
+</div>
+{% else%}
+<p>你还没发布过VLOG哦！快来和大家分享一下吧~</p>
+{% endif %}
+
+
+<script>
+function delVlog(url){
+	var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+	if(delconfirm){
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"json",
+			success: function(data) {
+				alert(data.msg);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	}
+}
+function toPaging(url){
+	// $(".daohangtiao").empty();
+	
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".tableList").empty();
+			$(".tableList").html(data);
+		},
+		error:function(){
+			$(".tableList").html("获取数据失败！");
+		}
+	});
+}
+</script>

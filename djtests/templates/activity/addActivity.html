@@ -1,0 +1,121 @@
+<div class="listArea">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>活动管理</li>
+		{% if typeflag == 1 %}
+		<li>更改活动信息</li>
+		{% else %}
+		<li>发布活动</li>
+		{% endif %}
+	</ol>
+	{% if typeflag == 1 %}
+	<form method="post" action="/activity/editActivity/">
+	{% csrf_token %}
+	{% else %}
+	<form method="post" action="/activity/addActivity/">
+	{% endif %}
+	
+	{% csrf_token %}
+	<input type="hidden" name="atvtID" id="atvtID" value="{{ activity.id }}">
+		<div class="form-group">
+			<label>活动名称：</label>
+			<input type="text" name="name" id="name" class="form-control" value="{{ activity.name }}">
+		</div>
+		<div class="form-group">
+			<label>活动详情：</label>
+			<textarea rows="4" name="abstract" id="abstract" placeholder="填写活动具体信息" class="form-control" rows="3">{{ activity.abstract }}</textarea>
+		</div>
+		<div class="form-group">
+			<label>活动时间：</label>
+			<input type="datetime-local" name="hostTime" id="hostTime" placeholder="活动开始时间" class="form-control" value="{{ activity.host_time|date:'Y-m-d H:m:s' }}">
+		</div>
+		<div class="form-group">
+			<label>活动地址：</label>
+			<input type="text" name="hostAddress" id="hostAddress" placeholder="举办活动的具体地址" class="form-control" value="{{ activity.host_address }}">
+		</div>
+		<div class="form-group">
+			<label>参与人数：</label>
+			<input type="text" name="participants" id="participants" placeholder="活动参与人数" class="form-control" value="{{ activity.participants }}">
+		</div>
+		<div class="form-group">
+			<label>活动发起人：</label>
+<!-- 			<input type="text" name="chargeMan" id="chargeMan" placeholder="填写商家ID" class="form-control" value="{{ activity.chargeMan.id }}"> -->
+			<select name="chargeMan" class="form-control" id="chargeMan">
+				{% for s in sto %}
+				<option id="chargeMan" value="{{ s.id }}" {% if activity.chargeMan.id == s.id %} selected {% endif %}>{{ s.name }}</option>
+				{% endfor %}
+
+			</select>
+			
+
+			
+		</div>
+		<div class="form-group">
+			<label>联系电话：</label>
+			<input type="text" name="contactPhone" id="contactPhone" class="form-control" value="{{ activity.contactPhone }}">
+		</div>
+		<div class="form-group">
+			<label>备注：</label>
+			<textarea rows="4" name="remark" class="form-control" rows="3" id="remark" placeholder="备注、注意事项等">{{ activity.remark }}</textarea>
+		</div>
+
+		{% if typeflag == 1 %}
+		<input type="submit" name="" class="btn btn-primary" onclick="updateActivity('/activity/editActivity/')" value="更新活动">
+		{% else %}
+		<input type="submit" name="" id="newActivity" onclick="return checknull()" class="btn btn-primary" value="发布活动">
+		{% endif %}
+		
+	</form>
+</div>
+<script>
+$(function(){
+	
+
+})
+function checknull(){
+	var name = $('#name').val();
+	var abstract = $('#abstract').val();
+	var hostTime = $('#hostTime').val();
+	var hostAddress = $('#hostAddress').val();
+	var participants = $('#participants').val();
+	var chargeMan = $('#chargeMan').val();
+	var contactPhone = $('#contactPhone').val();
+	var remark = $('#remark').val();
+
+	if(name=='' || abstract=='' || hostTime=='' || hostAddress=='' || participants=='' || chargeMan=='' || contactPhone==''){
+		alert('请检查输入内容！');
+		return false;
+	}
+}
+
+
+function updateActivity(url){
+	var atvtID = $('#atvtID').val();
+	var name = $('#name').val();
+	var abstract = $('#abstract').val();
+	var hostTime = $('#hostTime').val();
+	var hostAddress = $('#hostAddress').val();
+	var participants = $('#participants').val();
+	var chargeMan = $('#chargeMan').children('option:selected').val()
+	var contactPhone = $('#contactPhone').val();
+	var remark = $('#remark').val();
+
+	$.ajax({
+		type :"POST",
+		data:{csrfmiddlewaretoken:'{{ csrf_token }}','atvtID':atvtID,'name':name,'abstract':abstract,'hostTime':hostTime,'hostAddress':hostAddress,'participants':participants,'chargeMan':chargeMan,'contactPhone':contactPhone,'remark':remark},
+		url : url,
+		async: false,
+		global:false,
+		dataType:"json",
+		success: function(data) {
+			$(".listArea").empty();
+			// alert(data);
+			$(".listArea").html(data.msg);
+		},
+		error:function(){
+			$(".listArea").html("获取数据失败！");
+		}
+	})
+	
+}
+</script>

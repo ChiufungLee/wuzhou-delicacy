@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "common/font-awesome.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "article/css/listArticle.css" %}">
+	<script src="{% static "common/jquery-3.4.1.js" %}"></script>
+	<style type="text/css">
+		.select{
+			width: 80px;
+			line-height: 30px;
+			height: 30px;
+		}
+	</style>
+</head>
+<body>
+<div class="atcList">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>文章管理</li>
+		<li>文章列表</li>
+	</ol>
+	
+	<div class="searchArea">
+		<form id="formlist">
+			<label class="st">按类型查找：</label>
+			<select class="select" name="selectType">
+				<option value="1">标题</option>
+				<option value="2">作者</option>
+			</select>
+			<input type="text" class="form-control" name="searchTitle" id="searchTitle" placeholder="输入关键词">
+			<a class="btn btn-primary" id="searchBtn" onclick="toSearch('/article/searchArticle/')">搜索</a>
+		</form>
+	</div>
+
+	<div class="listArea">
+		<table class="table table-hover">
+			<tr class="tb_head">
+				<td>编号</td>
+				<td><div class="limit_width">标题</div></td>
+				<td>内容</td>
+				<td>分类</td>
+				<td>作者</td>
+				<td>浏览量</td>
+				<td>发表时间</td>
+				<td>是否置顶</td>
+				
+
+				<td>编辑操作</td>
+			</tr>
+			{% for atc in thisAtc %}
+			<tr>
+				<td>{{ atc.article_id }}</td>
+				<td><div class="limit_width" title="{{ atc.title }}">{{ atc.title }}</div></td>
+				<td><a onclick="adminTodetail('/article/atc_detail/?u=0&article_id={{atc.article_id}}')" class="todetail">查看详情</a></td>
+				
+				{% if atc.atc_category.atcCate_name == '' %}
+				<td>未分类</td>
+				{% else %}
+				<td>{{ atc.atc_category.atcCate_name }}</td>
+				{% endif %}
+				<td>{{ atc.author.username }}</td>
+				<td>{{ atc.total_views }}</td>
+				<td>{{ atc.created_time }}</td>
+
+				{% if atc.is_top == '1' %}
+				<td><span class="is_top">是</span><a class="quitTop" onclick="settop('/article/settop/?articleId={{ atc.article_id }}')">取消置顶</a></td>
+				{% else %}
+				<td><span class="is_top">否</span><a class="addTop" onclick="settop('/article/settop/?articleId={{ atc.article_id }}')">置顶</a></td>
+				{% endif %}
+
+				
+				<td class="adAction">
+					<a onclick="editArticle('/article/editArticle/?articleId={{ atc.article_id }}')">编辑</a>
+					<a onclick="delArticle('/article/delArticle/?articleId={{ atc.article_id }}')">删除</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="paging">
+		<!-- 上一页开始 -->
+		<!--  如果当前页有上一页 -->
+		<span style="font-size: 15px;padding: 5px;">共&nbsp;{{ countAtc }}&nbsp;条记录</span>
+
+		{% if thisAtc.has_previous %}
+			<a class="btnactive" onclick="toPaging('/article/listArticle/?page={{ thisAtc.previous_page_number }}')">上一页</a>
+		{% else %}
+		<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<a class="notactive">上一页</a></li>
+		{% endif %}
+	
+		<!-- 页码开始 -->
+		{% for num in paginator.page_range %}
+			{% if num == currentPage %}
+				<a onclick="toPaging('/article/listArticle/?page={{ num }}')">{{ num }}</a>
+			{% else %}
+				<a onclick="toPaging('/article/listArticle/?page={{ num }}')" class="active">{{ num }}</a>
+			{% endif %}
+		{% endfor %}
+		<!-- 下一页 -->
+		{% if thisAtc.has_next %}
+			<a class="btnactive" onclick="toPaging('/article/listArticle/?page={{ thisAtc.next_page_number }}')">下一页</a>
+		{% else %}
+			<a class="notactive">下一页</a></li>
+		{% endif %}
+	</div>
+
+</div>
+<script>
+	function toSearch(url){
+		$.ajax({
+			type :"GET",
+			url : url,
+			data: $('#formlist').serialize(),
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".atcList").empty();
+				$(".atcList").html(data);
+				console.log(data);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	}
+	function toPaging(url){
+		// $(".daohangtiao").empty();
+		
+
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".atcList").empty();
+				$(".atcList").html(data);
+			},
+			error:function(){
+				$(".atcList").html("获取数据失败！");
+			}
+		});
+	}
+</script>
+<script>
+	function settop(url){
+		
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".atcList").empty();
+				$(".atcList").html(data);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	}
+	function adminTodetail(url){
+		
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".atcList").empty();
+				$(".atcList").html(data);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	}
+	function editArticle(url){
+		
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".atcList").empty();
+				$(".atcList").html(data);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	}
+	function delArticle(url){
+		var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+		if(delconfirm){
+			
+			$.ajax({
+				type :"GET",
+				url : url,
+				async: false,
+				global:false,
+				dataType:"html",
+				success: function(data) {
+					$(".atcList").empty();
+					$(".atcList").html(data);
+				},
+				error:function(){
+					console.log("获取数据失败！");
+				}
+			});
+		}
+	}
+</script>
+</body>
+</html>
+

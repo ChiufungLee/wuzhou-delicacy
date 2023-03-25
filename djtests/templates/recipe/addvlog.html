@@ -1,0 +1,101 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+<style type="text/css">
+	.cover-label{
+		width: 120px;
+		height: 90px;
+		background: #f8f8f8;
+		font-size: 22px;
+		text-align: center;
+		padding-top: 30px;
+
+	}
+	#coverpic{
+		display: none;
+	}
+</style>
+{% endblock%}
+
+{% block content %}
+
+<div class="daohangtiao">
+	<ol class="breadcrumb">
+		<li><a href="/">首页</a></li>
+		<li><a href="">发布VLOG</a></li>
+	</ol>
+</div>
+<form action="/recipe/addVlogs/" enctype="multipart/form-data" method="post">
+	{% csrf_token %}
+	<div class="form-group">
+		<label>视频标题</label>
+		<input type="text" name="title" id="title" class="form-control">
+	</div>
+	<div class="form-group">
+		<label>上传视频</label>
+		<input type="file" name="vlog" id="videofile" accept="video/mp4">
+	</div>
+	
+	<div class="form-group">
+		<label>视频描述</label>
+		<textarea class="form-control" id="desc" rows="3" name="desc"></textarea>
+	</div>
+	<div class="form-group">
+		<label>上传封面图</label><br>
+		<label for="coverpic" class="cover-label">
+			<span id="tubiao" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+			<input type="file" id="coverpic" name="coverPic" accept="image/jpg, image/jpeg, image/png">
+			<img id="yulan" width="160" height="120">
+		</label>
+	</div>
+	
+	<br>
+
+	<input type="submit" class="btn btn-primary" name="" onclick="return checknull()" value="发布Vlog">
+</form>
+{% endblock%}
+
+{% block js %}
+<script type="text/javascript">
+	$(function(){
+		var showImg = $('#yulan');
+		showImg.css('display','none');
+		$('#coverpic').on('change',function(){
+		 	var file = $(this)[0].files[0];
+
+		   
+			var tubiao = $('#tubiao');
+			var showlabel = $('.cover-label');
+			
+			// alert(showImg);
+			// alert($(".hidef").length);
+			var read = new FileReader();
+			read.readAsDataURL(file);
+
+			// $(document).ready(function(){
+			read.onload = function(e) {
+				var src = e.target.result;
+				
+				tubiao.css('display','none');
+				showlabel.css({'text-align':'left','padding-top':'0'});
+
+				showImg.attr('src',src);
+				showImg.css('display','block');
+			};
+		});
+	})
+	function checknull(){
+		var name = $('#title').val();
+		var videofile = $('#videofile').val();
+		var desc = $('#desc').val();
+		var coverpic = $('#coverpic').val();
+		
+		if(name=='' || videofile=='' || desc=='' || coverpic==''){
+			alert('请检查输入内容！');
+			return false;
+		}
+		
+	}
+
+</script>
+{% endblock%}

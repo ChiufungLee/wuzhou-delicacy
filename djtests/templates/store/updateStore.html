@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.btnSubmit{
+			font-size: 15px;
+			padding: 12px 60px;
+			border:none;
+			border-radius: 5px;
+			background: #0285ce;
+			color: white;
+		}
+		.btnSubmit:hover{
+			cursor: pointer;
+			background: #0285ff;
+			color: #fff;
+		}
+		.form_title{
+			padding: 15px;
+		}
+	</style>
+</head>
+<body>
+<div class="picList">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>店铺管理</li>
+		<li>更新商家信息</li>
+	</ol>
+	<div class="editList">
+		<form method="post" action="/store/updateStore/" enctype="multipart/form-data">	
+		{% csrf_token %}
+		<!-- action="/article/editArticle/" -->
+			<div style="display: none;"><input type="text" id="storeId" name="storeId" value="{{ store.id }}"></div>
+			<div class="form-group">
+				<label>店铺名称：</label>
+				<input type="text" name="name" id="name" class="form-control" value="{{ store.name }}"><br/>
+			</div>
+			<div class="form-group">
+				店铺描述：<input type="text" name="tabstract" id="tabstract" class="form-control" value="{{ store.tabstract }}"><br/>
+			</div>
+			<div class="form-group">
+				店铺简介：<textarea name="introduction" id="introduction" class="form-control" rows="3">{{ store.introduction }}</textarea><br/>
+			</div>
+			<div class="form-group">
+				店铺图片：<img src="{{ store.img.url }}" width="320px;" height="240px;"><br/>
+				上传图片：<input type="file" name="pic" id="pic">
+			</div>
+			<div class="form-group">
+				优惠信息：<input type="text" name="discount" id="discount" class="form-control" value="{{ store.discount }}"><br/>
+			</div>
+			<div class="form-group">
+				商家电话：<input type="text" name="phone" id="phone" class="form-control" value="{{ store.phone }}"><br/>
+			</div>
+			<div class="form-group">
+				营业时间：<input type="text" name="ontime" id="ontime" class="form-control" value="{{ store.ontime }}"><br/>
+			</div>
+			<div class="form-group">
+				店铺地址：<input type="text" name="address" id="address" class="form-control" value="{{ store.address }}"><br/>
+			</div>
+			<div class="form-group">
+				坐标经度：<input type="text" name="longitude" id="longitude" class="form-control" value="{{ store.longitude }}"><br/>
+			</div>
+			
+			<div class="form-group">
+				坐标纬度：<input type="text" name="latitude" id="latitude" class="form-control" value="{{ store.latitude }}"><br/>
+			</div>
+			<br/>
+			<input type="submit" value="更新" class="btnSubmit">
+			<!-- <a class="btnSubmit" onclick="updataStore()">更新</a> -->
+		</form>
+	</div>
+</div>
+</body>
+</html>

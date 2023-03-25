@@ -1,0 +1,162 @@
+{% extends 'login/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<link rel="stylesheet" type="text/css" href="{% static "store/css/store_detail.css" %}">
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=ORBBZ-HQ5CR-SGVWS-WGOUX-MXQCH-A6BRM"></script>
+{% endblock %}
+
+{% block content %}
+{% include 'login/head_img.html' %}
+
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>美食街</li>
+		<li>商家详情</li>
+	</ol>
+
+<div class="clearfix">
+	<div class="recipeImg"><img src="{{ store.img.url }}" width="650" height="382"></div>
+	<div class="store_mainInfo">
+		<div><h2 class="store_title">{{ store.name }}</h2></div>
+		
+		<div class="store_listitem"><span class="item_name">营业时间</span>&nbsp;&nbsp;<span class="item_value">{{ store.ontime }}</span></div>
+
+		<div class="store_listitem"><span class="item_name">商家电话</span>&nbsp;&nbsp;<span class="item_value">{{ store.phone }}</span></div>
+
+		<div class="store_listitem"><span class="item_name">地址</span>&nbsp;&nbsp;<span class="item_value">{{ store.address }}</span></div>
+
+		{% if store.discount %}
+		<div class="store_listitem"><span class="item_name">优惠信息</span>&nbsp;&nbsp;<span class="item_value">{{ store.discount }}</span></div>
+		{% else %}
+			
+		{% endif %}
+
+		<div class="store_listitem">
+			<span class="item_name">描述</span>	
+		</div>
+		<div class="detail_descript">
+			<p>{{ store.tabstract }}</p>
+		</div>
+	</div>
+</div>
+<br>
+{% autoescape off %}
+
+<div class="storeDe">
+	<h3 class="sjjj">商家简介</h3>
+	{{ store.introduction }}
+</div>
+<br>
+{% if flag != 0 %}
+<div class="store_atvt">
+	<h3 class="sjjj">本店活动</h3>
+	<p class="at-name">{{ activity.name }}</p>
+	<p><span class="red yh">“</span>{{ activity.abstract }}<span class="red yh">”</span></p>
+	<p><label class="red">活动人数：</label><strong>{{ activity.participants }}</strong>&nbsp;人</p>
+	<p><label class="red">活动时间：</label>{{ activity.host_time }}</p>
+	<p><label class="red">活动地点：</label>{{ activity.host_address }}</p>
+	<p><label class="red">联系方式：</label>{{ activity.contactPhone }}</p>
+	<p><label class="red">注意：需提前至少24小时报名！</label></p>
+	<p><a class="btn btn-primary" id='apply'>报名活动</a></p>
+	<input type="hidden" name="atvt_id" id="atvt_id" value="{{ activity.id }}">
+	<div class="toapply">
+		<label class="apply_label">请填写报名信息</label>
+		<hr>
+		<p><label>真实姓名：</label><input type="text" name="truename" id="truename"></p>
+		<p><label>联系方式：</label><input type="text" name="phone" id="phone"></p>
+		<p><input type="button" name="toapply" id="toapply" value="报名" class="btn btn-primary"></p>
+	</div>
+</div>
+
+
+{% endif %}
+{% endautoescape %}
+<div class="store_map">
+	<h3 class="sjjj">商家地址</h3>
+	<div id="container"></div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+window.onload = function(){
+	var log = {{ store.longitude|safe }};
+	var lat = {{ store.latitude|safe }};
+	var name = '{{ store.name|safe }}';
+	console.log(log);
+	function init() {
+        //定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
+        var center = new qq.maps.LatLng(log, lat);
+        var map = new qq.maps.Map(document.getElementById("container"), {
+            center: center,      // 地图的中心地理坐标。
+            zoom:16                                                 // 地图的中心地理坐标。
+        });
+        var marker = new qq.maps.Marker({
+		    position: center,
+		    map: map
+		    // content:'文本标注'
+		});
+
+		var infoWin = new qq.maps.InfoWindow({
+	        map: map
+	    });
+	    infoWin.open();
+	    //tips  自定义内容
+	    infoWin.setContent('<div style="width:200px;padding:10px;">'+ name +
+	        // '<img style="float:left;" src="img/infowindow-img.jpg"/> '+
+	        '</div>');
+	    infoWin.setPosition(center);
+    }
+    //调用初始化函数地图
+    init();
+
+   
+}
+</script>
+<script type="text/javascript">
+$(function(){
+	var apply_flag = {{ apply_flag|safe }};
+	var loginuser = '{{ request.session.user_name|safe }}';
+
+    var applybtn = $('#apply');
+    if(apply_flag=='0'){
+    	applybtn.text('已报名');
+    	applybtn.css({'background-color':'#e7e7e7','color':'#000','border':'none','pointer-events':'none'});
+
+    }
+     $('#apply').click(function(){
+     	if(loginuser==''){
+     		alert('请先登录！');
+     		return false;
+     	}
+     	$('.toapply').css('display','block');
+     });
+    $('#toapply').click(function(){
+    	var truename = $('#truename').val();
+    	var phone = $('#phone').val();
+    	var atvt_id = $('#atvt_id').val();
+    	
+    	$.ajax({
+			type :"GET",
+			url : '/activity/applyActivity/',
+			async: false,
+			global:false,
+			data:{'truename':truename,'phone':phone,'atvt_id':atvt_id},
+			dataType:"json",
+			success: function(data) {
+				$('.toapply').css('display','none');
+				alert(data.msg);
+			},
+			error:function(){
+				alert(data.msg);
+			}
+		});
+    	
+    });
+})
+	
+</script>
+{% endblock %}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% load static %}
+	
+	<style type="text/css">
+		.formarea{
+			padding: 0px 0px 50px 0;
+		}
+		.formarea table td{
+			min-height: 100px;
+		}
+		.form-control{
+			display: block;
+		    width: 100%;
+		    height: 34px;
+		    padding: 6px 0px;
+		    font-size: 14px;
+		    line-height: 1.42857143;
+		    color: #555;
+		    background-color: #fff;
+		    background-image: none;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		}
+		.btnsub{
+			width: 300px;
+			height: 44px;
+			color: #fff;
+		    background-color: #337ab7;
+		    /*border-color: #2e6da4;*/
+		}
+	</style>
+</head>
+<body>
+<div class="picList">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>店铺管理</li>
+		<li>新增商家</li>
+	</ol>
+
+	<div class="formarea">
+		<form id="uploadPic" method="post" enctype="multipart/form-data" action="/store/addStore/">
+		{% csrf_token %}
+			<table>
+				<tr>
+					<td><label>店铺名称</label></td>
+					<td><input type="text" name="name" id="name" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label>店铺描述</label></td>
+					<td>
+					<textarea name="description" id="description" class="form-control" rows="2"></textarea></td>
+				</tr>
+				<tr>
+					<td><label>店铺简介</label></td>
+					<td><textarea name="introduction" id="introduction"></textarea></td>
+				</tr>
+				<tr>
+					<td><label>店铺封面图</label></td>
+					<td><input type="file" name="pic" id="pic">
+						<img id="ylImg">
+					</td>
+				</tr>
+				<tr>
+					<td><label>优惠信息</label></td>
+					<td><input type="text" name="discount" id="discount" placeholder="可为空" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label>商家电话</label></td>
+					<td><input type="text" name="phone" id="phone" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label>营业时间</label></td>
+					<td><input type="text" name="ontime" id="ontime" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label>店铺地址</label></td>
+					<td><input type="text" name="address" id="address" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label>坐标经度</label></td>
+					<td><input type="text" name="longitude" id="longitude" class="form-control"></td>
+				</tr>
+				<tr>
+					<td><label>坐标纬度</label></td>
+					<td><input type="text" name="latitude" id="latitude" class="form-control"></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="submit" class="btnsub" value="添加">
+					</td>
+				</tr>
+			</table>	
+		</form>
+		<div>
+
+		</div>
+	</div>
+<div>
+<script src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script>
+CKEDITOR.replace('introduction', { filebrowserImageUploadUrl:'/uploadimg/?atcType=sto' });
+</script>
+<script>
+$(function(){
+	$("#pic").change(function (){
+	 	var file = $(this)[0].files[0];
+		// alert(file);
+		var showImg = $('#ylImg');
+
+		// alert($(".hidef").length);
+		var read = new FileReader();
+		read.readAsDataURL(file);
+
+		// $(document).ready(function(){
+		read.onload = function(e) {
+			var src = e.target.result;
+
+			showImg.attr({'src':src,'width':'240px','height':'180px'});
+		};
+
+	});
+	$('#uploadPic').submit(function(){
+		if($('#name').val()=='' || $('#description').val()=='' || $('#ontime').val()=='' || $('#address').val()=='' || $('#longitude').val()=='' || $('#latitude').val()==''){
+			alert('请检查输入内容！');
+			return false;
+		}
+	})
+})
+
+</script>
+</body>
+</html>

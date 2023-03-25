@@ -1,0 +1,112 @@
+{% extends 'login/base.html' %}
+
+{% load static %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{% static "recipe/css/recipe_uclist.css" %}">
+{% endblock %}
+
+
+{% block content %}
+{% include 'login/head_img.html' %}
+<ol class="breadcrumb">
+	<li><a href="#">首页</a></li>
+	<li><a href="/recipe/rcpUcList/?cateId=0">全部菜谱</a></li>
+	<li class="blue">{{ catename }}</li>
+</ol>
+
+<div class="uc_left">
+	<span class="left_head_label">热门菜谱</span>
+	
+		<ul class="nav nav-pills nav-stacked">
+		{% for recipe in recipes %}
+			<li role="presentation">
+				<a href="/recipe/recipeDetail/?id={{ recipe.rcp_id }}">{{ recipe.rcp_name }}<span class="right"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span>&nbsp;&nbsp;{{ recipe.total_view }}</span></a>
+				
+			</li>
+		{% endfor %}	
+		</ul>
+	
+</div>
+<div class="uc_right">
+	
+
+	<div class="rcplist clearfix">
+		<!-- <div class="btitle">菜谱列表</div><br> -->
+		{% for rcp in rcpList %}
+		<div class="rcpitem clearfix" id="rcpitem">
+			<div class="pic"><a href="/recipe/recipeDetail/?id={{ rcp.rcp_id }}"><img width="235" height="138" src="{{ rcp.rcp_img.url }}"></a></div>
+			<a href="/recipe/recipeDetail/?id={{ rcp.rcp_id }}" class="show_rcpname">{{ rcp.rcp_name }}</a>
+			<a href="#" class="show_rcpmkuser">{{ rcp.userid }}</a>
+		</div>
+		{% endfor %}
+
+		
+
+	</div>
+
+	<div class="ajax_page">
+		<form id="ajax_page">
+	        {% csrf_token %}
+	        <input id="submit" type="submit" name="submit" value="加载更多" class="btn btn-primary">
+	    </form>
+	</div>
+
+	
+
+
+</div>
+
+
+<div class="clearfix"></div>
+
+{% endblock %}
+
+
+{% block js %}
+<script>
+$(function(){
+
+	var page_index = 1;
+	var cateType = getUrlParam('cateId');
+
+	$('#ajax_page').submit(function(){
+		page_index+=1;
+
+		$.ajax({
+	        url: '/recipe/rcpUcList/?cateId='+cateType,
+	        type: 'post',
+	        data: {csrfmiddlewaretoken:'{{ csrf_token }}'},
+	        // dataType: "json",
+	        success: function (data) {
+	            // $('.stolist').append(data);
+
+	            for(i=0;i<data.nameLists.length;i++){
+
+	            	htm = '<div class="rcpitem clearfix">'+
+			'<div class="pic"><a href="/recipe/recipeDetail/?id='+ data.idLists[i] +'"><img width="235" height="138" src="'+ data.imgurlList[i]+'"></a></div>'+
+			'<a href="/recipe/recipeDetail/?id='+ data.idLists[i] +'" class="show_rcpname">'+ data.nameLists[i] +'</a>'+
+			'<a href="#" class="show_rcpmkuser">'+ data.userLists[i] +'</a>'+
+		'</div>';
+				$('#rcpitem').after(htm);
+	            }
+	            // 判断当前页的是否有下一页，如果没有下一页则禁止按钮点击
+                if (data['has_next'] == 'no'){
+                    $('#submit').attr('value', '没有更多了...');
+                    $('#submit').attr('disabled', 'disabled');
+                }
+
+	        }
+	    });
+	    return false;
+	});
+	//获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+
+})
+</script>
+{% endblock %}

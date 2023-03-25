@@ -1,0 +1,92 @@
+.title{
+	text-align: center;
+	padding: 10px;
+}
+.atcContent{
+	padding: 20px 100px;
+}
+.atcContent>p{
+	padding: 10px;
+	/*text-align: center;*/
+}
+.atcContent img{
+	max-width: 800px;
+	max-height: 600px;
+	/*align:middle;*/
+}
+.laiyuan{
+	padding: 5px;
+	text-align: center;
+	color: #999;
+	font-size: 15px;
+}
+.comment-area{
+	margin-top: 40px;
+}
+.comment-area-title{
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+}
+.comments{
+	border-bottom: 1px dashed #ccc;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	position: relative;
+}
+.comments .avatar{
+	float: left;
+}
+.comments .avatar img{
+	width: 50px;
+	height: 50px;
+}
+.comment-detail{
+	float: left;
+	padding: 10px 20px;
+}
+.replies{
+	margin-left: 120px;
+	margin-top: 20px;
+
+}
+.reply-detail{
+	float: left;
+	padding: 10px 20px;
+}
+.comment-user-name{
+	font-size: 15px;
+	font-weight: bold;
+}
+.comment-time{
+	color: #666;
+}
+.comment-text{
+	padding: 5px 20px;
+}
+.parent-reply-link{
+	margin-top: 50px;
+	color: blue;
+}
+.child-reply-link{
+	margin-top: 50px;
+	margin-left: 100px;
+	color: blue;
+}
+.reply-avatar{
+	float: left;
+/*		left: 100px;
+	position: absolute;*/
+}
+.reply-avatar img{
+	width: 50px;
+	height: 50px;
+}
+.pre-next-area{
+	margin-left: 100px;
+	padding: 30px 0;
+}
+
+.pre-next-area .pre-next-text{
+	color: #111;
+	font-weight: bold;
+}

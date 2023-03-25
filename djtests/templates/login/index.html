@@ -1,0 +1,130 @@
+{% extends 'login/base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "login/css/index.css" %}">
+{% endblock %}
+
+
+
+{% block content %}
+{% include 'login/carousel.html' %}
+<br>
+
+<div class="clearfix"></div>
+<div class="article-info">
+	<div class="zixun">
+		<div class="t-head"><span class="zx-title">资讯列表</span>&nbsp;&nbsp;<a href="/article/atcListZixun/" class="more">more&nbsp;+</a> </div>
+		<div class="articleList">
+		{% for atc in articles %}
+			<ul class="atc-item">
+			{% if atc.is_top == '1' %}
+				<li><a href="/article/atc_detail/?u=1&article_id={{atc.article_id}}" class="red" title="{{ atc.title }}"><span class="span_top">[置顶]</span>&nbsp;&nbsp;{{ atc.title }}&nbsp;&nbsp;</a><span class="c-time red">{{ atc.created_time|date:'Y-m-d' }}</span>
+				</li>
+			{% else %}
+				<li><a href="/article/atc_detail/?u=1&article_id={{atc.article_id}}" title="{{ atc.title }}">{{ atc.title }}</a>&nbsp;&nbsp;<span class="c-time">{{ atc.created_time|date:'Y-m-d' }}</span>
+				</li>
+			{% endif %}
+			</ul>
+		{% endfor %}
+		</div>
+	</div>
+	<div class="tongzhi">
+		<div class="t-head">
+			<span class="zx-title">通知公告</span>&nbsp;&nbsp;
+			<!-- <a href="/article/atcListZixun/" class="more">more&nbsp;+</a> -->
+		</div>
+		<div class="articleList">
+		{% for atc in tongzhi %}
+			<ul class="atc-item">
+			{% if atc.is_top == '1' %}
+				<li><a href="/article/atc_detail/?u=1&article_id={{atc.article_id}}" class="red" title="{{ atc.title }}"><span class="span_top">[置顶]</span>&nbsp;&nbsp;{{ atc.title }}&nbsp;&nbsp;</a><span class="c-time red">{{ atc.created_time|date:'Y-m-d' }}</span>
+				</li>
+			{% else %}
+				<li><a href="/article/atc_detail/?u=1&article_id={{atc.article_id}}" title="{{ atc.title }}">{{ atc.title }}</a>&nbsp;&nbsp;<span class="c-time">{{ atc.created_time|date:'Y-m-d' }}</span>
+				</li>
+			{% endif %}
+			</ul>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+<div class="clearfix"></div>
+<br>
+<div class="rcplist">
+	<div class="btitle">菜谱列表</div><br>
+	{% for rcp in recipes %}
+	<div class="rcpitem clearfix">
+		<div class="pic"><a href="/recipe/recipeDetail/?id={{ rcp.rcp_id }}"><img width="235" height="138" loading="lazy" data-src="{{ rcp.rcp_img.url }}"></a></div>
+		<a href="/recipe/recipeDetail/?id={{ rcp.rcp_id }}" class="show_rcpname">{{ rcp.rcp_name }}</a>
+		<a href="#" class="show_rcpmkuser">{{ rcp.userid }}</a>
+	</div>
+	{% endfor %}
+	<div class="clearfix"></div>
+	<div><a href="/recipe/rcpUcList/?cateId=0" class="btn btn-primary ckgd">查看更多</a></div>
+</div>
+
+<div class="stolist">
+	<div class="btitle">美食VLOG</div><br>
+	{% for vlog in vlogs %}
+	<div class="rcpitem clearfix">
+		<div class="pic"><a href="/recipe/vlogDetail/?id={{ vlog.id }}"><img src="{{ vlog.cover.url }}"></a></div>
+
+		<!-- <img width="235" height="138" src="{{ store.img.url }}"> -->
+		<!-- <a href="/store/storeDetail/?id={{ store.id }}" class="show_rcpname">{{ store.name }}</a> -->
+		<a href="/recipe/foodvlog/" class="show_rcpname">{{ vlog.title }}</a>
+		<a class="show_rcpmkuser">{{ vlog.desc }}</a>
+	</div>
+	{% endfor %}
+	<video></video>
+	<div class="clearfix"></div>
+	<div><a href="/store/foodStreet/" class="btn btn-primary ckgd">查看更多</a></div>
+</div>
+
+<div class="stolist">
+	<div class="btitle">美食街</div><br>
+	{% for store in stores %}
+	<div class="rcpitem clearfix">
+		<div class="pic"><a href="/store/storeDetail/?id={{ store.id }}"><img src="{{ store.img.url }}"></a></div>
+
+		<!-- <img width="235" height="138" src="{{ store.img.url }}"> -->
+		<!-- <a href="/store/storeDetail/?id={{ store.id }}" class="show_rcpname">{{ store.name }}</a> -->
+		<a href="/store/storeDetail/?id={{ store.id }}" class="show_rcpname">{{ store.name }}</a>
+		<a href="#" class="show_rcpmkuser">{{ store.tabstract }}</a>
+	</div>
+	{% endfor %}
+	
+	<div class="clearfix"></div>
+	<div><a href="/store/foodStreet/" class="btn btn-primary ckgd">查看更多</a></div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	var imgs = document.querySelectorAll('img');
+
+	//用来判断bound.top<=clientHeight的函数，返回一个bool值
+	function isIn(el) {
+	    var bound = el.getBoundingClientRect();
+	    var clientHeight = window.innerHeight;
+	    return bound.top <= clientHeight;
+	} 
+	//检查图片是否在可视区内，如果不在，则加载
+	function check() {
+	    Array.from(imgs).forEach(function(el){
+	        if(isIn(el)){
+	            loadImg(el);
+	        }
+	    })
+	}
+	function loadImg(el) {
+	    if(!el.src){
+	        var source = el.dataset.src;
+	        el.src = source;
+	    }
+	}
+	window.onload = window.onscroll = function () { //onscroll()在滚动条滚动的时候触发
+	    check();
+	}
+</script>
+{% endblock %}

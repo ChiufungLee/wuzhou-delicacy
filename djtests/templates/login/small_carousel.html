@@ -1,0 +1,31 @@
+<div class="swiper-container small-swiper">
+	<div class="swiper-wrapper">
+		<div class="swiper-slide small-slide"><a href=""><img src="../media/carousel/nature-1.jpg"></a></div>
+		<div class="swiper-slide small-slide"><a href=""><img src="../media/carousel/nature-2.jpg"></a></div>
+		<div class="swiper-slide small-slide"><a href=""><img src="../media/carousel/nature-3.jpg"></a></div>
+		<div class="swiper-slide small-slide"><a href=""><img src="../media/carousel/nature-4.jpg"></a></div>
+		<div class="swiper-slide small-slide"><a href=""><img src="../media/carousel/nature-5.jpg"></a></div>
+	</div>
+	<!-- Add Pagination -->
+	<div class="swiper-pagination swiper-pagination-white small-page"></div>
+	<!-- Add Arrows -->
+	<div class="swiper-button-next swiper-button-white small"></div>
+	<div class="swiper-button-prev swiper-button-white small"></div>
+</div>
+<script>
+    var swiper = new Swiper('.small-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      keyboard: {
+        enabled: true,
+      },
+      pagination: {
+        el: '.small-page',
+        clickable: true,
+      },
+      autoplay: {
+	  delay: 2000,  
+	  disableOnInteraction: false,
+	  },
+    });
+</script>

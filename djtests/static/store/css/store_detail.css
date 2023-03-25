@@ -1,0 +1,158 @@
+.daohang a{
+	display: block;
+}
+.stepnum{
+	font-size: 50px;
+    color: #ff3232;
+    font-style: italic;
+    text-align: center;
+    font-family: arial;
+    height: 50px;
+    width: 100px;
+    display: Block;
+    float: left;
+    line-height: 50px;
+}
+.stepItem{
+	margin-top: 20px;
+}
+.stepItem p{
+	line-height: 24px;
+    color: #666;
+    padding: 10px 20px 10px 0px;
+    position: relative;
+    font-size: 14px;
+}
+.c{
+	float: left;
+    max-width: 700px;
+    overflow: hidden;
+}
+.recipeImg{
+	width: 500px;
+	max-height: 400px;
+    float: left;
+    overflow: hidden;
+    padding: 25px 10px 0px 0px;
+}
+.store_mainInfo{
+	float: right;
+    width: 570px;
+    position: relative;
+    overflow: hidden;
+    background: #f8f8f8;
+    padding-left: 20px;
+    margin-top: 25px;
+}
+.store_mainInfo img{
+	width: 500px;
+    display: block;
+    float: left;
+}
+.store_title{
+	max-width: 688px;
+    height: 44px;
+    padding: 10px 0px 38px 0;
+    line-height: 44px;
+}
+.item_name{
+	font-size: 16px;
+    color: #999;
+    line-height: 18px;
+    display: inline-block;
+    height: 18px;
+}
+.item_value{
+	display: inline-block;
+    font-size: 20px;
+    color: #ff3232;
+    font-family: Microsoft Yahei;
+    line-height: 30px;
+    /*width: 100px;*/
+    cursor: default;
+}
+.store_listitem{
+	height: 48px;
+    border-right: 1px solid #eee;
+    padding: 18px 0px 18px 20px;
+    border-bottom: 1px solid #eee;
+}
+.detail_descript p{
+	line-height: 24px;
+    font-size: 14px;
+    padding: 20px 24px 10px;
+    color: #666;
+}
+.ingres{
+	padding: 40px 0;
+}
+.yl_title{
+	font-size: 24px;
+    color: #333;
+    height: 66px;
+    line-height: 66px;
+    border-bottom: 1px solid #eee;
+    text-indent: 24px;
+    font-family: Microsoft Yahei;
+    display: block;
+}
+.storeDe{
+	background: #f8f8f8;
+	line-height: 24px;
+    font-size: 14px;
+    padding: 30px 24px;
+    color: #666;
+}
+.storeDe p img{
+	max-width: 890px;
+}
+.store_atvt{
+	background: #f8f8f8;
+	line-height: 24px;
+    font-size: 14px;
+    padding: 30px 24px;
+    color: #666;
+    position: relative;
+}
+#container{
+	min-width:600px;
+	min-height:367px;
+}
+.store_map{
+	padding: 30px 0;
+	/*background: #f8f8f8;*/
+}
+.sjjj{
+	color: #ff6767;
+	border-bottom: 3px solid #ff6767;
+	display: inline-block;
+	padding: 5px 10px;
+	text-align: center;
+	margin-bottom: 25px;
+}
+.red{
+	color: red;
+}
+.yh{
+	font-size: 28px;
+	padding: 10px;
+}
+.toapply{
+	display: none;
+	z-index: 99;
+	position: absolute;
+	padding: 60px 50px;
+	background: #fff;
+	border: 2px solid #2e6da4;
+	left: 300px;
+	top: 100px;
+	text-align: center;
+}
+.apply_label{
+	
+	font-size: 16px;
+}
+.at-name{
+	font-size: 16px;
+	padding: 20px 0;
+}

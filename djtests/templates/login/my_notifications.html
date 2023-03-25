@@ -1,0 +1,26 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+	<div class="conntainer">
+		<div class="row">
+			<div class="col-md-10 col-offset-1">
+				<ul>
+					{% for notification in user.notifications.all %}
+						<li>{{ notification }}</li>
+					{% empty %}
+						<li>暂无消息</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	{{ user.notifications.all }}
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

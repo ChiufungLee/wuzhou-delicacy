@@ -1,0 +1,130 @@
+{% extends 'login/base.html' %}
+{% load zdy_time %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "recipe/css/foodvlog.css" %}">
+{% endblock%}
+
+{% block content %}
+{% include 'login/head_img.html' %}
+
+
+<ol class="breadcrumb">
+	<li><a href="/">首页</a></li>
+	<li>美食VLOG</li>
+</ol>
+
+{% for vlog in vloglists %}
+<div class="vlog-item">
+	<div class="card">
+		<a href="/recipe/vlogDetail/?id={{ vlog.id }}" class="image">
+			<img src="{{ vlog.cover.url }}">
+			<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+		</a>
+
+		<div class="vlog-content">
+			<a href="">{{ vlog.title }}</a>
+			<div class="meta">
+				<span>发布于&nbsp;{{ vlog.create_time|timesince_zh }}</span>
+			</div>
+			<div class="views">{{ vlog.view_count }}&nbsp;次观看</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+<div class="ajax_page">
+	<form id="ajax_page">
+        {% csrf_token %}
+        <input id="submit" type="submit" name="submit" value="加载更多" class="btn btn-primary">
+    </form>
+</div>
+
+{% endblock%}
+
+{% block js %}
+<script>
+$(function(){
+
+	var page_index = 1;
+
+	$('#ajax_page').submit(function(){
+		page_index+=1;
+
+		$.ajax({
+	        url: '/recipe/foodvlog/',
+	        type: 'post',
+	        data: {csrfmiddlewaretoken:'{{ csrf_token }}'},
+	        // dataType: "json",
+	        success: function (data) {
+	            // $('.stolist').append(data);
+
+	            for(i=0;i<data.titleLists.length;i++){
+
+	            	htm = '<div class="vlog-item"><div class="card"><a href="/recipe/vlogDetail/?id='+ data.idLists[i] +'" class="image"><img src="'+ data.imgurlList[i] +'"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a><div class="vlog-content"><a href="">'+ data.titleLists[i] +'</a><div class="meta"><span>发布于&nbsp;'+ diaplayTime(data.timeLists[i]) +'</span></div><div class="views">'+ data.viewCountLists[i]+'&nbsp;次观看</div></div></div></div>';
+	       
+
+				$('.vlog-item').after(htm);
+	            }
+	            // 判断当前页的是否有下一页，如果没有下一页则禁止按钮点击
+                if (data['has_next'] == 'no'){
+                    $('#submit').attr('value', '没有更多了...');
+                    $('#submit').attr('disabled', 'disabled');
+                }
+
+	        }
+	    });
+	    return false;
+	});
+   
+	function diaplayTime(data) {
+
+            var str = data;
+            //将字符串转换成时间格式
+            var timePublish = new Date(str);
+            var timeNow = new Date();
+            var minute = 1000 * 60;
+            var hour = minute * 60;
+            var day = hour * 24;
+            var month = day * 30;
+            var diffValue = timeNow - timePublish;
+            var diffMonth = diffValue / month;
+            var diffWeek = diffValue / (7 * day);
+            var diffDay = diffValue / day;
+            var diffHour = diffValue / hour;
+            var diffMinute = diffValue / minute;
+
+            if (diffValue < 0) {
+                alert("错误时间");
+            }
+            else if (diffMonth > 3) {
+                result = timePublish.getFullYear()+"-";
+                result += timePublish.getMonth() + "-";
+                result += timePublish.getDate();
+                alert(result);
+            }
+            else if (diffMonth > 1) {
+                result = parseInt(diffMonth) + "月前";
+            }
+            else if (diffWeek > 1) {
+                result = parseInt(diffWeek) + "周前";
+            }
+            else if (diffDay > 1) {
+                result = parseInt(diffDay) + "天前";
+            }
+            else if (diffHour > 1) {
+                result = parseInt(diffHour) + "小时前";
+            }
+            else if (diffMinute > 1) {
+                result = parseInt(diffMinute) + "分钟前";
+            }
+            else {
+                result = "刚刚发表";
+            }
+            return result;
+        }
+
+	
+})
+</script>
+{% endblock%}

@@ -1,0 +1,143 @@
+.video-detail{
+	width: 720px;
+	display: inline-block;
+	float: left;
+}
+.video-detail video{
+	width: 640px;
+	height: 480px;
+	padding: 0;
+	/*margin: 0;*/
+	margin-top: 40px;
+	margin-left: 60px;
+}
+.video-detail .video-info{
+	padding: 30px 0px 0 60px;
+	font-size: 16px;
+}
+.desc{
+	font-size: 14px;
+	color: #666;
+	padding: 10px 0;
+}
+.fbtime{
+	font-size: 14px;
+	color: #666;
+	padding: 0 0 10px 0;
+}
+.tuijian{
+	margin-top: 60px;
+	float: left;
+	width: 370px;
+}
+.tuijian label{
+	padding: 10px;
+	text-align: left;
+}
+
+.tjItem{
+	margin-bottom: 20px;
+	position: relative;
+}
+.tjItem:hover{
+	background: #f8f8f8;
+}
+.tjItem .img-cover{
+	float: left;
+}
+.tjItem .img-cover img{
+	width: 160px;
+	height: 120px;
+	display: inline-block;
+}
+.tjinfo{
+	float: left;
+}
+.tjItem a{
+	width: 180px;
+	font-size: 16px;
+	padding: 20px 10px 10px 15px;
+}
+.tjtime{
+	padding: 15px;
+	position: absolute;
+	bottom: 0;
+}
+.likes_handle{
+	/*width: 100%;*/
+	bottom: 0;
+	padding: 0;
+	/*float: right;*/
+	margin-right: 300px;
+}
+.likes_handle ul li{
+	padding: 0 20px;
+}
+.likes_handle .glyphicon{
+	font-size: 16px;
+	color: #808080;
+}
+.likes_handle .glyphicon:hover{
+	cursor: pointer;
+}
+.comment-area{
+	margin-top: 40px;
+}
+.comment-area-title{
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+}
+.comments{
+	border-bottom: 1px dashed #ccc;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	position: relative;
+}
+.comments .avatar{
+	float: left;
+}
+.comments .avatar img{
+	width: 50px;
+	height: 50px;
+}
+.comment-detail{
+	float: left;
+	padding: 10px 20px;
+}
+.replies{
+	margin-left: 120px;
+	margin-top: 20px;
+
+}
+.reply-detail{
+	float: left;
+	padding: 10px 20px;
+}
+.comment-user-name{
+	font-size: 15px;
+	font-weight: bold;
+}
+.comment-time{
+	color: #666;
+}
+.comment-text{
+	padding: 5px 20px;
+}
+.parent-reply-link{
+	margin-top: 50px;
+	color: blue;
+}
+.child-reply-link{
+	margin-top: 50px;
+	margin-left: 100px;
+	color: blue;
+}
+.reply-avatar{
+	float: left;
+/*		left: 100px;
+	position: absolute;*/
+}
+.reply-avatar img{
+	width: 50px;
+	height: 50px;
+}

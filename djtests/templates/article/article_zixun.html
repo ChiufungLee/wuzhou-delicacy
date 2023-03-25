@@ -1,0 +1,105 @@
+{% extends 'login/base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "article/css/zixun_list.css" %}">
+{% endblock %}
+
+
+{% block content %}
+{% include 'login/head_img.html' %}
+
+	<ol class="breadcrumb">
+		<li><a href="#">首页</a></li>
+		<li class="active">美食资讯</li>
+	</ol>
+	
+<div class="uc_left">
+	<label class="left_head_label">最多人看</label>
+	<ul class="nav nav-pills nav-stacked">
+	{% for article in articles %}
+		<li role="presentation">
+			<a href="/article/atc_detail/?article_id={{ article.article_id }}">
+				<span >{{ article.title }}</span>
+				<span class="right">
+					<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+					&nbsp;&nbsp;{{ article.total_views }}
+				</span>
+			</a>
+		</li>
+	{% endfor %}	
+	</ul>
+</div>
+<div class="uc_right" id="list_atc">
+
+
+	
+	<div class="column-news-list">
+		{% for atc in atcs %}
+			{% if atc.is_top == '1' %}
+		<li class="column-news-item item-1 clearfix">
+			<span class="column-news-title">
+				<a href='/article/atc_detail/?article_id={{ atc.article_id }}' target='_blank' title='' class="is_top">[置顶]&nbsp;&nbsp;{{ atc.title }}</a>
+			</span>
+			<span class="column-news-date news-date-hide right is_top">{{ atc.created_time|date:'Y-m-d' }}</span>
+		</li>
+		{% else %}
+			<li class="column-news-item item-1 clearfix">
+				<span class="column-news-title">
+					<a href='/article/atc_detail/?article_id={{ atc.article_id }}' target='_blank' title=''>{{ atc.title }}</a>
+				</span>
+				<span class="column-news-date news-date-hide right">{{ atc.created_time|date:'Y-m-d' }}</span>
+			</li>
+		{% endif %}
+		{% endfor %}
+	</div>
+
+
+	<div class="paging">
+		<!-- 上一页开始 -->
+		<!--  如果当前页有上一页 -->
+		<span class="page_count_num">共&nbsp;{{ countAtc }}&nbsp;条记录&nbsp;&nbsp;</span>
+		
+		{% if atcs.has_previous %}
+			<a class="btnactive" href="?page={{ atcs.previous_page_number }}"><<上一页&nbsp;&nbsp;</a>
+		{% else %}
+		<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<a class="notactive">上一页&nbsp;&nbsp;</a></li>
+		{% endif %}
+
+		<!-- 下一页 -->
+		{% if atcs.has_next %}
+			<a class="btnactive" href="?page={{ atcs.next_page_number }}">下一页>>&nbsp;&nbsp;</a>
+		{% else %}
+			<a class="notactive">下一页&nbsp;&nbsp;</a></li>
+		{% endif %}
+
+		<!-- 页码开始 -->
+		{% for num in paginator.page_range %}
+			{% if num == currentPage %}
+				<span>页码:</span><a href="?page={{ num }}">{{ num }}</a>/<a>{{ paginator.num_pages }}</a>
+			{% endif %}
+		{% endfor %}
+
+		&nbsp;&nbsp;<a  id="a_topage">跳转到&nbsp;</a><input type="text" name="" class="topage_num">
+	</div>
+
+</div>
+<div class="clearfix"></div>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+$('.topage_num').blur(function () {
+        var num = $(this).val();
+        var n = parseInt(num);
+        $('#a_topage').attr('href','?page='+n);
+    });
+// function topageNum(){
+// 	var num = $('.topage_num').val();
+// 	n = parseInt(num);
+	
+// 	// alert(num);
+// }
+</script>
+{% endblock %}

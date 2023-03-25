@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.adAction{
+			float: right;
+		}
+		.addAdmin{
+			padding: 5px;
+			color: blue;
+		}
+	</style>
+</head>
+<body>
+<div class="atcList">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>用户管理</li>
+		<li>用户信息列表</li>
+	</ol>
+	
+	<div class="searchArea">
+		<form id="formlist">
+			<!-- <div class="form-group"> -->
+				<label class="st">&nbsp;</label>
+				<input type="text" name="keyword" id="searchTitle" class="form-control" placeholder="输入用户名查找">
+			<!-- </div> -->
+			<a class="btn btn-primary" id="searchBtn" onclick="toSearch('/user/userSearch/')">搜索</a>
+		</form>
+	</div>
+
+	<div class="listArea">
+		<table class="table table-hover">
+			<tr class="tb_head">
+				<td>ID</td>
+				<td>用户名</td>
+				<td>性别</td>
+				<td>生日</td>
+				<td>手机号</td>
+				<td>邮箱</td>
+				<td>地址</td>
+				<td>用户类型</td>
+				<td>是否激活</td>
+				<td>操作</td>
+			</tr>
+			{% for user in userList %}
+			
+			<tr>
+				<td>{{ user.id }}</td>
+				<td>{{ user.username }}</td>
+				<td>{{ user.get_gender_display }}</td>
+				<td>{{ user.birthday|date:'Y-m-d' }}</td>
+				<td>{{ user.mobile }}</td>
+				<td>{{ user.email }}</td>
+				<td>{{ user.address }}</td>
+
+				{% if user.userType == '0' %}
+				<td>普通用户&nbsp;&nbsp;<a onclick="adminManage('/user/admin/adminManage/?id={{ user.id }}')" class="addAdmin">添加管理员</a></td>
+				{% else %}
+				<td>管理员&nbsp;&nbsp;<a onclick="adminManage('/user/admin/adminManage/?id={{ user.id }}')" class="addAdmin">撤销管理员</a></td>
+				{% endif %}
+
+				{% if user.has_confirmed == True %}
+				<td>是&nbsp;<a onclick="jihuo('/user/toActive/?id={{ user.id }}')" class="addAdmin">取消激活</a></td>
+				<!-- <td>{{ obj.signature }}</td> -->
+				{% else %}
+				<td>否&nbsp;<a onclick="jihuo('/user/toActive/?id={{ user.id }}')" class="addAdmin">激活</a></td>
+				{% endif %}
+				<td class="adAction">
+					<!-- <a style="color: #000;">暂不支持编辑</a> -->
+					<a onclick="updataUser('/user/admin/updataUser/?userId={{ user.id }}')">编辑</a>
+					<a onclick="delUser('/user/admin/delUser/?userId={{ user.id }}')">删除</a>
+				</td>			
+			</tr>
+			
+			{% endfor %}
+		</table>
+
+	</div>
+	<div class="paging">
+		<!-- 上一页开始 -->
+		<!--  如果当前页有上一页 -->
+		<span style="font-size: 15px;padding: 5px;">共&nbsp;{{ countUser }}&nbsp;条记录</span>
+
+		{% if userList.has_previous %}
+			<a class="btnactive" onclick="toPaging('/user/userList/?page={{ userList.previous_page_number }}')">上一页</a>
+		{% else %}
+		<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<a class="notactive">上一页</a></li>
+		{% endif %}
+	
+		<!-- 页码开始 -->
+		{% for num in paginator.page_range %}
+			{% if num == currentPage %}
+				<a onclick="toPaging('/user/userList/?page={{ num }}')">{{ num }}</a>
+			{% else %}
+				<a onclick="toPaging('/user/userList/?page={{ num }}')" class="active">{{ num }}</a>
+			{% endif %}
+		{% endfor %}
+		<!-- 下一页 -->
+		{% if userList.has_next %}
+			<a class="btnactive" onclick="toPaging('/user/userList/?page={{ userList.next_page_number }}')">下一页</a>
+		{% else %}
+			<a class="notactive">下一页</a></li>
+		{% endif %}
+	</div>
+
+</div>
+<script>
+function adminManage(url){
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".atcList").empty();
+			$(".atcList").html(data);
+		},
+		error:function(){
+			console.log("获取数据失败！");
+		}
+	});
+}
+function jihuo(url){
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".atcList").empty();
+			$(".atcList").html(data);
+		},
+		error:function(){
+			console.log("获取数据失败！");
+		}
+	});
+}
+function toPaging(url){
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".atcList").empty();
+			$(".atcList").html(data);
+		},
+		error:function(){
+			$(".atcList").html("获取数据失败！");
+		}
+	});
+}
+function toSearch(url){
+	$.ajax({
+		type :"GET",
+		url : url,
+		data: $('#formlist').serialize(),
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".atcList").empty();
+			$(".atcList").html(data);
+			console.log(data);
+		},
+		error:function(){
+			console.log("获取数据失败！");
+		}
+	});
+}
+function updataUser(url){
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".atcList").empty();
+			$(".atcList").html(data);
+		},
+		error:function(){
+			console.log("获取数据失败！");
+		}
+	});
+}
+function delUser(url){
+		var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+		if(delconfirm){		
+			$.ajax({
+				type :"GET",
+				url : url,
+				async: false,
+				global:false,
+				dataType:"html",
+				success: function(data) {
+					$(".atcList").empty();
+					$(".atcList").html(data);
+				},
+				error:function(){
+					console.log("获取数据失败！");
+				}
+			});
+		}
+	}
+</script>
+</body>
+</html>

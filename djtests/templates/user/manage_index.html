@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>梧州美食网后台管理</title>
+	<meta charset="utf-8">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "common/bootstrap.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "user/css/manage_index.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "article/css/listArticle.css" %}">
+	<script src="{% static "common/js/jquery-3.4.1.js" %}"></script>
+	<script src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+	<script src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+</head>
+<body>
+<div class="pg_header">
+	<div class="logo">梧州美食网后台管理</div>
+	<div class="useraction">
+		<a href="">欢迎你，{{ user }}</a>
+		<a href="/">切换前台</a>
+		<a href="/logout/">退出</a>
+	</div>
+</div>
+<div class="pg_body">
+	<div class="left_menu">
+		<ul class="left_nav">
+			<li class="next-layer"><a>文章管理</a>
+				<ul>
+					<li><a onclick="LoadRightPage('/article/addArticle/')">发布文章</a></li>
+					<li><a onclick="LoadRightPage('/article/listArticle/')">管理文章</a></li>
+					<li><a onclick="LoadRightPage('/article/cateArticle/')">文章分类管理</a></li>
+				</ul>
+			</li>
+			<li class="next-layer"><a>菜谱管理</a>
+				<ul>
+					<li><a onclick="LoadRightPage('/recipe/listRecipe/')">菜谱列表</a></li>
+					<li><a onclick="LoadRightPage('/recipe/listCategory/')">菜品分类</a></li>
+					<li><a onclick="LoadRightPage('/recipe/listTaste/')">菜品口味</a></li>
+					<li><a onclick="LoadRightPage('/recipe/listIngres/')">食材管理</a></li>
+				</ul>
+			</li>
+			<li class="next-layer"><a>店铺管理</a>
+				<ul>
+					<li><a onclick="LoadRightPage('/store/addStore/')">新增店铺</a></li>
+					<li><a onclick="LoadRightPage('/store/adStoreList/')">店铺管理</a></li>
+				</ul>
+			</li>
+			<li class="next-layer"><a>活动管理</a>
+				<ul>
+					<li><a onclick="LoadRightPage('/activity/addActivity/')">新增活动</a></li>
+					<li><a onclick="LoadRightPage('/activity/ActivityManage/')">活动管理</a></li>
+<!-- 					<li><a onclick="LoadRightPage('/activity/ActivityManage/')">报名查看</a></li> -->
+				</ul>
+			</li>
+			<li class="next-layer"><a>用户管理</a>
+				<ul>
+					<!-- <li><a>查找用户</a></li> -->
+					<li><a onclick="LoadRightPage('/user/userList/')">用户列表</a></li>
+					<li><a onclick="LoadRightPage('/user/userConfirm/')">验证信息列表</a></li>
+				</ul>
+			</li>
+			<li class="next-layer"><a>评论管理</a>
+				<ul>
+					<!-- <li><a>查找用户</a></li> -->
+					<li><a onclick="LoadRightPage('/user/commentsList/')">评论列表</a></li>
+					
+				</ul>
+			</li>
+			<li class="next-layer"><a>轮播图管理</a>
+				<ul>
+					<li><a onclick="LoadRightPage('/banner/uploadCarousel/')">上传图片</a></li>
+					<li><a onclick="LoadRightPage('/banner/listCarousel/')">查看图片列表</a></li>
+				</ul>
+			</li>
+
+		</ul>
+	</div>
+	<div id="content" class="content">
+		<h1 class="text-center" style="margin-top: 150px;">欢迎登录梧州美食网后台管理系统！</h1>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+	    //选中状态
+	    $(".left_nav li").click(function () {
+	      $(this).siblings().find('ul').hide()
+	      $(this).addClass("active").siblings().removeClass("active")
+	    })
+
+	    //选中子集清除父级active
+	    $("ul>li").click(function (e) {
+	  
+	      e.stopPropagation()
+	     $(this).parent().parent().removeClass("active")
+	    })
+
+	    //二级导航展开收起
+	    $(".next-layer").click(function () {
+	      $(this).children("ul").toggle();
+	      $(this).toggleClass("arrow").siblings().removeClass("arrow")
+	    })
+
+
+	     $("ul li").click(function () {
+	       if($("ul").hasClass('small-ul')) {
+	         $(".small-ul").hide();
+	         $(this).parent().parent().addClass("active")
+	       }
+	     })
+	})
+	function LoadRightPage(url){
+		
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$("#content").empty();
+				$("#content").html(data);
+			},
+			error:function(){
+				$("#content").html("获取数据失败！");
+			}
+		});
+	}
+</script>
+</body>
+</html>

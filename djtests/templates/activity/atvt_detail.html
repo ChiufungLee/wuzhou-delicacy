@@ -1,0 +1,137 @@
+{% extends 'login/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "activity/css/a_detail.css" %}">
+{% endblock %}
+
+{% block content %}
+
+{% include 'login/head_img.html' %}
+<div class="atvt-wrap"></div>
+<div class="store_atvt">
+	<h3 class="sjjj center-block">活动详情</h3>
+
+	{% if time_status == '1' %}
+		<div class="atvt-status pull-right">进行中</div><br>
+	{% else %}
+		<div class="atvt-status pull-right hui">已结束</div>
+	{% endif %}
+
+
+	
+	<p class="at-name">{{ activity.name }}</p>
+	<p class="abstract"><span class="red yh">“</span>{{ activity.abstract }}<span class="red yh">”</span></p>
+	<p class="text-center"><label class="red">活动人数：</label><strong>{{ activity.participants }}</strong>&nbsp;人</p>
+
+	<p class="text-center"><label class="red">活动时间：</label>{{ activity.host_time }}</p>
+	<p class="text-center"><label class="red">活动地点：</label>{{ activity.host_address }}</p>
+	<p class="text-center"><label class="red">联系方式：</label>{{ activity.contactPhone }}</p>
+	<p class="text-center"><label class="red">主办方：</label>{{ activity.chargeMan.name }}——{{ activity.chargeMan.tabstract }}</p>
+
+	<p class="text-center"><label class="red">注意：需提前至少24小时报名！</label></p>
+
+	{% if time_status == '1' %}
+		<p class="text-center"><a class="btn btn-primary" id='apply'>报名活动</a></p>
+	{% else %}
+		<p class="text-center"><a class="btn btn-primary" id='apply' disabled="disabled">报名活动</a></p>
+	{% endif %}
+
+	<input type="hidden" name="atvt_id" id="atvt_id" value="{{ activity.id }}">
+
+	<div id="popLayer"></div>
+	<div class="toapply">
+		 <div class="close">
+	        <a href="javascript:void(0)" onclick="closeBox()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+	    </div>
+	    <div class="pop-content">
+			<label class="apply_label">请填写报名信息</label>
+			<hr>
+			<p><label>真实姓名：</label><input type="text" name="truename" id="truename"></p>
+			<p><label>联系方式：</label><input type="text" name="phone" id="phone"></p>
+			<p><input type="button" name="toapply" id="toapply" value="报名" class="btn btn-primary"></p>
+		</div>
+	</div>
+
+</div>
+
+
+
+<br>
+
+{% autoescape off %}
+
+<div class="storeDe">
+	<h3 class="sjjj">主办方简介</h3>
+	<div class="at-name"><strong>{{ activity.chargeMan.name }}</strong><span>———{{ activity.chargeMan.tabstract }}</span></div>
+	<div><label>店铺地址：</label>{{ activity.chargeMan.address }}</div>
+	<div><label>联系电话：</label>{{ activity.chargeMan.phone }}</div>
+	<div><label>营业时间：</label>{{ activity.chargeMan.ontime }}</div>
+	<div class="intro">{{ activity.chargeMan.introduction }}</div>
+	
+</div>
+
+
+{% endautoescape %}
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(function(){
+	var apply_flag = {{ apply_flag|safe }};
+	var loginuser = '{{ request.session.user_name|safe }}';
+
+    var applybtn = $('#apply');
+    if(apply_flag=='0'){
+    	applybtn.text('已报名');
+    	applybtn.css({'background-color':'#e7e7e7','color':'#000','border':'none','pointer-events':'none'});
+
+    }
+    $('#apply').click(function(){
+     	if(loginuser==''){
+     		alert('请先登录！');
+     		return false;
+     	}
+     	$('.toapply').css('display','block');
+        $('#popLayer').css('display','block');
+
+     	$('#truename').focus();
+     	$('html').animate({scrollTop: $('.toapply').offset().top - 150}, 300, function(){
+			$('#truename').focus();
+		});
+
+     });
+    $('#toapply').click(function(){
+    	var truename = $('#truename').val();
+    	var phone = $('#phone').val();
+    	var atvt_id = $('#atvt_id').val();
+    	
+    	$.ajax({
+			type :"GET",
+			url : '/activity/applyActivity/',
+			async: false,
+			global:false,
+			data:{'truename':truename,'phone':phone,'atvt_id':atvt_id},
+			dataType:"json",
+			success: function(data) {
+				$('.toapply').css('display','none');
+				alert(data.msg);
+				$('#apply').text('报名成功');
+				// $('#apply').css('background','#e7e7e7');
+			},
+			error:function(){
+				alert(data.msg);
+			}
+		});
+    	
+    });
+})
+
+    function closeBox() {
+        $('.toapply').css('display','none');
+        $('#popLayer').css('display','none');
+    }
+</script>
+{% endblock %}

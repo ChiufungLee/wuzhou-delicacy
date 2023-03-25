@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>用户登录</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "login/css/login.css" %}">
+</head>
+<body>
+	<div class="wrap">
+		<div class="userlog">用户登录</div>
+		<form action="/login/" method="post">
+		{% csrf_token %}
+			<div class="group">
+				<label>账号：</label>
+				<input type="text" name="username" id="username" class="inputarea" placeholder="请使用邮箱登录">
+			</div>
+			<br>
+			<div class="group">
+				<label>密码：</label>
+				<input type="password" name="password" id="password" class="inputarea" placeholder="输入密码">
+			</div>
+			<br>
+			<div class="group">
+				<a href="/register/"><input type="button" name="" value="注册" class="btnlog"></a>
+				
+				<input type="submit" value="登录" class="btnlog" onclick="return checknull()">
+			</div>
+		</form>
+		<p style="color:red;text-align:center;">{{message}}</p>
+	</div>
+
+<script type="text/javascript">
+    function checknull(){
+    	var email = document.getElementById("username").value;
+    	var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
+    	// alert(email);
+        if(email==''||document.getElementById("password").value=='')
+        {
+            alert("账号或密码不能为空！");
+            return false;                   
+        }
+        else{
+        	if(!pattern.test(email)){
+        		alert('输入邮箱格式不正确！');
+        		return false;
+        	}
+        }
+        
+        
+    }
+</script>
+</body>
+</html>

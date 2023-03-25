@@ -1,0 +1,118 @@
+
+{% if flag != 0 %}
+<div class="tableList">
+	{% for rcp in myRecipes %}
+		<div class="rcp_item clearfix">
+
+			<div class="pic left"><a href="/recipe/recipeDetail/?id={{ rcp.rcp_id }}"><img src="{{ rcp.rcp_img.url }}"></a></div>
+			<div class="detail left">
+				<h4><a href="/recipe/recipeDetail/?id={{ rcp.rcp_id }}">{{ rcp.rcp_name }}</a></h4>
+				<div class="ingres">
+				<label>分类：</label>{{ rcp.cateid.catename }} &nbsp;&nbsp; <label>口味：</label>{{ rcp.tasteid.tastename }}
+				</div>
+				<div class="rcp_descript">描述：{{ rcp.rcp_descript }}</div>
+				<p class="maker">from-{{ rcp.userid.username}}</p>
+			</div>
+
+			<div class="myaction">
+				<a href="/recipe/updateRecipe/?id={{ rcp.rcp_id }}" class="btn-default btn">编辑</a>
+				<a onclick="todelRecipe('/recipe/delRecipe/?id={{ rcp.rcp_id }}')" class="btn-default btn">删除</a>
+			</div>
+		</div> 
+	{% endfor %}
+
+
+	<div class="ajax_page">
+		<nav aria-label="Page navigation text-center">
+			<ul class="pagination">
+				<li><a>共&nbsp;{{ countAtc }}&nbsp;条</a></li>
+				{% if myRecipes.has_previous %}
+				<li>
+					<a onclick="toPaging('/recipe/myRecipes/?page={{ myRecipes.previous_page_number }}')" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% else %}
+				<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+				<li>
+					<a aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% endif %}
+
+				<!-- 页码开始 -->
+				{% for num in paginator.page_range %}
+					{% if num == currentPage %}
+						<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}">{{ num }}</a> -->
+						<li><a onclick="toPaging('/recipe/myRecipes/?page={{ num }}')" id="{{num}}">{{ num }}</a></li>
+					{% else %}
+						<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}" class="active">{{ num }}</a> -->
+						<li><a onclick="toPaging('/recipe/myRecipes/?page={{ num }}')" class="active">{{ num }}</a></li>
+					{% endif %}
+				{% endfor %}
+
+				<!-- 下一页 -->
+				{% if myRecipes.has_next %}
+					<li>
+						<a onclick="toPaging('/recipe/myRecipes/?page={{ myRecipes.next_page_number }}')" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% else %}
+					<li>
+						<a aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</nav>
+	</div>
+</div>
+{% else%}
+<p>这里空空如也！赶快来分享第一个菜谱吧~</p>
+{% endif %}
+
+	
+
+
+
+<script>
+function todelRecipe(url){
+	var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+	if(delconfirm){
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"json",
+			success: function(data) {
+				alert(data.msg);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	}
+}
+function toPaging(url){
+	// $(".daohangtiao").empty();
+	
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".tableList").empty();
+			$(".tableList").html(data);
+		},
+		error:function(){
+			$(".tableList").html("获取数据失败！");
+		}
+	});
+}
+</script>

@@ -1,0 +1,138 @@
+<div class="tableList">
+{% if resultNum != 0 %}
+<table class="table table-bordered table-hover">
+	<tr>
+		<td>序号</td>
+		<td width="400">收藏内容</td>
+		<td width="180">类别</td>
+		<!-- <td>活动详情</td> -->
+		<td>添加收藏时间</td>
+		<td>操作</td>
+	</tr>
+
+	{% for collect,article,type in finishreturn %}
+	<tr>
+	
+		<td>{{ collect.id }}</td>
+		{% autoescape off %}
+	
+		{% if type == '1' %}
+		<td width="400" title="{{ content }}">
+			<a href="/article/atc_detail/?article_id={{ collect.object_id }}">{{ article.title }}</a>
+		</td>
+		{% elif type == '2' %}
+		<td width="400" title="{{ content }}">
+			<a href="/recipe/recipeDetail/?id={{ collect.object_id }}">{{ article.title }}</a>
+		</td>
+		{% else %}
+		<td width="400" title="{{ content }}">
+			<a href="/recipe/vlogDetail/?id={{ collect.object_id }}">{{ article.title }}</a>
+		</td>
+		{% endif %}
+
+		{% endautoescape %}
+
+		{% if collect.content_type.model == 'article' %}
+		<td>日志</td>
+		{% elif collect.content_type.model == 'recipe' %}
+		<td>菜谱</td>
+		{% elif collect.content_type.model == 'videos' %}
+		<td>VLOG</td>
+		{% endif %}
+		
+		<td>{{ collect.create_time|date:'Y-m-d H:i:s' }}</td>
+		<td><a onclick="delCollect('/likes/delCollect/?id={{ collect.id }}')">取消收藏</a></td>
+	</tr>
+	{% endfor %}
+</table>
+
+<div class="ajax_page">
+	<nav aria-label="Page navigation text-center">
+		<ul class="pagination">
+			<li><a>共&nbsp;{{ countAtvt }}&nbsp;条</a></li>
+			{% if collections.has_previous %}
+			<li>
+				<a onclick="toPaging('/likes/myCollect/?page={{ collections.previous_page_number }}')" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			{% else %}
+			<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<li>
+				<a aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			{% endif %}
+
+			<!-- 页码开始 -->
+			{% for num in paginator.page_range %}
+				{% if num == currentPage %}
+					<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}">{{ num }}</a> -->
+					<li><a onclick="toPaging('/likes/myCollect/?page={{ num }}')" id="{{num}}">{{ num }}</a></li>
+				{% else %}
+					<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}" class="active">{{ num }}</a> -->
+					<li><a onclick="toPaging('/likes/myCollect/?page={{ num }}')" class="active">{{ num }}</a></li>
+				{% endif %}
+			{% endfor %}
+
+			<!-- 下一页 -->
+			{% if collections.has_next %}
+				<li>
+					<a onclick="toPaging('/likes/myCollect/?page={{ collections.next_page_number }}')" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			{% else %}
+				<li>
+					<a aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			{% endif %}
+		</ul>
+	</nav>
+</div>
+
+{% else%}
+<p>这里空空如也！赶快来添加第一个收藏吧~</p>
+{% endif %}
+
+
+</div>
+
+<script>
+function delCollect(url){
+	var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+	if(delconfirm){
+		$.ajax({
+			type: "GET",
+			url: url,
+			dataType: "html",
+			success: function(data){
+				$('.tableList').empty();
+				// alert('成功');
+				$('.tableList').html(data);
+			}
+		});
+	}
+}
+function toPaging(url){
+	// $(".daohangtiao").empty();
+	
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".tableList").empty();
+			$(".tableList").html(data);
+		},
+		error:function(){
+			$(".tableList").html("获取数据失败！");
+		}
+	});
+}
+</script>

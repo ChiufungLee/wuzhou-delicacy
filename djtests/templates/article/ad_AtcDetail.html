@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.title{
+			padding: 10px;
+			text-align: center;
+		}
+		.laiyuan{
+			padding: 10px;
+			text-align: center;
+			font-size: 14px;
+		}
+		.ad_contentarea{
+			padding: 20px;
+			/*margin-top: 10px;*/
+		}
+		.ad_contentarea p{
+			padding: 8px;
+		}
+	</style>
+</head>
+<body>
+<div>
+{% autoescape off %}
+
+<div class="title"><h3>{{ article.title }}</h3></div>
+<div class="laiyuan">作者：{{ author }}&nbsp;&nbsp;发布时间：{{ article.created_time|date:'Y-m-d H:m:s' }}</div>
+<hr>
+<div class="ad_contentarea">{{ article.content }}</div>
+
+{% endautoescape %}
+</div>
+</body>
+</html>

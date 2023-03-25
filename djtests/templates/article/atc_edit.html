@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "common/admin_common.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "article/css/addArticle.css" %}">
+	<style type="text/css">
+		.hidetxt{
+			display: none;
+		}
+	</style>	
+</head>
+<body>
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>文章管理</li>
+		<li>文章修改</li>
+	</ol>
+<div class="pg_form">
+	<form method="post" action="/article/editArticle/">	
+	{% csrf_token %}
+	<!-- action="/article/editArticle/" -->
+		<input type="text" class="hidetxt" name="hideId" value="{{ article.article_id }}">
+		<div class="form-group">
+			<label>标题：</label>
+			<input type="text" class="form-control" name="title" id="title" value="{{ article.title }}"><br/>
+		</div>
+		<div class="form-group">
+			<label class="form_text">内容：</label>
+			<textarea id="ckeditorArea" name="atcContent" value="{{ article.content }}"></textarea>
+		</div>
+		<div class="form-group">
+			<label>摘要：</label>
+			<input type="text" name="abstract" class="form-control" value="{{ article.abstract }}">
+		</div>
+		<div class="form-group">
+			<label>作者：</label>
+			<input type="text" class="form-control" name="author" value="{{ article.author.username }}" placeholder="默认为登录用户">
+		</div><br/>
+		<div class="form-group"><label>添加分类：</label>
+			<select name="category">
+				
+				{% for cate in atcCate %}
+				<option value="{{ cate.atcCate_name }}" {% if cate.atcCate_name == select_val %} selected {% endif %}>{{ cate.atcCate_name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<br />
+		<div class="form_top"><label>是否置顶：</label>
+			是<input type="radio" name="settop" value="1">
+			否<input type="radio" name="settop" value="0" checked>
+		</div>
+		<br/>
+		<input type="submit" value="更新" class="btn btn-primary" onclick="return checknull()">
+<!-- 		<a class="btnSubmit" onclick="updateAtc('/article/editArticle/')">更新</a> -->
+	</form>
+</div>
+
+<div class="hidetxt" id="hideId">{{ article.article_id }}</div>
+<div class="hidetxt" id="hideTxt">{{ article.content }}</div>
+<div class="hidetxt" id="hideTop">{{ article.is_top }}</div>
+<div class="hidetxt" id="hideFenlei">{{ article.atc_category }}</div>
+
+
+<!-- 加载富文本编辑器 -->
+<script>CKEDITOR.replace('ckeditorArea');</script>
+<script>
+	// 富文本赋值
+	var getContent = document.getElementById('hideTxt').innerText;
+	var getisTop = document.getElementById('hideTop').innerText;
+	var atc_category = document.getElementById('hideFenlei').innerText;
+	CKEDITOR.instances.ckeditorArea.setData(getContent);
+
+	// console.log(isTop)
+	$("input[name='settop'][value="+ getisTop +"]").attr("checked","checked" ); 
+	$("[name='category'] option[value='"+ atc_category +"']").attr("selected","true");
+</script>
+
+<script type="text/javascript">
+function checknull(){
+	var title = document.getElementById('title').value;
+	var contentData = CKEDITOR.instances.ckeditorArea.getData();
+	if (title == "") {
+		alert('标题不能为空');
+		return false;
+	}
+	if (contentData == "") {
+		alert('内容不能为空');
+		return false;
+	}
+	alert('更新成功！');
+}
+</script>
+</body>
+</html>

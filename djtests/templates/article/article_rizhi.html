@@ -1,0 +1,263 @@
+{% extends 'login/base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "article/css/rizhi.css" %}">
+{% endblock %}
+
+{% block content %}
+{% include 'login/head_img.html' %}
+<div class="uc_left">
+	<img src="/static/article/images/ggc.jpg">
+</div>
+<div class="uc_right" id="list_atc">
+
+{% load zdy_time %}
+	{% for atc,coll,like,ln,cnum in collectList %}
+	<div class="rizhi_item">
+		<div class="rz_img">
+			<img src="{{ atc.author.avatar.url}}" width="60px" height="60px">
+		</div>
+		<div class="ri_detail">
+			<div class="rz_title">
+				<span class="rz_name">{{ atc.author.username }}</span>
+				<span class="rz_time">{{ atc.created_time|timesince_zh }}</span>
+			</div>
+			<div class="content-body">
+				<a href="/article/atc_detail/?article_id={{ atc.article_id }}">
+					{% autoescape off %}
+						{{ atc.content }}
+					{% endautoescape %}
+				</a>
+			</div>
+			<a class="zhankai">...&nbsp;展开全文</a>
+
+		</div>
+
+		<div class="likes_handle">
+			<ul class="nav nav-pills">
+
+				<li>
+					<a class="shoucang">
+						<span class="glyphicon glyphicon-star-empty" aria-hidden="true">&nbsp;收藏</span>
+					</a>
+					<input type="hidden" name="" class="iscollect" value="{{ coll }}">
+					<input type="hidden" class="hidurl" name="" value="/likes/upcollect/?type=article&rzId={{ atc.article_id }}">
+				</li>
+	
+				<li>
+					<a href="/article/atc_detail/?article_id={{ atc.article_id }}">
+					<span class="glyphicon glyphicon-comment" aria-hidden="true">&nbsp;评论&nbsp;{{ cnum }}</span>
+					</a>
+				</li>
+			
+
+				<li>
+					<a class="dianzan">
+						<span class="glyphicon glyphicon-heart-empty" aria-hidden="true">&nbsp;
+						{% if ln == 0 %}<span class="n">点赞</span>{% else %}<span class="n">{{ ln }}</span> {% endif %}</span>
+					</a>
+					<input type="hidden" name="" class="islike" value="{{ like }}">
+					<input type="hidden" class="hidurl" name="" value="/likes/uplike/?type=article&rzId={{ atc.article_id }}">
+				</li>
+
+			</ul>
+		</div>
+	</div>
+	{% endfor %}
+
+	<div class="ajax_page">
+		<nav aria-label="Page navigation text-center">
+			<ul class="pagination">
+				{% if atcs.has_previous %}
+				<li>
+					<a href="/article/atcListRizhi/?page={{ atcs.previous_page_number }}" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% else %}
+				<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+				<li>
+					<a aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% endif %}
+
+				<!-- 页码开始 -->
+				{% for num in paginator.page_range %}
+					{% if num == currentPage %}
+						<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}">{{ num }}</a> -->
+						<li><a href="/article/atcListRizhi/?page={{ num }}" id="{{num}}">{{ num }}</a></li>
+					{% else %}
+						<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}" class="active">{{ num }}</a> -->
+						<li><a href="/article/atcListRizhi/?page={{ num }}" class="active">{{ num }}</a></li>
+					{% endif %}
+				{% endfor %}
+
+				<!-- 下一页 -->
+				{% if atcs.has_next %}
+					<li>
+						<a href="/article/atcListRizhi/?page={{ atcs.next_page_number }}" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% else %}
+					<li>
+						<a aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</nav>
+	</div>
+
+
+</div>
+<div class="clearfix"></div>
+{% endblock %}
+
+{% block js %}
+<script>
+$(function(){
+
+	//遍历每个.sh-content，如果高度小于106则隐藏“展开/收起”；否则设置高度为106px。
+	$('.content-body').each(function(){
+		if($(this).height()<320){
+			$(this).parent().children('.zhankai').hide();
+			// $(this).children('.innertxt').
+			// $(this).parent().css('padding-bottom','.5rem');
+		}else{
+			$(this).css("height","320px");
+			$(this).parent().children('.zhankai').show();
+		}
+	});
+	$('.zhankai').on('click',function () {
+		var htm = $(this).html();
+		if (htm == "...&nbsp;展开全文") {
+			$(this).html('收起全文');
+			$(this).parent().children('.content-body').css('height', 'auto');
+		} else {
+			$(this).html('...&nbsp;展开全文');
+			$(this).parent().children('.content-body').css('height', '320px');
+		}
+	});
+
+
+// 加载数据
+	$('.shoucang').each(function(){
+		// alert('hhh');
+		var iscollect = $(this).parent().children('.iscollect').val();
+		var collect = $(this).children('span.glyphicon');
+		// alert(iscollect);
+		if(iscollect=='1'){
+			collect.removeClass('glyphicon-star-empty');
+			collect.addClass('glyphicon-star');
+			collect.css('color','#ff6767');
+		}
+		else{
+			collect.css('color','#808080');
+		}
+		
+	});
+	$('.dianzan').each(function(){
+		// alert('hhh');
+		var islike = $(this).parent().children('.islike').val();
+		var like = $(this).children('span.glyphicon');
+		// alert(iscollect);
+		if(islike=='1'){
+			like.removeClass('glyphicon-heart-empty');
+			like.addClass('glyphicon-heart');
+			like.css('color','#ff6767');
+		}
+		else{
+			like.css('color','#808080');
+		}
+		
+	});
+
+	$('.dianzan').on('click',function(){
+		var url = $(this).parent().children('.hidurl').val();
+		var like = $(this).children('span.glyphicon');
+		var thisa = $(this);
+		var nspan = $(this).children('span.glyphicon').children('.n');
+		
+		if(nspan.text()=="点赞"){
+			var n = 0;
+		}else{
+			var n = nspan.text();
+		}
+		
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"json",
+			success: function(data) {
+				if(like.hasClass('glyphicon-heart')){
+					// 点击前是已喜欢状态
+					like.removeClass('glyphicon-heart');
+					like.addClass('glyphicon-heart-empty');
+					like.css('color','#808080');
+					nspan.text(parseInt(n)-1);
+				}
+				else{
+					// 点击前是未点赞状态
+					like.removeClass('glyphicon-heart-empty');
+					like.addClass('glyphicon-heart');
+					like.css('color','#ff6767');
+					nspan.text(parseInt(n)+1);
+				}
+				
+			},
+			
+		});
+	});
+
+	$('.shoucang').on('click',function(){
+		var url = $(this).parent().children('.hidurl').val();
+
+		var collect = $(this).children('span.glyphicon');
+		// alert(url);
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"json",
+			success: function(data) {
+
+				if(collect.hasClass('glyphicon-star')){
+					// 点击前是已收藏状态
+					collect.removeClass('glyphicon-star');
+					collect.addClass('glyphicon-star-empty');
+					collect.css('color','#808080');
+				}
+				else{
+					// 点击前是未收藏状态
+					collect.removeClass('glyphicon-star-empty');
+					collect.addClass('glyphicon-star');
+					collect.css('color','#ff6767');
+				}
+				
+			},
+			error:function(){
+				$("#content").html("获取数据失败！");
+			}
+		});
+	});
+
+	var page_index = getUrlParam('page');
+	$('#'+page_index).css('background','#eee');
+	
+});
+//获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+
+</script>
+{% endblock %}

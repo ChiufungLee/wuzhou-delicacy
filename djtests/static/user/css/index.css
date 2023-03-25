@@ -1,0 +1,98 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+li{
+	list-style: none;
+}
+a{
+	text-decoration: none;
+	color: #000;
+}
+.clearfix:after{
+	content: '';
+	height: 0;
+	line-height: 0;
+	display: block;
+	clear: both;
+	visibility: hidden;
+}
+.navbar{
+	height: 64px;
+	display: block;
+	border-bottom: 1px solid #eee;
+}
+.brand{
+	width: 192.7px;
+	height: 64px;
+	background: url(../images/wzms.png) no-repeat;
+}
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+.left_menu{
+	line-height: 64px;
+}
+.left_menu li{
+	float: left;
+}
+.left_menu li a{
+	padding: 0px 12px;
+	display: block;
+	color: #444;
+}
+.left_menu li a:hover{
+	color: #ed6c00;
+}
+.searchBar{
+	display: block;
+	position: relative;
+	padding-top: 15px;
+}
+.searinput{
+	width: 250px;
+	height: 31px;
+	position: absolute;
+	line-height: 30px;
+	margin-left: 50px;
+}
+.tosearch{
+	background: #5cb85c;
+	color: white;
+	padding: 7px 28px;
+	position: absolute;
+	margin-left: 300px;
+	border-radius: 5px;
+}
+.userAction{
+	background: #EC414D;
+	margin-right: 45px;
+	padding: 5px 15px;
+}
+.userAction a{
+	color: white;
+}
+.nologin{
+	display: none;
+}
+.islogin{
+	display: block;
+}
+.content{
+	min-height: 450px;
+	/*height: 768px;*/
+}
+.footer{
+	height: 70px;
+	bottom: 0px;
+	padding: 20px;
+}
+.footer p{
+	font-size: 14px;
+	color: #909090;
+	padding: 5px;
+	text-align: center;
+}

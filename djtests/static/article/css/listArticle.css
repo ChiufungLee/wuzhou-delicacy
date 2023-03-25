@@ -1,0 +1,96 @@
+table{
+	margin-top: 10px;
+	border-collapse: collapse;
+}
+td{
+	text-align: center;
+	padding: 6px 15px;
+	border: 1px solid #eee;
+
+}
+.limit_width{
+	width: 240px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+/*.limit_width:hover{
+	
+}*/
+.tb_head>td{
+	font-weight: bold;
+}
+.is_top{
+	padding: 0 10px;
+}
+.quitTop{
+	color: red;
+}
+.addTop,.todetail{
+	color: blue;
+}
+.adAction a{
+	color: blue;
+	padding: 0 5px;
+}
+.daohangtiao{
+	height: 40px;
+	line-height: 40px;
+	background: #f5f5f5;
+}
+.daohangtiao a{
+	padding: 0 5px;
+	font-size: 14px;
+	color: #2a7cbf;
+}
+.active,.btnactive{
+	color: blue;
+	cursor: pointer;
+}
+.btnactive:hover{
+	background: #f5f5f5;
+}
+.paging{
+	/*margin-top: 15px;*/
+	text-align: center;
+	border-radius: 2px;
+	padding: 20px 0 40px 0;
+}
+.paging a{
+	padding: 8px;
+	background: #f5f5f5;
+}
+.notactive{
+	/*color: #eee;*/
+	background: #ebebeb;
+}
+td>a:hover{
+	cursor: pointer;
+}
+.formlist{
+	margin: 10px 0;
+}
+#searchTitle{
+	width: 360px;
+	height: 32px;
+	line-height: 32px;
+	display: inline-block;
+}
+.searchBtn{
+	padding: 4px 15px;
+	background: #2a7cbf;
+	color: white;
+}
+.searchBtn:hover{
+	cursor: pointer;
+}
+.listArea{
+	margin-top: 10px;
+}
+.searchArea{
+	padding: 20px 0px;
+}
+.st{
+	font-size: 16px;
+	padding: 5px;
+}

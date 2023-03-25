@@ -1,0 +1,74 @@
+{% extends 'login/base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "activity/css/at_list.css" %}">
+{% endblock %}
+
+{% block content %}
+
+{% for activity,time_status,time in activitiesList %}
+<div class="activity-list-item clearfix">
+	<div class="atvt-img">
+		<a href="/activity/atvtDetail/?id={{ activity.id }}"><img src="{{ activity.chargeMan.img.url }}"></a>
+	</div>
+	<div class="atvt-name"><a href="/activity/atvtDetail/?id={{ activity.id }}"> {{ activity.name }}</a></div>
+	<div class="time-status">
+	{% if time_status == '1' %}
+		<div class="atvt-status">进行中</div>
+	{% else %}
+		<div class="atvt-status hui">已结束</div>
+	{% endif %}
+		<div class="end-time">截止报名时间：{{ time }}</div>
+	</div>
+</div>
+{% endfor %}
+<div class="clearfix"></div>
+<div class="ajax_page">
+	<form id="ajax_page">
+        {% csrf_token %}
+        <input id="submit" type="submit" name="submit" value="加载更多" class="btn btn-primary">
+    </form>
+</div>
+
+
+<div class="clearfix"></div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(function(){
+
+	var page_index = 1;
+
+	$('#ajax_page').submit(function(){
+		page_index+=1;
+
+		$.ajax({
+	        url: '/activity/atvtlist/',
+	        type: 'post',
+	        data: {csrfmiddlewaretoken:'{{ csrf_token }}'},
+	        // dataType: "json",
+	        success: function (data) {
+	            // $('.stolist').append(data);
+
+	            for(i=0;i<data.nameLists.length;i++){
+
+	            	htm = '<div class="activity-list-item clearfix"><div class="atvt-img"><a href="/activity/atvtDetail/?id='+ data.idLists[i]+'"> <img src="'+ data.imgurlList[i]+'"></a></div><div class="atvt-name"><a href="/activity/atvtDetail/?id='+ data.idLists[i]+'">'+ data.nameLists[i]+'</a></div><div class="time-status">{% if '+ data.time_status_list[i]+' == '1' %}<div class="atvt-status">进行中</div>{% else %}<div class="atvt-status hui">已结束</div>{% endif %}<div class="end-time">截止时间：'+ data.timeLists[i]+'</div></div></div>';
+	       
+
+				$('.activity-list-item').after(htm);
+	            }
+	            // 判断当前页的是否有下一页，如果没有下一页则禁止按钮点击
+                if (data['has_next'] == 'no'){
+                    $('#submit').attr('value', '没有更多了...');
+                    $('#submit').attr('disabled', 'disabled');
+                }
+
+	        }
+	    });
+	    return false;
+	});
+})
+</script>
+{% endblock %}

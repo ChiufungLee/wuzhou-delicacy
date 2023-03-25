@@ -1,0 +1,154 @@
+<div class="tableList">
+	{% if resultNum != 0 %}
+	<table class="table table-bordered table-hover">
+		<tr>
+			<td>序号</td>
+			<td width="180">标题</td>
+			<td class="limit_content">内容</td>
+			<!-- <td>活动详情</td> -->
+			<td>发布时间</td>
+			<td>操作</td>
+		</tr>
+
+		{% for travel in myTravels %}
+		<tr>
+		
+			<td>{{ travel.article_id }}</td>
+			{% autoescape off %}
+		
+			
+			<td width="180" title="{{ travel.title }}">
+				<a href="/article/atc_detail/?article_id={{ travel.article_id }}">{{ travel.title }}</a>
+			</td>
+			<td class="limit_content listContentshow">
+				<a href="/article/atc_detail/?article_id={{ travel.article_id }}">{{ travel.content }}</a>
+			</td>
+
+			{% endautoescape %}
+			
+			<td>{{ travel.created_time|date:'Y-m-d H:i:s' }}</td>
+			<td>
+				<a href="/article/updateTravel/?id={{ travel.article_id }}">编辑</a>&nbsp;&nbsp;
+				<a onclick="delTravel('/article/delTravel/?id={{ travel.article_id }}')">删除</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+	<div class="ajax_page">
+		<nav aria-label="Page navigation text-center">
+			<ul class="pagination">
+				<li><a>共&nbsp;{{ countAtc }}&nbsp;条</a></li>
+				{% if myTravels.has_previous %}
+				<li>
+					<a onclick="toPaging('/article/myTravels/?page={{ myTravels.previous_page_number }}')" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% else %}
+				<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+				<li>
+					<a aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				{% endif %}
+
+				<!-- 页码开始 -->
+				{% for num in paginator.page_range %}
+					{% if num == currentPage %}
+						<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}">{{ num }}</a> -->
+						<li><a onclick="toPaging('/article/myTravels/?page={{ num }}')" id="{{num}}">{{ num }}</a></li>
+					{% else %}
+						<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}" class="active">{{ num }}</a> -->
+						<li><a onclick="toPaging('/article/myTravels/?page={{ num }}')" class="active">{{ num }}</a></li>
+					{% endif %}
+				{% endfor %}
+
+				<!-- 下一页 -->
+				{% if myTravels.has_next %}
+					<li>
+						<a onclick="toPaging('/article/myTravels/?page={{ myTravels.next_page_number }}')" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% else %}
+					<li>
+						<a aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</nav>
+	</div>
+
+	{% else%}
+	<p class="msg">这里空空如也！赶快来发布第一篇日志吧~</p>
+	{% endif %}
+</div>
+
+
+
+
+<script>
+function delTravel(url){
+	var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+	if(delconfirm){
+		$.ajax({
+			type: "GET",
+			url: url,
+			dataType: "html",
+			success: function(data){
+				$('.tableList').empty();
+				// alert('成功');
+				$('.tableList').html(data);
+			}
+		});
+	}
+}
+
+function toPaging(url){
+	// $(".daohangtiao").empty();
+	
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".tableList").empty();
+			$(".tableList").html(data);
+		},
+		error:function(){
+			$(".tableList").html("获取数据失败！");
+		}
+	});
+}
+</script>
+
+<!-- <script type="text/javascript">
+	$(function(){
+		$('.content-body').each(function(){
+			if($(this).height()<300){
+				$(this).parent().children('.zhankai').hide();
+				// $(this).children('.innertxt').
+				// $(this).parent().css('padding-bottom','.5rem');
+			}else{
+				$(this).css("height","300px");
+				$(this).parent().children('.zhankai').show();
+			}
+		});
+		$('.zhankai').on('click',function () {
+			var htm = $(this).html();
+			if (htm == "...&nbsp;展开全文") {
+				$(this).html('收起全文');
+				$(this).parent().children('.content-body').css('height', 'auto');
+			} else {
+				$(this).html('...&nbsp;展开全文');
+				$(this).parent().children('.content-body').css('height', '300px');
+			}
+		});
+	})
+</script> -->

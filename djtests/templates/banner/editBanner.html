@@ -1,0 +1,65 @@
+
+<ol class="breadcrumb">
+	<li><a href="/user/admin/" class="active">首页</a></li>
+	<li>轮播图管理</li>
+	<li>更改图片信息</li>
+</ol>
+<div class="editList">
+	<form method="post" enctype="multipart/form-data">	
+	{% csrf_token %}
+	<!-- action="/article/editArticle/" -->
+		<div style="display: none;"><input type="text" id="banId" name="banId" value="{{ banner.id }}"></div>
+		<div class="form-group">
+			<label>标题：</label>
+			<input type="text" name="title" id="title" class="form-control" value="{{ banner.title }}"><br/>
+		</div>
+		<div><label>图片描述：</label>
+			<textarea id="description" class="form-control" rows="3">{{ banner.description }}</textarea>
+		</div>
+		<div class="form_title">
+			<label>原图片：</label><img src="{{ banner.img.url }}" width="540px;" height="360px;"><br/>
+			<label>上传图片：</label><input type="file" name="pic" id="pic">
+		</div>
+		<div class="form_title">
+			<label>跳转链接：</label>
+			<input type="text" name="tourl" id="tourl" class="form-control" value="{{ banner.url }}"><br/>
+		</div>
+		<div class="form_title">
+			<label>显示顺序：</label>
+			<input type="text" name="imgIndex" id="imgIndex" class="form-control" value="{{ banner.imgIndex }}"><br/>
+		</div>
+		<br/>
+		<!-- <input type="submit" value="更新" class="btnSubmit" onclick="return checknull()"> -->
+		<a class="btn btn-primary" onclick="updataBanner('/banner/editBanner/')">更新</a>
+	</form>
+	<br><br>
+</div>
+<script>
+	function updataBanner(url){
+		var banId = $('#banId').val();
+		var title = $('#title').val();
+		var description = $('#description').val();
+		var pic = document.getElementById("pic").files[0];
+		var tourl = $('#tourl').val();
+		var imgIndex = $('#imgIndex').val();
+
+		$.ajax({
+			type :"POST",
+			url : url,
+			data: {'banId':banId,'title':title,'description':description,'pic':pic,'tourl':tourl,'imgIndex':imgIndex},
+			// processData:false,   //设置不对数据进行自处理，默认jquery会对上传的数据进行处理
+			// contentType:false,   //设置不添加请求头的内容类型
+			dataType:"html",
+			global:false,
+			async: false,
+			success: function(data) {
+				$(".editList").empty();
+				$(".editList").html(data);
+				console.log(data);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	}
+</script>

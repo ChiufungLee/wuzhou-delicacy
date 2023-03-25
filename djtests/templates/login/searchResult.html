@@ -1,0 +1,64 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+<style type="text/css">
+	.rcpitem{
+		width: 235px;
+		/*background: red;*/
+		float: left;
+		margin: 10px 18px;
+		border: 1px solid #eee;
+	}
+	.rcpitem img{
+		border:0;
+	}
+	.show_rcpname{
+		margin: 10px 0 5px 0;
+		text-align: center;
+		font-size: 16px;
+		/*max-width: 100%;*/
+	    /*vertical-align: top;*/
+	    /*background: red;*/
+	}
+	.rcpitem a{
+		display: block;
+	}
+	.rcpitem:hover .show_rcpname{
+		color: red;
+	}
+	.show_rcpmkuser{
+		font-size: 12px;
+	    margin-bottom: 10px;
+	    color: #a5a7a6;
+	    text-align: center;
+	}
+	.red{
+		color: red;
+		font-size: 15px;
+	}
+	.search-result{
+		margin-left: 20px;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+
+<h5 class="search-result"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>共&nbsp;<span class="red">{{ resultCount }}</span>&nbsp;条记录</h5>
+{{ message }}
+
+{% for rcp in recipes %}
+<div class="rcpitem clearfix">
+	<div class="pic"><a href="/recipe/recipeDetail/?id={{ rcp.rcp_id }}"><img width="235" height="138" src="{{ rcp.rcp_img.url }}"></a></div>
+	<a href="/recipe/recipeDetail/?id={{ rcp.rcp_id }}" class="show_rcpname">{{ rcp.rcp_name }}</a>
+	<a href="#" class="show_rcpmkuser">{{ rcp.userid }}</a>
+</div>
+{% endfor %}
+
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}

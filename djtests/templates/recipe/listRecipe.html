@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>菜谱列表</title>
+	<style type="text/css">
+		table,td{
+			border:1px solid #ddd;
+			border-collapse: collapse;
+		}
+		td{
+			padding: 5px 10px;
+			text-align: center;
+		}
+		.limit_width{
+			width: 240px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		td>a{
+			cursor: pointer;
+		}
+		.adAction a,.atodetail{
+			color: blue;
+			padding: 0 5px;
+		}
+		.atodetail:hover{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+<div class="picList">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>菜谱管理</li>
+		<li>菜谱列表</li>
+	</ol>
+	
+	<div class="listArea">
+		<table class="table table-hover">
+			<tr class="tb_head">
+				<td>编号</td>
+				<td>菜品名称</td>
+				<td><div class="limit_width" style="white-space:normal;" >菜品描述</div></td>
+				<td>菜品图片</td>
+				<td>所属分类</td>
+				<td>口味</td>
+				<!-- <td>所需食材</td> -->
+				<td>制作步骤</td>
+				<td>上传用户</td>
+				<td>操作</td>
+			</tr>
+			{% for recipe in recipes %}
+			<tr>
+				<td>{{ recipe.rcp_id }}</td>
+				<td>{{ recipe.rcp_name }}</td>
+				<td><div class="limit_width" style="white-space:normal;" >{{ recipe.rcp_descript }}</div></td>
+				
+				<td><img src="{{ recipe.rcp_img.url }}" width="100px;" height="80px;"></td>
+				<td>{{ recipe.cateid.catename }}</td>
+				<td>{{ recipe.tasteid.tastename }}</td>
+				<!-- <td>{{ recipe.ingredients_set.all }}</td> -->
+				<td><a href="/recipe/recipeDetail/?id={{ recipe.rcp_id }}" class="atodetail">查看详情</a></td>
+				<td>{{ recipe.userid.username }}</td>
+				<td class="adAction">
+					<!-- <a onclick="editBanner('/banner/editBanner/?id={{ ban.id }}')">编辑</a> -->
+					<a onclick="delRecipe('/recipe/adDelRecipe/?id={{ recipe.rcp_id }}')">删除</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
+		<div class="paging">
+		<!-- 上一页开始 -->
+		<!--  如果当前页有上一页 -->
+		<span style="font-size: 15px;padding: 5px;">共&nbsp;{{ countAtc }}&nbsp;条记录</span>
+
+		{% if recipes.has_previous %}
+			<a class="btnactive" onclick="toPaging('/recipe/listRecipe/?page={{ recipes.previous_page_number }}')">上一页</a>
+		{% else %}
+		<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<a class="notactive">上一页</a></li>
+		{% endif %}
+	
+		<!-- 页码开始 -->
+		{% for num in paginator.page_range %}
+			{% if num == currentPage %}
+				<a onclick="toPaging('/recipe/listRecipe/?page={{ num }}')">{{ num }}</a>
+			{% else %}
+				<a onclick="toPaging('/recipe/listRecipe/?page={{ num }}')" class="active">{{ num }}</a>
+			{% endif %}
+		{% endfor %}
+		<!-- 下一页 -->
+		{% if recipes.has_next %}
+			<a class="btnactive" onclick="toPaging('/recipe/listRecipe/?page={{ recipes.next_page_number }}')">下一页</a>
+		{% else %}
+			<a class="notactive">下一页</a></li>
+		{% endif %}
+	</div>
+	</div>
+</div>
+<script>
+function toPaging(url){
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".picList").empty();
+			$(".picList").html(data);
+		},
+		error:function(){
+			$(".picList").html("获取数据失败！");
+		}
+	});
+}
+function delRecipe(url){
+	var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+	if(delconfirm){
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".picList").empty();
+				$(".picList").html(data);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	}
+}
+</script>
+</body>
+</html>

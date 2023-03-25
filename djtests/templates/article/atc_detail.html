@@ -1,0 +1,207 @@
+{% extends 'login/base.html' %}
+{% load static %}
+{% block css %}
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static "article/css/article_detail.css" %}">
+{% endblock %}
+
+{% block content %}
+
+{% include 'login/head_img.html' %}
+
+<ol class="breadcrumb">
+	<li><a href="/">首页</a></li>
+	<li><a href="">文章详情</a></li>
+	<!-- <li><a href="">{{ atc.title }}</a></li> -->
+</ol>
+
+<!-- 文章详情 -->
+{% autoescape off %}
+<div class="title"><h3>{{ article.title }}</h3></div>
+<div class="laiyuan">
+<!-- 	{% if not atc.tags is None %}
+		<label>标签：</label>{{ atc.tags }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	{% endif %} -->
+	<label> 作者：</label>{{ article.author.username }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<label> 发布于：</label>{{ article.created_time|date:'Y-m-d H:m:s' }}
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<label>浏览量：</label> &nbsp; {{ article.total_views }} &nbsp;次
+</div>
+<hr>
+<div class="atcContent">{{ article.content }}</div>
+{% endautoescape %}
+
+
+
+<hr>
+<!-- 评论 -->
+{% if article.atc_category.id == 4 %}
+<div class="row">
+	<div class="col-xs-10 col-xs-offset-1">
+		<div class="comment-area">
+			<h3 class="comment-area-title">提交评论</h3>
+			{% if request.session.user_name %}
+				
+				<form action="/comments/update_comment/" method="post" id="comment-form">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="comment_text">{{ user }}，欢迎评论~</label>
+						<div id="reply_content_container" style="display: none;">
+							<p>回复：</p>
+							<div id="reply_content"></div>
+						</div>
+						<br>
+						<textarea id="comment_text" name="comment_text" class="form-control" rows="4"></textarea>
+					</div>
+					<input type="hidden" name="object_id" value="{{ article.article_id }}">
+					<input type="hidden" name="content_type" value="article">
+					<input type="hidden" name="reply_comment_id" value="0" id="reply_comment_id">
+					<span id="comment-error" class="text-danger pull-left"></span>
+
+					<input type="submit" name="" value="评论" class="btn btn-primary pull-right">
+				</form>
+			{% else %}
+				<!-- {{ message }} -->
+				未登录，登录后方可评论！
+				<form action="/login/" method="post">
+					{% csrf_token %}
+					<label>用户名：</label>
+					<input type="text" name="username">
+					<label>密码：</label>
+					<input type="password" name="password">
+					<input type="submit" name="" value="登录">
+				</form>
+			{% endif %}
+			
+		</div>
+		<div class="clearfix"></div>
+		<div class="comment-area">
+			<h3 class="comment-area-title">评论列表</h3>
+			<div id="commtent-list">
+			{% for comment in comments %}
+				<div id="root_{{ comment.id }}" class="comments clearfix">
+					<div class="avatar"><img src="/media/{{ comment.user.avatar }}"></div>
+					<div class="comment-detail">
+						<span class="comment-user-name">{{ comment.user.username }}</span>
+						<span class="comment-time">({{ comment.comment_time|date:'Y-m-d H:i:s' }}):</span>
+						<div id="comment_{{ comment.id }}" class="comment-text">
+							{{ comment.text }}
+						</div>
+					</div>
+					<a href="javascript:reply({{ comment.id }});" class="pull-right parent-reply-link">回复</a>
+
+					<div class="clearfix"></div>
+					{% for reply in comment.root_comment.all %}
+					<div class="replies">
+						<div class="reply-avatar"><img src="/media/{{ reply.user.avatar }}"></div>
+						<div class="reply-detail">
+							<span class="comment-user-name">{{ reply.user.username }}</span>
+							<span class="comment-time">({{ reply.comment_time|date:'Y-m-d H:i:s' }}):</span>
+							<span>&nbsp;回复&nbsp;<label>{{ reply.reply_to.username}}</label></span>
+							<div id="comment_{{ reply.id }}">
+								{{ reply.text }}
+							</div>
+						</div>
+						<a href="javascript:reply({{ reply.id }});" class="child-reply-link">回复</a>
+					</div>
+					{% endfor %}
+
+				</div>
+			{% empty %}
+				暂无评论
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% elif article.atc_category.id == 1 %}
+<div class="pre-next-area">
+	<p>
+	    {% if pre_article %}
+	        <a href="/article/atc_detail/?article_id={{ pre_article.article_id }}"><span class="pre-next-text">上一篇：</span>{{ pre_article.title }}</a>
+	    {% else %}
+	        <span class="pre-next-text">上一篇：</span>没有更多了...
+	    {% endif %}
+	</p>
+	<p>
+	    {% if next_article %}
+	        <a href="/article/atc_detail/?article_id={{ next_article.article_id }}"><span class="pre-next-text">下一篇：</span>{{ next_article.title }}</a>
+	    {% else %}
+	        <span class="pre-next-text">下一篇：</span>没有更多了...
+	    {% endif %}
+	</p>
+</div>
+{% elif article.atc_category.id == 2 %}
+<div class="pre-next-area">
+	<p>
+	    {% if pre_tz %}
+	        <a href="/article/atc_detail/?article_id={{ pre_tz.article_id }}"><span class="pre-next-text">上一篇：</span>{{ pre_tz.title }}</a>
+	    {% else %}
+	        <span class="pre-next-text">上一篇：</span>没有更多了...
+	    {% endif %}
+	</p>
+	<p>
+	    {% if next_tz %}
+	        <a href="/article/atc_detail/?article_id={{ next_tz.article_id }}"><span class="pre-next-text">下一篇：</span>{{ next_tz.title }}</a>
+	    {% else %}
+	        <span class="pre-next-text">下一篇：</span>没有更多了...
+	    {% endif %}
+	</p>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(function(){
+    	$('#comment-form').submit(function(){
+			$.ajax({
+				url: '/comments/update_comment/',
+				type: 'post',
+				data: $(this).serialize(),
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						console.log(data);
+
+						if($('#reply_comment_id').val()=='0'){
+							// 新增评论
+							var comment_htm = '<div id="root_'+ data['id'] +'" class="comments clearfix"><div class="avatar"><img src="'+ data['avatar_url'] +'"></div><div class="comment-detail"><span class="comment-user-name">'+ data['username'] +'</span><span class="comment-time">('+ data['comment_time'] +'):</span><div id="comment_'+ data['id'] +'" class="comment-text">'+ data['text'] +'</div></div><a href="javascript:reply('+ data['id'] +');" class="pull-right parent-reply-link">回复</a>';
+							$('#commtent-list').prepend(comment_htm);
+						}
+						else{
+							// 回复
+							var reply_htm = '<div class="replies"><div class="reply-avatar"><img src="'+ data['avatar_url'] +'"></div><div class="reply-detail">'+ data['username'] +'('+ data['comment_time'] +'):&nbsp;回复&nbsp;<label>'+ data['reply_to'] +'</label><div id="comment_'+ data['id'] +'">'+ data['text'] +'</div></div><a href="javascript:reply('+ data['id'] +');" class="child-reply-link">回复</a></div>';
+							$('#root_'+ data['root_id'] ).append(reply_htm);
+
+						}
+						// 清空数据
+						$('#comment_text').val('');
+						$('#reply_comment_id').val('0');
+						$('#reply_content_container').hide();
+					}
+					else{
+						console.log(data);
+						$('#comment-error').text(data['message']);
+					}
+					
+
+				},
+
+			});
+			return false;
+		})
+    });
+    function reply(reply_comment_id){
+		// 设置值
+		$('#reply_comment_id').val(reply_comment_id);
+		var htm = $('#comment_' + reply_comment_id);
+		$('#reply_content').html(htm);
+		$('#reply_content_container').show();
+
+		$('html').animate({scrollTop: $('#comment-form').offset().top - 60}, 300, function(){
+			$('#comment_text').focus();
+		});
+	}
+</script>
+{% endblock %}

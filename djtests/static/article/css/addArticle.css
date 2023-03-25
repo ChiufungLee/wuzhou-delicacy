@@ -1,0 +1,33 @@
+.pg_form{
+	padding: 10px 5px;
+	margin-bottom: 60px;
+}
+.form_title{
+	/*font-size: 12px;*/
+	padding: 5px;
+}
+.form_title>input{
+	width: 400px;
+	height: 18px;
+}
+.form_top>input{
+	margin-right: 10px;
+}
+.form_text{
+	padding: 5px;
+}
+.btnSubmit{
+	font-size: 15px;
+	padding: 12px 60px;
+	border:none;
+	border-radius: 5px;
+}
+.btnSubmit:hover{
+	cursor: pointer;
+	background: #0285ce;
+	color: #fff;
+}
+.xiala{
+	width: 120px;
+	display: inline-block;
+}

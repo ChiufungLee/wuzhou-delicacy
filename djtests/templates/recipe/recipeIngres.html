@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		table{
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body>
+<div class="picList">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>菜谱管理</li>
+		<li>食材列表</li>
+	</ol>
+	
+	<div class="listArea">
+		<table class="table table-hover">
+			<tr class="tb_head">
+				<td>编号</td>
+				<td>食材名称</td>
+				<td>食材数量</td>
+				<td><div class="limit_width" style="white-space:normal;" >所属菜品</div></td>
+				<!-- <td>操作</td> -->
+			</tr>
+			{% for ingredient in ingredients %}
+			<tr>
+				<td><div id="tid">{{ ingredient.id }}</div></td>
+				<td><div id="tname">{{ ingredient.name }}</div></td>
+				<td>{{ ingredient.quantity }}</td>
+				<td><div class="limit_width" style="white-space:normal;" >{{ ingredient.rcpId.rcp_name }}</div></td>
+<!-- 				<td class="adAction">
+					<a onclick="delTaste('/recipe/delTaste/?id={{ taste.id }}')">删除</a>
+				</td> -->
+			</tr>
+			{% endfor %}
+		</table>
+		<div class="paging">
+			<!-- 上一页开始 -->
+			<!--  如果当前页有上一页 -->
+			<span style="font-size: 15px;padding: 5px;">共 {{ paginator.num_pages }} 页/&nbsp;{{ countAtc }}&nbsp;条记录,</span>
+
+			{% if ingredients.has_previous %}
+				<a class="btnactive" onclick="toPaging('/recipe/listIngres/?page={{ ingredients.previous_page_number }}')">上一页</a>
+			{% else %}
+			<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+				<a class="notactive">上一页</a></li>
+			{% endif %}
+			{{ sl }}
+			<!-- 页码开始 -->
+			{% for num in pageRange %}
+				{% if num == currentPage %}
+					<a onclick="toPaging('/recipe/listIngres/?page={{ num }}')">{{ num }}</a>
+				{% else %}
+					<a onclick="toPaging('/recipe/listIngres/?page={{ num }}')" class="active">{{ num }}</a>
+				{% endif %}
+			{% endfor %}
+			{{ sl }}
+			<!-- 下一页 -->
+			{% if ingredients.has_next %}
+				<a class="btnactive" onclick="toPaging('/recipe/listIngres/?page={{ ingredients.next_page_number }}')">下一页</a>
+			{% else %}
+				<a class="notactive">下一页</a></li>
+			{% endif %}
+		</div>
+	</div>
+
+
+
+<!-- 	<div class="new_cate">
+		<h4>添加分类</h4>
+		<form>
+			<span class="hide">ID:<input type="text" id="tasteId" name="" style="background: #eee;" readonly="true"> </span>&nbsp;&nbsp;
+			<span>口味名称：</span><input type="text" name="tasteName" id="tasteName">&nbsp;&nbsp;
+			<span >口味描述：</span><textarea style="vertical-align: top;" id="tasteDescript"></textarea>
+			<a onclick="newTaste()" class="addbtn">添加</a>
+			<a onclick="updateTaste()" class="addbtn hide" id="toUpdate">更新</a>
+		</form>
+		{{ message }}
+	</div> -->
+
+</div>
+<script>
+function toPaging(url){
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".picList").empty();
+			$(".picList").html(data);
+		},
+		error:function(){
+			$(".picList").html("获取数据失败！");
+		}
+	});
+}
+</script>
+</body>
+</html>

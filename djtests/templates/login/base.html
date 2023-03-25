@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	{% load static %}
+
+	<link rel="stylesheet" type="text/css" href="{% static "common/css/swiper.min.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "common/css/bootstrap.min.css" %}">
+	
+	<link rel="stylesheet" type="text/css" href="{% static "common/css/main.css" %}">
+	<script src="{% static "common/js/jquery-3.4.1.js" %}"></script>
+	<script src="{% static "common/js/bootstrap.min.js" %}"></script>	
+	<script src="{% static "common/js/swiper.min.js" %}"></script>
+	
+	{% block css %}
+	{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+
+			<a class="navbar-brand" href="#">
+				<img alt="Brand" src="{% static "common/images/base_img/wzms.png" %}" width="245px" height="85px">
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li><a href="/">首页<span class="sr-only">(current)</span></a></li>
+				<li><a href="/article/atcListZixun/">美食资讯</a></li>
+				<li id="rcp-down"><a href="/recipe/rcpUcList/?cateId=0">私房菜谱</a>
+					<div id="recipe-category">
+						
+					</div>
+				</li>
+				<li><a href="/store/foodStreet/">美食街</a></li>
+				<li><a href="/recipe/foodvlog/">美食VLOG</a></li>
+				<li id="atvt-down"><a href="/activity/atvtlist/">美食活动</a>
+<!-- 					<div id="ativity-cate">
+						<a href="">最新发布</a>
+						<a href="">历史活动</a>
+					</div> -->
+				</li>
+				<li><a href="/article/atcListRizhi/">美食日志</a></li>
+			</ul>
+
+			<form class="navbar-form navbar-left" action="/search/" method="get">
+				<div class="form-group">
+					<input type="text" class="form-control search-input" name="keyword" id="search-input" placeholder="查找菜谱">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</div>
+				<!-- <button type="submit" class="btn btn-default">搜索</button> -->
+			</form>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown newap">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">发布+</a> <!-- <span class="caret"></span> -->
+					<ul class="dropdown-menu">
+						<li><a href="/recipe/addRecipe/">发布菜谱</a></li>
+						<li><a href="/article/addTravels/">发表日志</a></li>
+						<li><a href="/recipe/addVlogs/">发布vlog</a></li>
+					</ul>
+				</li>
+				{% if request.session.user_name == null %}
+					<li><a href="/login/">登录</a></li>
+					<li><a href="/register/">注册</a></li>
+				{% else %}
+				<li class="dropdown user_avatar">
+					<a href="#" data-toggle="dropdown"><img class="avatar" >&nbsp;{{ request.session.user_name }}</a>
+					<ul class="dropdown-menu" id="user_action">
+<!-- 						<li><a href="/my_notifications/"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;消息</a></li> -->
+						
+						<li><a href="/user/userCenter/">管理中心</a></li>
+						<li id="logout"><a href="/logout/">退出</a></li>
+					</ul>
+				</li>
+				{% endif %}
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+
+
+
+<div style="clear:both;"></div>
+
+<br>
+
+<div class="wrap">
+
+{% block content %}
+
+{% endblock %}
+
+</div>
+
+<div class="toTop" id="btn"></div>
+
+<div class="footer">
+	<div class="left footer-yl">
+		<label class="footer-label">友情链接</label>
+		<p><a href="http://www.wuzhou.gov.cn/">梧州市人民政府网站</a></p>
+		<p><a href="http://www.wzljl.cn/">梧州零距离网</a></p>
+		<p><a href="http://hongdou.gxnews.com.cn/viewforum-25.html">梧州红豆社区</a></p>
+	</div>
+	<div class="left footer-lx">
+		<label class="footer-label">建议与反馈</label>
+		<p><a href="/about/">关于我们</a></p>
+		<p><a href="/about/">商家入驻</a></p>
+		<!-- <p><a href="/user/admin/">后台登录</a></p> -->
+	</div>
+	<div class="left footer-lx">
+		<label class="footer-label">联系我们</label>
+
+		
+		<p><a href="https://weibo.com/u/5243966757">微博</a></p>
+		<p><a href="tencent://message/?uin=2272963989&Site=Sambow&Menu=yes">QQ</a></p>
+	</div>
+	<div class="footer-img"><img src="/static/common/images/wx.jpg"></div>
+	<div class="clearfix"></div>
+	<div class="banquan">
+		<p>Welcome To Visit WuzhouMeishi Website.&nbsp;&nbsp;&nbsp;Copyright © Li&nbsp;Zhaofeng &nbsp;&nbsp;&nbsp;</p>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		var avatar = $('.avatar');
+		$.ajax({
+			type :"GET",
+			url : '/loadAvatar/',
+			async: false,
+			global:false,
+			dataType:"json",
+			success: function(data) {
+				avatar.attr('src',data.avatar);
+				if(data.usertype==1){
+					addli = '<li><a href="/user/admin/">后台登录</a><li>'
+					$('#logout').before(addli);
+				}
+				for(i=0;i<data.category.length;i++){
+					htm = '<a href=/recipe/rcpUcList/?cateId='+ data.category_id[i] +'>'+ data.category[i] +'</a>';
+					$('#recipe-category').append(htm);
+				}
+
+				
+			}
+		});
+		toTop();
+		$('#rcp-down').hover(function(){
+			 $("#recipe-category").show();
+		},function(){
+			$("#recipe-category").hide();
+		});
+		$('#atvt-down').hover(function(){
+			 $("#ativity-cate").show();
+		},function(){
+			$("#ativity-cate").hide();
+		})
+	})
+	function toTop(){
+		var btn=document.getElementById('btn');
+		var timer=null;
+		var isTop=true;//判断是否到了顶部
+		//屏幕滚动事件
+		window.onscroll=function(){
+			var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;//获取屏幕滚动的高度
+			if(scrollTop>300){
+				btn.style.display='block';
+
+			}else{
+				btn.style.display='none';
+			}//清除定时器
+			if(scrollTop==0||!isTop){
+				clearInterval(timer);
+			}
+			
+			isTop=false;
+		}
+		btn.onclick=function(){
+			//获取屏幕的高度
+			timer=setInterval(function(){
+			var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+			var spead=scrollTop/6;
+			document.documentElement.scrollTop=document.body.scrollTop=scrollTop-spead;
+			isTop=true;
+		},60);
+		}
+	}
+</script>
+
+
+{% block js %}
+
+{% endblock %}
+</body>
+</html>

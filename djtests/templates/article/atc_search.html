@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% load static %}
+	<script src="{% static "common/jquery-3.4.1.js" %}"></script>
+	<style type="text/css">
+		.searchBtn{
+			padding: 10px;
+			background: #f5f5f5;
+		}
+		.searchBtn:hover{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+<form id="formlist" method="post">
+	标题：<input type="text" name="title" id="title" placeholder="支持标题、分类和作者的模糊查询">&nbsp;&nbsp;
+	<a class="searchBtn" id="searchBtn">搜索</a>
+</form>
+<div class="testlist"></div>
+<script>
+$(document).ready(function(){
+	$("#searchBtn").click(function(){
+		$.ajax({
+			type :"GET",
+			url : '/article/searchArticle/',
+			data: $('#formlist').serialize(),
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				// $(".testlist").html(data);
+				console.log(data);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	});
+})
+</script>
+</body>
+</html>

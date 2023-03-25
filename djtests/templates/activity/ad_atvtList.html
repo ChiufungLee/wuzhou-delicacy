@@ -1,0 +1,145 @@
+<div class="listArea">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>活动管理</li>
+		<li>历史活动信息</li>
+	</ol>
+	<table class="table table-hover">
+		<tr class="tb_head">
+			<td>编号</td>
+			<td>活动名称</td>
+			<td class="limit-width">详情</td>
+			<td>活动时间</td>
+			<td>地点</td>
+			<td>参与人数</td>
+			<td>主办方</td>
+			<td>联系方式</td>
+			<!-- <td>创建时间</td> -->
+			<td>备注</td>
+			<td>报名信息</td>
+			<td>编辑操作</td>
+		</tr>
+		{% for atvt in activities %}
+		<tr>
+			<td>{{ atvt.id }}</td>
+			<td>{{ atvt.name }}</td>
+			<td class="limit-width">
+				{{ atvt.abstract }}
+			</td>
+			
+			<td>{{ atvt.host_time|date:'Y-m-d H:m:s' }} </td>
+			<td>{{ atvt.host_address }}</td>
+
+			
+			<td>{{ atvt.participants }}</td>
+			<td>{{ atvt.chargeMan.name }} </td>
+			<td>{{ atvt.contactPhone }} </td>
+			<!-- <td>{{ atvt.create_time }}</td> -->
+			<td>{{ atvt.remark }}</td>
+
+			<td><a onclick="applyInfo('/activity/applyList/?id={{ atvt.id }}')">查看报名信息</a></td>
+			<td class="adAction">
+				<a onclick="editActivity('/activity/editActivity/?id={{ atvt.id }}')">编辑</a>
+				<a onclick="delActivity('/activity/delActivity/?id={{ atvt.id }}')">删除</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+	<div class="paging">
+		<!-- 上一页开始 -->
+		<!--  如果当前页有上一页 -->
+		<span style="font-size: 15px;padding: 5px;">共&nbsp;{{ countAtvt }}&nbsp;条记录</span>
+
+		{% if activities.has_previous %}
+			<a class="btnactive" onclick="toPaging('/activity/ActivityManage/?page={{ activities.previous_page_number }}')">上一页</a>
+		{% else %}
+		<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<a class="notactive">上一页</a></li>
+		{% endif %}
+	
+		<!-- 页码开始 -->
+		{% for num in paginator.page_range %}
+			{% if num == currentPage %}
+				<a onclick="toPaging('/activity/ActivityManage/?page={{ num }}')">{{ num }}</a>
+			{% else %}
+				<a onclick="toPaging('/activity/ActivityManage/?page={{ num }}')" class="active">{{ num }}</a>
+			{% endif %}
+		{% endfor %}
+		<!-- 下一页 -->
+		{% if activities.has_next %}
+			<a class="btnactive" onclick="toPaging('/activity/ActivityManage/?page={{ activities.next_page_number }}')">下一页</a>
+		{% else %}
+			<a class="notactive">下一页</a></li>
+		{% endif %}
+	</div>
+</div>
+<script>
+	function toPaging(url){
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".listArea").empty();
+				$(".listArea").html(data);
+			},
+			error:function(){
+				$(".listArea").html("获取数据失败！");
+			}
+		});
+	}
+	function applyInfo(url){
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".listArea").empty();
+				$(".listArea").html(data);
+			},
+			error:function(){
+				$(".listArea").html("获取数据失败！");
+			}
+		});
+	}
+	function editActivity(url){
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".listArea").empty();
+				$(".listArea").html(data);
+			},
+			error:function(){
+				$(".listArea").html("获取数据失败！");
+			}
+		});
+	}
+	function delActivity(url){
+		var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+		if(delconfirm){
+			$.ajax({
+				type :"GET",
+				url : url,
+				async: false,
+				global:false,
+				dataType:"json",
+				success: function(data) {
+					$(".listArea").empty();
+					$(".listArea").html(data.msg);
+				},
+				error:function(){
+					$(".listArea").html("获取数据失败！");
+				}
+			});
+		}
+	}
+</script>

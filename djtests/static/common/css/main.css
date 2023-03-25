@@ -1,0 +1,283 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+li{
+	list-style: none;
+}
+a{
+	text-decoration: none;
+	color: #000;
+	display: inline-block;
+}
+a:hover{
+	text-decoration: none;
+}
+.clearfix:after{
+	content: '';
+	height: 0;
+	line-height: 0;
+	display: block;
+	clear: both;
+	visibility: hidden;
+}
+.navbar{
+	height: 85px;
+	display: block;
+	border-bottom: 1px solid #eee;
+}
+.brand{
+	width: 192.7px;
+	height: 85px;
+	background: url(../images/base_img/wzms.png) no-repeat;
+	display: block;
+}
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+.left_menu{
+	line-height: 64px;
+}
+.left_menu li{
+	float: left;
+}
+.left_menu li a{
+	padding: 0px 12px;
+	display: block;
+	color: #444;
+}
+.left_menu li a:hover{
+	color: #ed6c00;
+}
+.searchBar{
+	/*display: block;*/
+	position: relative;
+	padding-top: 25px;
+}
+.searinput{
+	width: 250px;
+	height: 31px;
+	position: absolute;
+	line-height: 30px;
+	margin-left: 50px;
+}
+.tosearch{
+	background: #5cb85c;
+	color: white;
+	padding: 7px 28px;
+	position: absolute;
+	margin-left: 900px;
+	border-radius: 5px;
+	display: block;
+
+}
+.userAction{
+	background: #EC414D;
+	margin-right: 45px;
+	padding: 5px 20px;
+}
+.nologin>a,.islogin>a{
+	color: white;
+	float: left;
+}
+.userAction .sg{
+	padding: 0 10px;
+}
+.nologin{
+	display: block;
+}
+.islogin{
+	display: none;
+}
+.content{
+	min-height: 450px;
+	/*height: 768px;*/
+}
+.wrap{
+	width: 80%;
+	padding-top: 105px;
+	/*background: red;*/
+	min-height: 400px;
+	margin: 0 auto;
+	padding-bottom: 20px;
+}
+.footer{
+	margin: 0 auto;
+	/*height: 100px;*/
+	bottom: 0px;
+	padding: 60px 20px 30px 20px;
+	background: #f8f8f8;
+
+}
+.footer p{
+	font-size: 14px;
+	color: #909090;
+	padding: 5px;
+	text-align: center;
+}
+
+
+
+.navbar,.navbar-header{
+	height: 85px;
+	padding: 0 10px 0 0;
+}
+.daohang li{
+	/*width: 0px;*/
+	height: 85px;
+}
+.navbar-nav li a{
+	line-height: 55px;
+}
+.navbar-brand{
+	padding: 0;
+}
+.navbar-form{
+	margin-top: 24px;
+}
+.avatar{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+}
+.user_avatar .dropdown-menu{
+	min-width: 96px;
+}
+.newap{
+	min-width: 98px;
+	text-align: center;
+}
+.newap .dropdown-menu{
+	min-width: 96px;
+}
+.newap .dropdown-menu a{
+	text-align: center;
+}
+
+.toTop{
+	width: 40px;
+	height:40px;
+	background: url(/static/common/images/top_bg.png);
+	position: fixed;
+	right: 30px;
+	bottom:40px;
+	display: none;
+}
+.toTop:hover{
+	background-position: left-bottom;
+	cursor: pointer;
+}
+
+.footer-yl{
+	margin: 5px 0 10px 240px;
+	/*background: red;*/
+	padding: 10px;
+}
+.footer-lx{
+	/*margin: 5px 0 10px 240px;*/
+	margin-left: 100px;
+	padding: 10px;
+}
+.footer-yl p a, .footer-lx p a{
+	display: block;
+	text-align: left;
+}
+.footer-label{
+	padding: 10px 5px;
+	font-size: 16px;
+	font-weight: normal;
+	color: #222;
+}
+.footer-img{
+	float: left;
+	margin-left: 160px;
+	margin-top: 45px;
+}
+.footer-img img{
+	width: 120px;
+	height: 120px;
+}
+.banquan{
+	margin-top: 25px;
+}
+.daohang a{
+	display: block;
+	margin-bottom: 30px;
+}
+.daohang img{
+	width: 100%;
+}
+.toTop{
+	width: 40px;
+	height:40px;
+	background: url(/static/common/images/top_bg.png);
+	position: fixed;
+	right: 30px;
+	bottom:40px;
+	display: none;
+}
+.toTop:hover{
+	background-position: left-bottom;
+	cursor: pointer;
+}
+.navbar-form .form-control{
+	width: 240px;
+}
+.navbar-form .form-group{
+	position: relative;
+
+}
+.navbar-form .glyphicon{
+	position: absolute;
+	left: 210px;
+	top: 12px;
+	color: #ccc;
+}
+.search-input{
+	width: 200px;
+}
+.navbar{
+	height: 85px;
+}
+.banquan{
+	/*background: blue;*/
+	padding-bottom: 15px;
+}
+.ativity-cate{
+	padding: none;
+	margin: none;
+	background: red;
+
+}
+.ativity-cate a{
+	
+	height: 30px;
+	line-height: 30px;
+}
+.ativity-cate a:hover{
+	background: yellow;
+}
+#recipe-category{
+	width: 360px;
+	background: #f8f8f8;
+	position: absolute;
+	display: none;
+}
+#ativity-cate{
+	width: 96px;
+	background: #f8f8f8;
+	position: absolute;
+	display: none;
+}
+#recipe-category a,#ativity-cate a{
+	display: inline-block;
+	padding: 5px 20px;
+}
+#recipe-category a:hover,#ativity-cate a:hover{
+	color: white;
+	background: #ff6767;
+}
+

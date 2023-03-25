@@ -1,0 +1,86 @@
+<div class="applyList-area">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>活动管理</li>
+		<li>查看报名信息</li>
+	</ol>
+	<table class="table table-hover">
+		<tr class="tb_head">
+			<td>序号</td>
+			<td class="limit-width">活动名称</td>
+			<td>活动时间</td>
+			<td>地点</td>
+			<td>报名者</td>
+			<td>联系方式</td>
+			<td>报名时间</td>
+			
+			<td>报名账号</td>
+			<td>备注</td>
+		</tr>
+		{% for apply in applyLists %}
+		<tr>
+			<td>{{ apply.id }}</td>
+
+			<td class="limit-width">{{ apply.activity.name }}</td>
+			<td>{{ apply.activity.host_time|date:'Y-m-d H:m:s' }} </td>
+			<td>{{ apply.activity.host_address }}</td>
+
+			
+			<td>{{ apply.truename }}</td>
+			<td>{{ apply.mobile }} </td>
+			<td>{{ apply.create_time|date:'Y-m-d H:m:s' }}</td>
+			<td>@{{ apply.username.username }}</td>
+			<td></td>
+<!-- 			<td class="adAction">
+				<a onclick="editArticle('/article/editArticle/?articleId={{ atc.article_id }}')">编辑</a>
+				<a onclick="delArticle('/article/delArticle/?articleId={{ atc.article_id }}')">删除</a>
+			</td> -->
+		</tr>
+		{% endfor %}
+	</table>
+	<div class="paging">
+		<!-- 上一页开始 -->
+		<!--  如果当前页有上一页 -->
+		<span style="font-size: 15px;padding: 5px;">共&nbsp;{{ countApply }}&nbsp;条记录</span>
+
+		{% if applyLists.has_previous %}
+			<a class="btnactive" onclick="toPaging('/activity/applyList/?page={{ applyLists.previous_page_number }}')">上一页</a>
+		{% else %}
+		<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<a class="notactive">上一页</a></li>
+		{% endif %}
+	
+		<!-- 页码开始 -->
+		{% for num in paginator.page_range %}
+			{% if num == currentPage %}
+				<a onclick="toPaging('/activity/applyList/?page={{ num }}')">{{ num }}</a>
+			{% else %}
+				<a onclick="toPaging('/activity/applyList/?page={{ num }}')" class="active">{{ num }}</a>
+			{% endif %}
+		{% endfor %}
+		<!-- 下一页 -->
+		{% if applyLists.has_next %}
+			<a class="btnactive" onclick="toPaging('/activity/applyList/?page={{ applyLists.next_page_number }}')">下一页</a>
+		{% else %}
+			<a class="notactive">下一页</a></li>
+		{% endif %}
+	</div>
+</div>
+<script>
+	function toPaging(url){
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".applyList-area").empty();
+				$(".applyList-area").html(data);
+			},
+			error:function(){
+				$(".applyList-area").html("获取数据失败！");
+			}
+		});
+	}
+</script>

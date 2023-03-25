@@ -1,0 +1,22 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+<title>修改密码</title>
+<style type="text/css">
+	.msg-h{
+		margin-left: 100px;
+		margin-top: 50px;
+		color: red;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<h3 class="msg-h">{{ message }}</h3>
+{% endblock %}
+
+{% block js %}
+<script>
+    window.setTimeout("window.location='/login/'",2000);
+</script>
+{% endblock %}

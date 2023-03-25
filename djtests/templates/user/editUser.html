@@ -1,0 +1,35 @@
+<ol class="breadcrumb">
+	<li><a href="#">首页</a></li>
+	<li>用户管理</li>
+	<li class="blue">更新信息</li>
+</ol>
+<div class="editList">
+	<form method="post" action="/user/admin/updataUser/">	
+		{% csrf_token %}
+		<div class="form-group">
+			<label>用户ID：</label> <input type="text" name="title" value="{{ userInfo.id }}"><br/>
+		</div>
+		<div class="form-group">
+			<label>用户名：</label> <input type="text" name="title" value="{{ userInfo.username }}"><br/>
+		</div>
+		<div class="form-group">
+			<label>性别：</label>
+			男<input type="radio" name="gender" value="男">
+			女<input type="radio" name="gender" value="女">
+		</div>
+		<div class="form-group">
+			<label>生日：</label><input type="text" name="title" value="{{ userInfo.birthday|date:'Y-m-d' }}"><br/>
+		</div>
+		<div class="form-group">
+			<label>手机号：</label> <input type="text" name="title" value="{{ userInfo.mobile }}"><br/>
+		</div>
+		<div class="form-group">
+			<label>职业：</label><input type="text" name="title" value="{{ userInfo.career }}"><br/>
+		</div>
+		<div class="form-group">
+			<label>地址： </label><input type="text" name="title" value="{{ userInfo.address }}"><br/>
+		</div>
+		<br/>
+		<a class="btn btn-primary">更新</a>
+	</form>
+</div>

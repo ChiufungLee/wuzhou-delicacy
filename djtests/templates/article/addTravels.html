@@ -1,0 +1,71 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+{% load static %}
+<script src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<style type="text/css">
+	#travel_content{
+		height: 400px;
+	}
+	.limit_width{
+		width: 200px;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="daohangtiao">
+	<ol class="breadcrumb">
+		<li><a href="/">首页</a></li>
+		<li><a href="">发动态</a></li>
+	</ol>
+</div>
+<div>
+<!-- <h4>发表日志</h4> -->
+<hr>
+	<span class="msg">{{ message }}</span>
+	{% if typeflag == 1 %}
+		<form method="post" method="/article/updateTravel/?id={{ article.article_id }}">
+	{% else %}
+		<form method="post" method="/article/addTravels/">
+	{% endif %}
+
+		{% csrf_token %}
+		<!-- <label>日志标题</label><br>
+		<input type="text" name="travel_title" id="travel_title" class="form-control" placeholder="输入日志标题" value="{{ article.title }}"><br>
+		<label>日志正文</label><br> -->
+		<textarea id="travel_content" name="travel_content">{{ article.content }}</textarea>
+		<br>
+		<!-- <label>添加标签：</label>
+		<input type="text" name="tags" class="form-control limit_width" value="{{ article.tags }}" placeholder="请添加最多一个标签"><br> -->
+		<hr>
+		{% if typeflag == 1 %}
+			<input type="submit" name="" class="btn btn-primary btn-lg" value="更新">
+		{% else %}
+			<input type="submit" name="" onclick="return checknull()" class="btn btn-primary btn-lg" value="发表">
+		{% endif %}
+	</form>
+</div>
+{{ returnJs }}
+{% endblock %}
+
+{% block js %}
+<script>CKEDITOR.replace('travel_content', { filebrowserImageUploadUrl:'/uploadimg/?atcType=rz',height:'200px' });
+</script>
+<script type="text/javascript">
+var contentData = CKEDITOR.instances.ckeditorArea.getData();
+</script>
+<script type="text/javascript">
+$(function(){
+	
+})
+	function checknull(){
+		var title = $('#travel_title').val();
+		var contentData = CKEDITOR.instances.travel_content.getData();
+		if(title==''||contentData==''){
+			alert('请检查输入内容！');
+			return false;
+		}
+	}
+</script>
+{% endblock %}

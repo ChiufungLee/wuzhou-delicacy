@@ -1,0 +1,89 @@
+.uc_left{
+	width: 200px;
+	min-height: 400px;
+	/*background: red;*/
+	background: #f8f8f8;
+	float: left;
+	border-right: 1px solid #e7e7e7;
+}
+.left_head_label{
+	text-align: center;
+	padding: 20px 0 10px 0;
+	color: red;
+	display: block;
+	font-size: 15px;
+}
+.glyphicon-fire{
+	color: orange;
+}
+.uc_right{
+	width: 880px;
+	float: left;
+	background: #f8f8f8;
+	margin-left: 10px;
+	padding: 10px;
+}
+.rcp_item{
+	padding: 10px;
+}
+.pic{
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
+}
+.pic img{
+	width: 150px;
+	height: 150px;
+	transition: all 0.5s ease-in-out;
+	transition-property: all;
+    transition-duration: 0.5s;
+}
+.pic img:hover{  
+    transform: scale(1.1);  
+}
+.detail{
+	padding-left: 10px;
+	height: 150px;
+	overflow: hidden;
+}
+.ingres{
+	line-height: 28px;
+}
+.detail p{
+	padding: 10px 0;
+}
+.column-news-list .column-news-item {
+    display: block;
+    position: relative;
+    border-bottom: 1px dashed #b1b1b1;
+    line-height: 50px;
+    margin-left: 20px;
+    padding: 0 5px 0 10px;
+}
+.paging{
+	padding: 15px;
+	text-align: center;
+}
+.btnactive{
+	color: blue;
+}
+.btnactive:hover{
+	color: blue;
+}
+.topage_num{
+	width: 24px;
+}
+.paging a:hover{
+	cursor: pointer;
+}
+.is_top{
+	color: red;
+}
+.title_width{
+	/*background: red;*/
+	max-width: 135px;
+	white-space:nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	display: inline-block;
+}

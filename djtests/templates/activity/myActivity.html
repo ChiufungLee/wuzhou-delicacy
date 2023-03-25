@@ -1,0 +1,106 @@
+<div class="tableList">
+{% if flag != 0 %}
+<table class="table table-bordered table-hover">
+	<tr>
+		<td>序号</td>
+		<td>活动名称</td>
+		<td>活动时间</td>
+		<td>活动地点</td>
+		<td>主办方</td>
+		<td>联系负责人</td>
+
+		<td>报名时间</td>
+		
+	</tr>
+	
+	{% for activity in applys %}
+	<tr>
+		<td>{{ activity.activity.id }}</td>
+		<td title="{{ activity.activity.name }}"><a href="/activity/atvtDetail/?id={{ activity.activity.id }}">{{ activity.activity.name }}</a></td>
+		<!-- <td>{{ activity.activity.abstract }}</td> -->
+		<td>{{ activity.activity.host_time|date:'Y-m-d H:i:s' }}</td>
+		<td title="{{ activity.activity.host_address }}">{{ activity.activity.host_address }}</td>
+		<td>{{ activity.activity.chargeMan.name }}</td>
+		<td>{{ activity.activity.contactPhone }}</td>
+		<!-- <td>{{ activity.truename }}</td> -->
+		<!-- <td>{{ activity.mobile }}</td> -->
+		<td>{{ activity.create_time|date:'Y-m-d H:i:s' }}</td>
+	</tr>
+	{% endfor %}
+	
+</table>
+
+<div class="ajax_page">
+	<nav aria-label="Page navigation text-center">
+		<ul class="pagination">
+			<li><a>共&nbsp;{{ countAtc }}&nbsp;条</a></li>
+			{% if applys.has_previous %}
+			<li>
+				<a onclick="toPaging('/activity/myActivity/?page={{ applys.previous_page_number }}')" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			{% else %}
+			<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<li>
+				<a aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			{% endif %}
+
+			<!-- 页码开始 -->
+			{% for num in paginator.page_range %}
+				{% if num == currentPage %}
+					<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}">{{ num }}</a> -->
+					<li><a onclick="toPaging('/activity/myActivity/?page={{ num }}')" id="{{num}}">{{ num }}</a></li>
+				{% else %}
+					<!-- <a href="/article/atcListRizhiatcListRizhi/?page={{ num }}" class="active">{{ num }}</a> -->
+					<li><a onclick="toPaging('/activity/myActivity/?page={{ num }}')" class="active">{{ num }}</a></li>
+				{% endif %}
+			{% endfor %}
+
+			<!-- 下一页 -->
+			{% if applys.has_next %}
+				<li>
+					<a onclick="toPaging('/activity/myActivity/?page={{ applys.next_page_number }}')" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			{% else %}
+				<li>
+					<a aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			{% endif %}
+		</ul>
+	</nav>
+</div>
+
+{% else%}
+<p>您还未参与过活动哦</p>
+{% endif %}
+
+</div>
+
+<script type="text/javascript">
+function toPaging(url){
+	// $(".daohangtiao").empty();
+	
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".tableList").empty();
+			$(".tableList").html(data);
+		},
+		error:function(){
+			$(".tableList").html("获取数据失败！");
+		}
+	});
+}
+</script>

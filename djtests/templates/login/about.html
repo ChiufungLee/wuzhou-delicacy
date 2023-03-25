@@ -1,0 +1,58 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+<style type="text/css">
+	.about, .sjcontact{
+		min-height: 300px;
+		margin-bottom: 10px;
+		background: #f8f8f8;
+		padding: 20px 50px;
+	}
+	.us_label{
+		font-size: 18px;
+		color: #5cb85c;
+		font-weight: normal;
+		border-bottom: 3px solid #5cb85c;
+		margin-bottom: 15px;
+	    /*background-color: #5cb85c;*/
+	    /*border-color: #4cae4c;*/
+	}
+	.about p, .sjcontact p{
+		line-height: 30px;
+		font-size: 15px;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about">
+	<label class="us_label">关于我们</label>
+	<div>
+		<p>广西梧州，具有2200多年的建城历史，文化底蕴深厚，是中国的优秀旅游城市。</p>
+		<p>本网站以<strong>梧州美食文化</strong>为主要输出内容，致力于对梧州本地的饮食文化资源进行挖掘，推广梧州饮食文化的地方特色，提升梧州美食的影响力。</p>
+		
+	</div>
+		<p>如对本网站有任何疑问或建议，请联系管理员</p>
+		<p>QQ: 2272963989</p>
+		<p>Email: lzfdd937@163.com</p>
+		<p>微信：suejc638728</p>
+</div>
+<div class="sjcontact">
+	<label class="us_label">商家入驻</label>
+	<p>本网站欢迎所有梧州本地美食餐厅、地方特色小吃店入驻，从而给网站带来更加丰富、优质的内容。</p>
+	<!-- <p><strong>商家入驻要求：</strong>取得正规营业资格证，并且具有线下实体门店。</p> -->
+	<!-- <p><strong>入驻请提供材料包括但不限于：</strong></p> -->
+	<!-- <p>1.营业资格证（仅用于核验）</p> -->
+<!-- 	<p>1.店铺封面图片1张</p>
+	<p>2.店铺简介</p> -->
+	<p>...</p>
+	<p></p>
+	<label class="us_label">建议与反馈</label>
+	<p>如您在使用过程中遇到任何问题，请及时反馈给我们的网站管理员，我们会及时处理，以便给您更好的使用体验，谢谢合作！</p>
+	<p>...</p>
+	<!-- <p>请将申请内容发至管理员邮箱：lzfdd937@163.com</p> -->
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'login/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "store/css/food_street.css" %}">
+{% endblock %}
+
+{% block content %}
+{% include 'login/head_img.html' %}
+<div class="uc_left">
+	<div class="youhui">
+		<label class="left_head_label">优惠信息</label>
+		<ul class="nav nav-pills nav-stacked">
+		{% for store in stores %}
+			{% if store.discount == '' %}
+			<!-- <a href="">aaaaaa</a> -->
+		{% else %}
+			<li role="presentation">
+				<a href="/store/storeDetail/?id={{ store.id }}">【{{ store.name }}】：{{ store.discount }}<span class="right">&nbsp;&nbsp;{{ recipe.total_view }}</span></a>
+			</li>
+		{% endif %}
+
+		{% endfor %}	
+		</ul>
+	</div>
+</div>
+<div class="uc_right">
+	<div class="stolist">
+		<!-- <div class="btitle">美食街</div><br> -->
+		{% for store in storeList %}
+		<div class="rcp_item clearfix">
+
+			<div class="pic left"><a href="/store/storeDetail/?id={{ store.id }}"><img src="{{ store.img.url }}"></a></div>
+			<div class="detail left">
+				<h4><a href="/store/storeDetail/?id={{ store.id }}">{{ store.name }}</a></h4>
+				<div class="ingres"><span class="yh">“</span>{{ store.tabstract }}<span class="yh">”</span></div>
+				<div class="rcp_descript">营业时间：{{ store.ontime }}</div>
+				<div class="phone">电话：{{ store.phone }}</div>
+				<p class="maker">地址：{{ store.address}}</p>
+			</div>
+		</div>
+		{% endfor %}
+
+		<div class="ajax_page">
+			<form id="ajax_page">
+		        {% csrf_token %}
+		        <input id="submit" type="submit" name="submit" value="加载更多" class="btn btn-primary">
+		    </form>
+		</div>
+	</div>
+</div>
+	
+	<!-- <div><a id="more" class="btn btn-primary ckgd">查看更多</a></div> -->
+<!-- <hr> -->
+
+
+<div class="clearfix"></div>
+{% endblock %}
+
+{% block js %}
+<script>
+$(function(){
+	var page_index = 1;
+
+	$('#ajax_page').submit(function(){
+		page_index+=1;
+
+		$.ajax({
+	        url: '/store/foodStreet/',
+	        type: 'post',
+	        data: {csrfmiddlewaretoken:'{{ csrf_token }}'},
+	        // dataType: "json",
+	        success: function (data) {
+	            // $('.stolist').append(data);
+
+	            for(i=0;i<data.nameLists.length;i++){
+
+	            	htm = '<div class="rcp_item clearfix">'+
+	            '<div class="pic left"><a href="/store/storeDetail/?id='+data.idLists[i]+'"><img src="'+ data.imgurlList[i]+'"></a></div>'+
+			'<div class="detail left">'+
+				'<h4><a href="/store/storeDetail/?id='+data.idLists[i]+'">'+ data.nameLists[i] +'</a></h4>'+
+				'<div class="ingres"><span class="yh">“</span>'+ data.abstractLists[i]+'<span class="yh">”</span></div>'+
+				'<div class="rcp_descript">营业时间：'+ data.timeLists[i]+'</div>'+
+				'<div class="phone">电话：'+ data.phoneLists[i]+'</div>'+
+				'<p class="maker">地址：'+ data.addressLists[i]+'</p>'+
+			'</div></div>';
+				$('.ajax_page').before(htm);
+	            }
+	            // 判断当前页的是否有下一页，如果没有下一页则禁止按钮点击
+                if (data['has_next'] == 'no'){
+                    $('#submit').attr('value', '没有更多了...');
+                    $('#submit').attr('disabled', 'disabled');
+                }
+
+	        }
+	    });
+	    return false;
+	});
+})
+</script>
+
+{% endblock %}

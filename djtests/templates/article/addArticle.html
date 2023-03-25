@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "common/admin_common.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "article/css/addArticle.css" %}">
+	<script src="{% static "common/js/jquery-3.4.1.js" %}"></script>
+</head>
+<body>
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>文章管理</li>
+		<li>发布文章</li>
+	</ol>
+<div class="pg_form">
+	<form method="post" action="/article/addArticle/">
+	{% csrf_token %}
+		<div class="form-group">
+			<label>标题：</label>
+			<input type="text" class="form-control" name="title" id="title"><br/>
+		</div>
+		
+		<div class="form-group"><label>内容：</label>
+			<textarea id="ckeditorArea" name="atcContent"></textarea>
+		</div>
+		<div class="form-group"><label>摘要：</label><input type="text" class="form-control" name="abstract"></div><br/>
+		<div class="form-group"><label>作者：</label><input type="text" class="form-control" name="author" placeholder="可空，默认为登录用户"></div><br/>
+		<div class="form-group"><label>添加分类：</label>
+			<select name="category" class="form-control xiala">
+				{% for cate in atcCate %}
+				<option value="{{ cate.atcCate_name }}">{{ cate.atcCate_name }}</option>
+				{% endfor %}
+				
+			</select>
+		</div>
+		<br />
+		<div class="form_top"><label>是否置顶：</label>
+			是<input type="radio" name="settop" value="1">
+			否<input type="radio" name="settop" value="0" checked>
+		</div>
+		<br/>
+		<input type="submit" value="发布" class="btnSubmit" onclick="return checknull()">
+	</form>
+</div>
+<!-- 加载富文本编辑器 -->
+<script src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script>CKEDITOR.replace('ckeditorArea', { filebrowserImageUploadUrl:'/uploadimg/?atcType=zx' });</script>
+<script>
+function checknull(){
+	var title = document.getElementById('title').value;
+	var contentData = CKEDITOR.instances.ckeditorArea.getData();
+	if (title == "") {
+		alert('标题不能为空');
+		return false;
+	}
+	if (contentData == "") {
+		alert('内容不能为空');
+		return false;
+	}
+
+}
+
+</script>
+
+</body>
+</html>

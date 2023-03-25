@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% load static %}
+	<script src="{% static "common/jquery-3.4.1.js" %}"></script>
+	<style type="text/css">
+		.new_cate{
+			/*position: absolute;*/
+			/*bottom: 40px;*/
+			margin-top: 10px;
+			border-top: 1px solid #ddd;
+		}
+		.addbtn{
+			color: #fff;
+		    background-color: #5bc0de;
+		    border-color: #46b8da;
+		    display: inline-block;
+		    padding: 6px 22px;
+		    margin-bottom: 0;
+		    font-size: 14px;
+		    font-weight: 400;
+		    line-height: 1.42857143;
+		    text-align: center;
+		    white-space: nowrap;
+		    vertical-align: middle;
+		    -ms-touch-action: manipulation;
+		    touch-action: manipulation;
+		    cursor: pointer;
+		    -webkit-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		    background-image: none;
+		    border: 1px solid transparent;
+		    border-radius: 4px;
+		}
+
+		table{
+			margin: 0 auto;
+		}
+		.updateCate{
+			display: none;
+		}
+		.hide{
+			display: none;
+		}
+		#cateId{
+			width: 20px;
+		}
+	</style>
+</head>
+<body>
+<div class="picList">
+	<ol class="breadcrumb">
+		<li><a href="/user/admin/" class="active">首页</a></li>
+		<li>菜谱管理</li>
+		<li>菜品分类</li>
+	</ol>
+	
+	<div class="listArea">
+		<table class="table table-hover">
+			<tr class="tb_head">
+				<td>编号</td>
+				<td>分类名称</td>
+				<td><div class="limit_width" style="white-space:normal;" >分类描述</div></td>
+				<td>操作</td>
+			</tr>
+			{% for cate in category %}
+			<tr>
+				<td><div id="cid">{{ cate.id }}</div></td>
+				<td><div id="cname">{{ cate.catename }}</div></td>
+				<td><div class="limit_width" style="white-space:normal;" >{{ cate.remark }}</div></td>
+				<td class="adAction">
+					<a class="updatebtn" >编辑</a>
+					<a onclick="delCategory('/recipe/delCategory/?id={{ cate.id }}')">删除</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="paging">
+		<!-- 上一页开始 -->
+		<!--  如果当前页有上一页 -->
+		<span style="font-size: 15px;padding: 5px;">共&nbsp;{{ countAtc }}&nbsp;条记录</span>
+
+		{% if category.has_previous %}
+			<a class="btnactive" onclick="toPaging('/recipe/listCategory/?page={{ category.previous_page_number }}')">上一页</a>
+		{% else %}
+		<!-- 当前页的不存在上一页时,上一页的按钮不可用 -->
+			<a class="notactive">上一页</a></li>
+		{% endif %}
+	
+		<!-- 页码开始 -->
+		{% for num in paginator.page_range %}
+			{% if num == currentPage %}
+				<a onclick="toPaging('/recipe/listCategory/?page={{ num }}')">{{ num }}</a>
+			{% else %}
+				<a onclick="toPaging('/recipe/listCategory/?page={{ num }}')" class="active">{{ num }}</a>
+			{% endif %}
+		{% endfor %}
+		<!-- 下一页 -->
+		{% if category.has_next %}
+			<a class="btnactive" onclick="toPaging('/recipe/listCategory/?page={{ category.next_page_number }}')">下一页</a>
+		{% else %}
+			<a class="notactive">下一页</a></li>
+		{% endif %}
+	</div>
+
+	<div class="new_cate">
+		<h4><label>添加分类</label></h4>
+		<form>
+		{% csrf_token %}
+		<div class="form-group">
+			<span class="hide">ID:<input type="text" id="cateId" name="" style="background: #eee;" readonly="true"> </span>&nbsp;&nbsp;
+		</div>
+		<div class="form-group">
+			<label>分类名：</label>
+			<input type="text" class="form-control" name="cateName" id="cateName">&nbsp;&nbsp;
+		</div>
+		<div class="form-group">
+			<label>分类描述：</label>
+			<textarea style="vertical-align: top;" class="form-control" rows="3" id="cateDescript"></textarea>
+		</div>
+			<a onclick="newCate()" class="addbtn">添加</a>
+			<a onclick="updateCate()" class="btn btn-primary hide" id="toUpdate">更新</a>
+		</form>
+		{{ message }}
+	</div>
+</div>
+<script>
+$(document).ready(function(){
+	$(".updatebtn").click(function(){
+
+		var cid = $(this).parent().parent().find('#cid').text();
+		var cname = $(this).parent().parent().find('#cname').text();
+		var cdescript = $(this).parent().parent().find('.limit_width').text();
+		// alert(cdescript);
+		$(".new_cate").children('h4').text('更新分类信息');
+		$("#cateId").val(cid);
+		$("#cateName").val(cname);
+		$("#cateDescript").text(cdescript);
+
+
+		$(".addbtn").css("display","none");
+		$("#toUpdate").removeClass('hide');
+
+	});
+});
+</script>
+<script>
+function updateCate(){
+	var cid = $("#cateId").val();
+	var cateName = $('#cateName').val();
+	var cateDescript = $("#cateDescript").val();
+	$.ajax({
+		type :"GET",
+		url : '/recipe/updateCategory/',
+		data: {'cid':cid, 'cateName':cateName,'cateDescript':cateDescript},
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".picList").empty();
+			$(".picList").html(data);
+			console.log(data);
+		},
+		error:function(){
+			console.log("获取数据失败！");
+		}
+	})
+}
+function newCate(){
+	var cateName = $('#cateName').val();
+	var cateDescript = $('#cateDescript').val();
+	if(cateName=='' || cateDescript==''){
+		alert('请检查输入内容！')
+		return false;
+	}
+	$.ajax({
+		type :"GET",
+		url : '/recipe/addCategory/',
+		data: {'cateName':cateName,'cateDescript':cateDescript},
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".picList").empty();
+			$(".picList").html(data);
+			console.log(data);
+		},
+		error:function(){
+			console.log("获取数据失败！");
+		}
+	})
+}
+function toPaging(url){
+	$.ajax({
+		type :"GET",
+		url : url,
+		async: false,
+		global:false,
+		dataType:"html",
+		success: function(data) {
+			$(".picList").empty();
+			$(".picList").html(data);
+		},
+		error:function(){
+			$(".picList").html("获取数据失败！");
+		}
+	});
+}
+function delCategory(url){
+	var delconfirm = confirm("删除后数据不可恢复！是否确认删除？");
+	if(delconfirm){
+		
+		$.ajax({
+			type :"GET",
+			url : url,
+			async: false,
+			global:false,
+			dataType:"html",
+			success: function(data) {
+				$(".picList").empty();
+				$(".picList").html(data);
+			},
+			error:function(){
+				console.log("获取数据失败！");
+			}
+		});
+	}
+}
+</script>
+</body>
+</html>

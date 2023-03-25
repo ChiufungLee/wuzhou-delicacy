@@ -1,0 +1,76 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+<style type="text/css">
+	.edit_form{
+		background: #f8f8f8;
+		width: 400px;
+		/*height: 100px;*/
+		padding: 30px;
+		margin: 0 auto;
+		position: absolute;
+		top: 120px;
+		left: 480px;
+		/*text-align: center;*/
+	}
+	#sb{
+		margin-top: 20px;
+		margin-left: 100px;
+		width: 100px;
+	}
+	.uptxt{
+		padding-bottom: 20px;
+		margin-bottom: 20px;
+		border-bottom: 1px solid #ccc;
+		padding-left: 120px;
+	}
+	.edit_form .shuru{
+		/*border-radius: 1px;*/
+		line-height: 28px;
+		height: 28px;
+		width: 200px;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="edit_form">
+	<h4 class="uptxt">修改密码</h4>
+	<form action="/forget_confirm/" method="post">
+	{% csrf_token %}
+		<input type="hidden" name="code" value="{{ code }}">
+		<div class="form-group">
+			<label>输入新密码：</label>
+			<input type="password" class="shuru" id="password1" name="password1"><br>
+		</div>
+		<div class="form-group">
+			<label>确认密码：&nbsp;</label>
+			<input type="password" class="shuru" id="password2" name="password2"><br>
+		</div>
+		<div class="form-group">
+			<input type="submit" id="sb" name="" value="更新密码" class="btn btn-primary">
+		</div>
+	</form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(function(){
+	$('#sb').on('click', function(){
+		var pwd1 = $('#password1').val();
+		var pwd2 = $('#password1').val();
+		if(pwd1 == '' || pwd2 == ''){
+			alert('请检查输入内容！');
+			return false;
+		}
+		if (pwd1 != pwd2) {
+			alert('两次输入密码不一致！');
+			return false;
+		}
+	});
+	
+})
+</script>
+{% endblock %}

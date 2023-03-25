@@ -1,0 +1,208 @@
+{% extends 'login/base.html' %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/recipe/css/addform.css">
+<link href="/static/recipe/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<script src="/static/recipe/js/fileinput.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="pg_form">
+	<form method="post" action="/recipe/updateRecipe/" enctype="multipart/form-data">
+	{% csrf_token %}
+	<input type="hidden" name="rid" value="{{ recipe.rcp_id }}">
+		<div class="form_group">
+			<label> 菜品名称：</label><br>
+			<input type="text" name="name" id="name" class="form-control" value="{{ recipe.rcp_name }}"><br/>
+		</div>
+		<br>
+		<div class="form_title">
+			<!-- <span class="form_text">菜品描述：</span> -->
+			<label> 菜品描述：</label><br>
+			<textarea id="description" name="description" class="form-control" rows="3">{{ recipe.rcp_descript }}</textarea>
+		</div>
+		<br/>
+		<!-- <div class="form_title">作者：<input type="text" name="author" placeholder="默认为登录用户"></div><br/> -->
+		<div class="form_title">
+			<label>菜品分类：</label>
+			<select name="category" class="form-control xiala">
+				{% for cate in category %}
+				<option value="{{ cate.catename }}">{{ cate.catename }}</option>
+				{% endfor %}						
+			</select>
+			&nbsp;&nbsp;
+			<label> 菜品口味：</label>
+			<select name="taste" class="form-control xiala">
+				{% for taste in tastes %}
+				<option value="{{ taste.tastename }}">{{ taste.tastename }}</option>
+				{% endfor %}
+			</select>
+
+		</div>
+
+		<br>
+		<div class="form_title">
+			<label>	上传成品图：</label><br>
+			<!-- <input type="file" > -->
+			<img src="{{ recipe.rcp_img.url }}" id="chengpinPic" width="400" height="300">
+			<br>
+			<input type="file" id="file-0b" class="file" name="productPic" >
+		</div>
+		<br/>
+		<br>
+		
+		<div id="inge_box">
+		{% for ingre in ingredients %}
+			<p id="show_inline">
+				<label>所需食材：</label><br>
+				<input type="text" name="ingeName" value="{{ ingre.name }}" class="form-control limit_width" placeholder="输入配料名：">
+				<input type="text" name="ingeQuantity" value="{{ ingre.quantity }}" class="form-control limit_width" placeholder="输入配料的量">
+				<input type="button" name="" value="+" id='addp' class="btn btn-primary">
+		        <input type="button" name="" value="-" id='delp' class="btn btn-primary">
+			</p>
+		{% endfor %}
+		</div>
+		<br><br><br>
+
+		<!-- 上传步骤 -->
+		<!-- <div id="box">
+			{% for step in rcpsteps %}
+		    <div id="pp">
+		        <span id="stepnum">{{ step.serialNum }}</span><span>.&nbsp;请输入步骤：</span><br>
+		        <label for="stepfile{{ step.serialNum }}" class="uplabel" id="uplabel">
+					<span id="tubiao" class="glyphicon glyphicon-plus tubiao" aria-hidden="true"></span>
+					<p id="up" class="up">点击上传步骤图</p>
+					<img id="previewImg" class="ulpic" src="{{ step.stepImg.url }}" />
+				</label>
+				<input type="file" id="stepfile{{ step.serialNum }}" class="hidef" name="stepImg"/>
+		        <textarea id="textarea" name="stepDesp" class="form-control steptxt" rows="4" placeholder="输入步骤：">{{ step.serialDption }}</textarea>
+		        <input type="button" name="" value="+" id='addp' class="btn btn-default let">
+		        <input type="button" name="" value="-" id='delp' class="btn btn-default let">
+		    </div>
+		    {% endfor %}
+		</div> -->
+
+		<input type="submit" value="更新" class="btn btn-primary btn-lg" onclick="return checknull()">
+	</form>
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script>
+
+
+</script>
+<script>
+    var i = 1;
+	var category = '{{ recipe.cateid.catename|safe }}';
+	var taste = '{{ recipe.tasteid.tastename|safe }}';
+	var chengpinimg = '{{ recipe.rcp_img|safe }}';
+
+	$("[name='category'] option[value='"+ category +"']").attr("selected","true");
+	$("[name='taste'] option[value='"+ taste +"']").attr("selected","true");
+
+	$('.tubiao').css('display','none');
+	$('p.up').css('display','none');
+	$('label.uplabel').css('text-align','left');
+
+		
+    $(function () {
+
+        $("#box").on('click','#addp',function () {
+            //$('#pp').after($("#pp").clone());
+            var addP = $(this).parent().clone();
+            $(this).parent().after(addP);
+            $('#pp #stepnum').each(function (i,e) {
+                $(e).text(i+1);
+            });
+            
+            $('#pp label').each(function (i,e) {
+                // $(e).text(i+1);
+                $(e).attr('for', 'stepfile'+(i+1))
+            });
+            // alert('show');
+            $('#pp .hidef').each(function (i,e) {
+                // $(e).text(i+1);
+                $(e).attr('id', 'stepfile'+(i));
+               
+                 $(this).on('change',function(){
+                 	var file = $(this)[0].files[0];
+	                var showImg = $(this).parent().children('label.uplabel').children('img.ulpic');
+					var tb = $(this).parent().children('label.uplabel').children('#tubiao');
+					var up = $(this).parent().children('label.uplabel').children('p#up');
+					var ulb = $(this).parent().children('label.uplabel');
+					
+					alert('showImg');
+					// alert($(".hidef").length);
+					var read = new FileReader();
+					read.readAsDataURL(file);
+
+					// $(document).ready(function(){
+					read.onload = function(e) {
+						var src = e.target.result;
+						
+						tb.css('display','none');
+						up.css('display','none');
+						ulb.css('text-align','left');
+						showImg.removeAttr('src');
+						showImg.attr('src',src);
+					};
+                 });
+            });
+
+        });
+        $('#pp .hidef').each(function (i,e) {
+                // $(e).text(i+1);
+                // $(e).attr('id', 'stepfile'+(i+1));
+               
+                 $(this).on('change',function(){
+                 	var file = $(this)[0].files[0];
+	                var showImg = $(this).parent().children('label.uplabel').children('img.ulpic');
+					var tb = $(this).parent().children('label.uplabel').children('#tubiao');
+					var up = $(this).parent().children('label.uplabel').children('p#up');
+					var ulb = $(this).parent().children('label.uplabel');
+					
+					
+					// alert($(".hidef").length);
+					var read = new FileReader();
+					read.readAsDataURL(file);
+
+					// $(document).ready(function(){
+					read.onload = function(e) {
+						var src = e.target.result;
+						
+						tb.css('display','none');
+						up.css('display','none');
+						ulb.css('text-align','left');
+						showImg.removeAttr('src');
+						showImg.attr('src',src);
+					};
+                 });
+            });
+
+        $("#box").on("click",'#delp',function () {
+            $(this).parent().remove();
+            $('#pp #stepnum').each(function (i,e) {
+                $(e).text(i+1);
+            })
+        });
+
+         $("#inge_box").on('click','#addp',function () {
+            //$('#pp').after($("#pp").clone());
+            var addP = $(this).parent().clone();
+            $(this).parent().after(addP);
+        });
+         $("#inge_box").on("click",'#delp',function () {
+            $(this).parent().remove();
+        });
+         $('#file-0b').on('change',function(){
+			$('#chengpinPic').css('display','none');
+		});
+
+    });
+    
+</script>
+{% endblock %}
