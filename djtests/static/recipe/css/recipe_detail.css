@@ -1,177 +1,176 @@
-	.daohang a{
-		display: block;
-		padding-bottom: 30px; 
-	}
-	.stepnum{
-		font-size: 50px;
-	    color: #ff3232;
-	    font-style: italic;
-	    text-align: center;
-	    font-family: arial;
-	    height: 50px;
-	    width: 100px;
-	    display: block;
-	    float: left;
-	    line-height: 50px;
-	}
-	.stepItem{
-		margin-top: 20px;
-	}
-	.stepItem p{
-		line-height: 24px;
-	    color: #666;
-	    padding: 10px 20px 10px 0px;
-	    position: relative;
-	    font-size: 16px;
-	}
-	.c{
-		float: left;
-	    max-width: 700px;
-	    overflow: hidden;
-	}
-	.recipeImg{
-		width: 500px;
-		max-height: 360px;
-	    float: left;
-	    overflow: hidden;
-	    padding: 25px 10px 0px 0px;
-	}
-	.rcp_mainInfo{
-		float: right;
-	    width: 562px;
-	    position: relative;
-	    overflow: hidden;
-	}
-	.rcp_mainInfo img{
-		width: 500px;
-	    display: block;
-	    float: left;
-	}
-	.rcp_title{
-		/*max-width: 288px;*/
-	    height: 44px;
-	    padding: 28px 0px;
-	    line-height: 44px;
-	}
-	.item_name{
-		font-size: 16px;
-	    color: #999;
-	    line-height: 18px;
-	    display: inline-block;
-	    height: 18px;
-	}
-	.item_value{
-		display: inline-block;
-	    font-size: 22px;
-	    color: #ff3232;
-	    font-family: Microsoft Yahei;
-	    line-height: 30px;
-	    width: 100px;
-	    cursor: default;
-	}
-	.rcp_listitem{
-		height: 48px;
-	    border-right: 1px solid #eee;
-	    padding: 18px 0px 18px 20px;
-	    border-bottom: 1px solid #eee;
-	}
-	.detail_descript p{
-		line-height: 24px;
-	    font-size: 14px;
-	    padding: 20px 24px 10px;
-	    color: #666;
-	}
-	.ingres{
-		padding: 40px 0;
-	}
-	.yl_title{
-		font-size: 24px;
-	    color: #333;
-	    height: 66px;
-	    line-height: 66px;
-	    border-bottom: 1px solid #eee;
-	    text-indent: 24px;
-	    font-family: Microsoft Yahei;
-	    display: block;
-	}
-	.daohang img{
-		width: 100%;
-	}
-	.likes_handle{
-		/*width: 100%;*/
-		bottom: 0;
-		padding: 0;
-		float: right;
-		margin-right: 300px;
-	}
-	.likes_handle ul li{
-		padding: 0 20px;
-	}
-	.likes_handle .glyphicon{
-		font-size: 16px;
-		color: #808080;
-	}
-	.likes_handle .glyphicon:hover{
-		cursor: pointer;
-	}
-	.comment-area{
-		margin-top: 40px;
-	}
-	.comment-area-title{
-		border-bottom: 1px solid #ccc;
-		padding-bottom: 10px;
-	}
-	.comments{
-		border-bottom: 1px dashed #ccc;
-		margin-bottom: 20px;
-		padding-bottom: 20px;
-		position: relative;
-	}
-	.comments .avatar{
-		float: left;
-	}
-	.comments .avatar img{
-		width: 50px;
-		height: 50px;
-	}
-	.comment-detail{
-		float: left;
-		padding: 10px 20px;
-	}
-	.replies{
-		margin-left: 120px;
-		margin-top: 20px;
-
-	}
-	.reply-detail{
-		float: left;
-		padding: 10px 20px;
-	}
-	.comment-user-name{
-		font-size: 15px;
-		font-weight: bold;
-	}
-	.comment-time{
-		color: #666;
-	}
-	.comment-text{
-		padding: 5px 20px;
-	}
-	.parent-reply-link{
-		margin-top: 50px;
-		color: blue;
-	}
-	.child-reply-link{
-		margin-top: 50px;
-		margin-left: 100px;
-		color: blue;
-	}
-	.reply-avatar{
-		float: left;
+.daohang a{
+	display: block;
+	padding-bottom: 30px; 
+}
+.stepnum{
+	font-size: 50px;
+	color: #ff3232;
+	font-style: italic;
+	text-align: center;
+	font-family: arial;
+	height: 50px;
+	width: 100px;
+	display: block;
+	float: left;
+	line-height: 50px;
+}
+.stepItem{
+	margin-top: 20px;
+}
+.stepItem p{
+	line-height: 24px;
+	color: #666;
+	padding: 10px 20px 10px 0px;
+	position: relative;
+	font-size: 16px;
+}
+.c{
+	float: left;
+	max-width: 700px;
+	overflow: hidden;
+}
+.recipeImg{
+	width: 500px;
+	max-height: 360px;
+	float: left;
+	overflow: hidden;
+	padding: 25px 10px 0px 0px;
+}
+.rcp_mainInfo{
+	float: right;
+	width: 562px;
+	position: relative;
+	overflow: hidden;
+}
+.rcp_mainInfo img{
+	width: 500px;
+	display: block;
+	float: left;
+}
+.rcp_title{
+	/*max-width: 288px;*/
+	height: 44px;
+	padding: 28px 0px;
+	line-height: 44px;
+}
+.item_name{
+	font-size: 16px;
+	color: #999;
+	line-height: 18px;
+	display: inline-block;
+	height: 18px;
+}
+.item_value{
+	display: inline-block;
+	font-size: 22px;
+	color: #ff3232;
+	font-family: Microsoft Yahei;
+	line-height: 30px;
+	width: 100px;
+	cursor: default;
+}
+.rcp_listitem{
+	height: 48px;
+	border-right: 1px solid #eee;
+	padding: 18px 0px 18px 20px;
+	border-bottom: 1px solid #eee;
+}
+.detail_descript p{
+	line-height: 24px;
+	font-size: 14px;
+	padding: 20px 24px 10px;
+	color: #666;
+}
+.ingres{
+	padding: 40px 0;
+}
+.yl_title{
+	font-size: 24px;
+	color: #333;
+	height: 66px;
+	line-height: 66px;
+	border-bottom: 1px solid #eee;
+	text-indent: 24px;
+	font-family: Microsoft Yahei;
+	display: block;
+}
+.daohang img{
+	width: 100%;
+}
+.likes_handle{
+	/*width: 100%;*/
+	bottom: 0;
+	padding: 0;
+	float: right;
+	margin-right: 300px;
+}
+.likes_handle ul li{
+	padding: 0 20px;
+}
+.likes_handle .glyphicon{
+	font-size: 16px;
+	color: #808080;
+}
+.likes_handle .glyphicon:hover{
+	cursor: pointer;
+}
+.comment-area{
+	margin-top: 40px;
+}
+.comment-area-title{
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+}
+.comments{
+	border-bottom: 1px dashed #ccc;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	position: relative;
+}
+.comments .avatar{
+	float: left;
+}
+.comments .avatar img{
+	width: 50px;
+	height: 50px;
+}
+.comment-detail{
+	float: left;
+	padding: 10px 20px;
+}
+.replies{
+	margin-left: 120px;
+	margin-top: 20px;
+}
+.reply-detail{
+	float: left;
+	padding: 10px 20px;
+}
+.comment-user-name{
+	font-size: 15px;
+	font-weight: bold;
+}
+.comment-time{
+	color: #666;
+}
+.comment-text{
+	padding: 5px 20px;
+}
+.parent-reply-link{
+	margin-top: 50px;
+	color: blue;
+}
+.child-reply-link{
+	margin-top: 50px;
+	margin-left: 100px;
+	color: blue;
+}
+.reply-avatar{
+	float: left;
 /*		left: 100px;
 		position: absolute;*/
-	}
-	.reply-avatar img{
-		width: 50px;
-		height: 50px;
-	}
+}
+.reply-avatar img{
+	width: 50px;
+	height: 50px;
+}

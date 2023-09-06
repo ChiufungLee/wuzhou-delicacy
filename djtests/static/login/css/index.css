@@ -1,33 +1,33 @@
 .rcpitem .pic{
-	width: 235px;
 	overflow: hidden;
 }
 .pic img{
 	height: 175px;
-	transition: all 0.5s ease-in-out;
+	/*transition: all 0.5s ease-in-out;
 	transition-property: all;
-    transition-duration: 0.5s;
+    transition-duration: 0.5s;*/
 }
 .pic img:hover{  
     transform: scale(1.1);  
 }
 .article-info{
-	height: 520px;
+	height: 680px;
 	background: #f8f8f8;
 	padding: 20px;
+	margin: 0 10%;
 }
 .zixun{
 	float: left;
 	font-size: 15px;
-	padding: 18px 25px 13px 75px;
+	padding: 18px 0px 18px 60px;
 }
 .tongzhi{
-	float: left;
+	float: right;
 	font-size: 15px;
-	padding: 18px 25px 13px 65px;
+	padding: 18px 60px 18px 0px;
 }
 .atc-item{
-	margin-bottom: 10px;
+	margin-bottom: 30px;
 }
 .atc-item a{
 	position: relative;
@@ -58,25 +58,33 @@
 	float: right;
 }
 
-/*    .tongzhi{
-	height: 400px;
-	background: #f8f8f8;
-	padding: 18px 25px 13px 25px;
-}*/
 .atc-item li{
 	border-bottom: 1px dashed #b1b1b1;
 }
-.atc-item li a{
-	width: 450px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+
+@media only screen and (max-width: 1440px) {
+	.atc-item li a{
+        	width: 324px;
+        	overflow: hidden;
+	        text-overflow: ellipsis;
+	        white-space: nowrap;
+}
+}
+@media only screen and (min-width: 1440px) {
+	.atc-item li a{
+	        width: 480px;
+	        overflow: hidden;
+	        text-overflow: ellipsis;
+	        white-space: nowrap;
+	}
 }
 .rcpitem{
-	width: 235px;
+	width: 20%;
 	/*background: red;*/
 	float: left;
-	margin: 20px 18px;
+	margin-top: 18px;
+	margin-bottom: 18px;
+	margin-left: 60px;
 	border: 1px solid #eee;
 	box-shadow: 1px 1px 3px #888888;
 }
@@ -121,11 +129,13 @@
 }
 .rcplist, .stolist{
 	text-align: center;
-	padding: 0 132px;
+	/*padding: 0 132px;*/
+	margin: 0 10%;
 }
 .ckgd{
 	background: #ff6767;
 	border: none;
+	margin-top: 30px;
 }
 .ckgd:hover{
 	background: #ff7878;

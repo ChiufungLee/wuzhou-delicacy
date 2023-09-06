@@ -11,11 +11,13 @@
 {% endblock %}
 
 {% block content %}
-<h3 class="msg-h">{{ message }}</h3>
+<br>
+<br>
+<h3 style="color:red;padding:60px 0px;">{{ message }}</h3>
+<a href="/" class="btn btn-primary ckgd">返回首页</a>
+<div style="height:200px"></div>
 {% endblock %}
 
 {% block js %}
-<script>
-    window.setTimeout("window.location='/'",1500);
-</script>
+
 {% endblock %}

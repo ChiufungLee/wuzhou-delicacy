@@ -1,55 +1,53 @@
 .vlog-item{
-		padding: 15px 10px;
-		/*background: red;*/
-		display: inline-block;
+	padding: 15px 10px;
+	/*background: red;*/
+	display: inline-block;
+}
+.vlog-item .card{
 
-	}
-	.vlog-item .card{
-
-		border: 1px solid #eee;
-		box-shadow: 1px 1px 3px #888888;
-	}
-	.vlog-item .card .image{
-		width: 235px;
-		height: 175px;
-		position: relative;
-		background: yellow;
-		display: inline-block;
-		overflow: hidden;
-	}
-	.vlog-item .card .image img{
-		width: 235px;
-		height: 175px;
+	border: 1px solid #eee;
+	box-shadow: 1px 1px 3px #888888;
+}
+.vlog-item .card .image{
+	width: 235px;
+	height: 175px;
+	position: relative;
+	/*background: yellow;*/
+	display: inline-block;
+	overflow: hidden;
+}
+.vlog-item .card .image img{
+	width: 235px;
+	height: 175px;
         transition: all 0.6s;
-	}
-	.vlog-item .card .image img:hover{
-		transform: scale(1.2);
-	}
-	.vlog-item .card .image .glyphicon{
-		position: absolute;
-		font-size: 28px;
-		color: #fff;
-		left: 10px;
-		top: 140px;
-	}
-	.vlog-content{
-		font-size: 15px;
-		padding: 0 10px;
-
-	}
-	.vlog-content a{
-		padding: 5px 0 5px 0;
-		font-size: 18px;
-		font-weight: bold;
-	}
-	.meta{
-		color: #4c5358;
-	}
-	.views{
-		padding: 5px 0 10px 0;
-		color: #4c5358;
-	}
-	.ajax_page{
-		padding: 20px 0;
-		text-align: center;
-	}
+}
+.vlog-item .card .image img:hover{
+	transform: scale(1.2);
+}
+.vlog-item .card .image .glyphicon{
+	position: absolute;
+	font-size: 28px;
+	color: #fff;
+	left: 10px;
+	top: 140px;
+}
+.vlog-content{
+	font-size: 15px;
+	padding: 0 10px;
+}
+.vlog-content a{
+	padding: 5px 0 5px 0;
+	font-size: 18px;
+	font-weight: bold;
+}
+.meta{
+	color: #4c5358;
+}
+.views{
+	padding: 5px 0 10px 0;
+	color: #4c5358;
+}
+.ajax_page{
+	padding: 20px 0;
+	text-align: center;
+}

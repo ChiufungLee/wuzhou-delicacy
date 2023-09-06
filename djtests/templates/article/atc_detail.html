@@ -11,7 +11,13 @@
 
 <ol class="breadcrumb">
 	<li><a href="/">首页</a></li>
-	<li><a href="">文章详情</a></li>
+	{% if article.atc_category.id == 4 %}
+        <li><a href="/article/atcListRizhi/">全部日志</a></li>
+        <li><a class="no_link">日志详情</a></li>
+	{% else %}
+	<li><a href="/article/atcListZixun/">全部文章</a></li>
+	<li><a class="no_link">文章详情</a></li>
+	{% endif %}
 	<!-- <li><a href="">{{ atc.title }}</a></li> -->
 </ol>
 

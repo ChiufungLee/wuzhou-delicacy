@@ -105,21 +105,22 @@ a:hover{
 	padding-bottom: 20px;
 }
 .footer{
-	margin: 0 auto;
-	/*height: 100px;*/
-	bottom: 0px;
-	padding: 60px 20px 30px 20px;
+	/*margin: 0 auto;
+	height: 100px;
+	bottom: 0px;*/
+	padding: 30px 240px;
 	background: #f8f8f8;
-
+	display: flex;
+    	justify-content: center;
+    	flex-wrap: wrap;
 }
 .footer p{
 	font-size: 14px;
 	color: #909090;
 	padding: 5px;
 	text-align: center;
+	line-height: 30px;
 }
-
-
 
 .navbar,.navbar-header{
 	height: 85px;
@@ -131,12 +132,48 @@ a:hover{
 }
 .navbar-nav li a{
 	line-height: 55px;
+	text-align: center;
 }
 .navbar-brand{
 	padding: 0;
 }
 .navbar-form{
 	margin-top: 24px;
+}
+@media only screen and (max-width: 1440px) {
+	.navbar-right > li{
+		float: none;
+		background: #f8f8f8;
+	}
+	.navbar-right > li.min-hide{
+                display:none;
+        }
+	.navbar-right:hover .min-hide{
+		display:block;
+		
+	}
+	.navbar-right > li.bigs{
+		display: none;
+	}
+	.navbar-right > li.smalls{
+		display: none;
+	}
+}
+@media only screen and (min-width: 1441px) {
+	.navbar-right > li{
+                float: left;
+        }
+        .navbar-right > li.bigs{
+                display: block;
+        }
+        .navbar-right > li.smalls{
+                display: none;
+        }
+
+
+}
+.tableList > table{
+	width: max-content;
 }
 .avatar{
 	width: 40px;
@@ -170,42 +207,51 @@ a:hover{
 	background-position: left-bottom;
 	cursor: pointer;
 }
-
-.footer-yl{
-	margin: 5px 0 10px 240px;
-	/*background: red;*/
-	padding: 10px;
+.footer-container {
+	/* 设置内部内容的最大宽度 */
+	margin-top: 18px;
+    	width: 100%;
+    	/* max-width: 800px; */
+    	display: flex;
+    	justify-content: space-between; /* 设置项目之间的间距 */
 }
-.footer-lx{
-	/*margin: 5px 0 10px 240px;*/
-	margin-left: 100px;
-	padding: 10px;
-}
-.footer-yl p a, .footer-lx p a{
-	display: block;
-	text-align: left;
+.footer-item {
+	flex: 1;
+    	text-align: center;
 }
 .footer-label{
 	padding: 10px 5px;
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: normal;
 	color: #222;
 }
+/*
 .footer-img{
 	float: left;
 	margin-left: 160px;
 	margin-top: 45px;
-}
+}*/
 .footer-img img{
 	width: 120px;
 	height: 120px;
 }
+
 .banquan{
+	width: 100%;
 	margin-top: 25px;
+	clear: both;
+	text-align: center;
 }
 .daohang a{
 	display: block;
 	margin-bottom: 30px;
+}
+.breadcrumb a{
+	color: #337ab7;
+}
+.breadcrumb a.no_link{
+	cursor: none;
+	color: black;
 }
 .daohang img{
 	width: 100%;
@@ -242,10 +288,6 @@ a:hover{
 .navbar{
 	height: 85px;
 }
-.banquan{
-	/*background: blue;*/
-	padding-bottom: 15px;
-}
 .ativity-cate{
 	padding: none;
 	margin: none;
@@ -280,4 +322,22 @@ a:hover{
 	color: white;
 	background: #ff6767;
 }
-
+.red{
+	color: red;
+}
+.uc_left{
+        width: 20%;
+        min-height: 400px;
+        /*background: red;*/
+        background: #f8f8f8;
+        float: left;
+        border-right: 1px solid #e7e7e7;
+        /*text-align: center;*/
+}
+.uc_right{
+        width: 80%;
+        /*margin-left: 10px;*/
+        padding: 10px;
+        float: left;
+        /*border-left: 1px solid #e7e7e7;*/
+}
