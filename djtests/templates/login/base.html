@@ -57,7 +57,7 @@
 			</form>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown newap">
+				<li class="dropdown newap bigs">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">发布+</a> <!-- <span class="caret"></span> -->
 					<ul class="dropdown-menu">
 						<li><a href="/recipe/addRecipe/">发布菜谱</a></li>
@@ -67,7 +67,7 @@
 				</li>
 				{% if request.session.user_name == null %}
 					<li><a href="/login/">登录</a></li>
-					<li><a href="/register/">注册</a></li>
+					<li class="min-hide"><a href="/register/">注册</a></li>
 				{% else %}
 				<li class="dropdown user_avatar">
 					<a href="#" data-toggle="dropdown"><img class="avatar" >&nbsp;{{ request.session.user_name }}</a>
@@ -79,6 +79,16 @@
 					</ul>
 				</li>
 				{% endif %}
+                                <li class="dropdown newap min-hide smalls">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">发
+布+</a> <!-- <span class="caret"></span> -->
+                                        <ul class="dropdown-menu">
+                                                <li><a href="/recipe/addRecipe/">发布菜谱</a></li>
+                                                <li><a href="/article/addTravels/">发表日志</a></li>
+                                                <li><a href="/recipe/addVlogs/">发布vlog</a></li>
+                                        </ul>
+                                </li>
+
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
@@ -101,19 +111,19 @@
 <div class="toTop" id="btn"></div>
 
 <div class="footer">
-	<div class="left footer-yl">
+	<div class="footer-item">
 		<label class="footer-label">友情链接</label>
 		<p><a href="http://www.wuzhou.gov.cn/">梧州市人民政府网站</a></p>
 		<p><a href="http://www.wzljl.cn/">梧州零距离网</a></p>
 		<p><a href="http://hongdou.gxnews.com.cn/viewforum-25.html">梧州红豆社区</a></p>
 	</div>
-	<div class="left footer-lx">
+	<div class="footer-item">
 		<label class="footer-label">建议与反馈</label>
 		<p><a href="/about/">关于我们</a></p>
 		<p><a href="/about/">商家入驻</a></p>
 		<!-- <p><a href="/user/admin/">后台登录</a></p> -->
 	</div>
-	<div class="left footer-lx">
+	<div class="footer-item">
 		<label class="footer-label">联系我们</label>
 
 		
