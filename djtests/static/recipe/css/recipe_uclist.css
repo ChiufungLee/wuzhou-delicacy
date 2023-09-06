@@ -1,83 +1,65 @@
-	.uc_left{
-		width: 200px;
-		min-height: 400px;
-		/*background: red;*/
-		background: #f8f8f8;
-		float: left;
-		border-right: 1px solid #e7e7e7;
-	}
-	
-	.left_head_label{
-		text-align: center;
-		padding: 20px 0 10px 0;
-		color: red;
-		display: block;
-		font-size: 15px;
-
-	}
-	.glyphicon-fire{
-		color: orange;
-	}
-	.uc_right{
-		
-		width: 880px;
-		float: left;
-		background: #f8f8f8;
-		margin-left: 10px;
-		padding: 10px;
-	}
-	.rcpitem{
-		width: 235px;
-		/*background: red;*/
-		float: left;
-		margin: 20px 18px;
-		/*border: 1px solid #eee;*/
-		border: 1px solid #eee;
-		box-shadow: 1px 1px 3px #888888;
-	}
-	.rcpitem .pic{
-		width: 235px;
-		overflow: hidden;
-	}
-	.pic img{
-		height: 175px;
-		border:0;
-		transition: all 0.5s ease-in-out;
-		transition-property: all;
-	    transition-duration: 0.5s;
-	}
-	.pic img:hover{  
+.left_head_label{
+	text-align: center;
+	padding: 20px 0 10px 0;
+	color: red;
+	display: block;
+	font-size: 15px;
+}
+.glyphicon-fire{
+	color: orange;
+}
+.rcpitem{
+	width: 235px;
+	/*background: red;*/
+	float: left;
+	margin: 0px 0px 45px 45px;
+	/*border: 1px solid #eee;*/
+	border: 1px solid #eee;
+	box-shadow: 1px 1px 3px #888888;
+}
+.rcpitem .pic{
+	width: 235px;
+	overflow: hidden;
+}
+.pic img{
+	height: 175px;
+	border:0;
+	transition: all 0.5s ease-in-out;
+	transition-property: all;
+	transition-duration: 0.5s;
+}
+.pic img:hover{  
         transform: scale(1.1);  
-    }
+}
 
-	.show_rcpname{
-		margin: 10px 0 5px 0;
-		text-align: center;
-		font-size: 16px;
-		padding: 0 5px 0 10px;
-		/*max-width: 100%;*/
-	    /*vertical-align: top;*/
-	    /*background: red;*/
-	    overflow: hidden;
-		text-overflow: ellipsis;
-		white-space:nowrap;
-	}
-	.rcpitem a{
-		display: block;
-	}
-	.rcpitem:hover .show_rcpname{
-		color: red;
-	}
-	.show_rcpmkuser{
-		font-size: 12px;
-	    margin-bottom: 10px;
-	    color: #a5a7a6;
-	    text-align: center;
-	}
-	.ajax_page{
-		padding: 20px 0;
-		text-align: center;
-	}
-	.blue{
-		color: blue;
-	}
+.show_rcpname{
+	margin: 10px 0 5px 0;
+	text-align: center;
+	font-size: 16px;
+	padding: 0 5px 0 10px;
+	/*max-width: 100%;*/
+    /*vertical-align: top;*/
+    /*background: red;*/
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space:nowrap;
+}
+.rcpitem a{
+	display: block;
+}
+.rcpitem:hover .show_rcpname{
+	color: red;
+}
+.show_rcpmkuser{
+	font-size: 12px;
+	margin-bottom: 10px;
+	color: #a5a7a6;
+	text-align: center;
+}
+.ajax_page{
+	padding: 20px 0;
+	text-align: center;
+}
+.blue{
+	color: blue;
+}

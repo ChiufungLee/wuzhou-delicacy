@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = '0fx@y6a4nf4@+_np1t7c&q31^qmuvo@==)0kr10-qn_cslur-4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
 
     'ckeditor',
     'ckeditor_uploader',
@@ -140,7 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -153,7 +154,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "/static/")
+STATIC_ROOT = '/var/django/static/'
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR,"users/static/"),
 # ]
@@ -165,7 +166,7 @@ STATICFILES_DIRS = [
 
 # 配置media
 MEDIA_URL = '/media/' 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = '/var/django/media/'
 
 # 配置ckeditor
 # CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
@@ -176,7 +177,29 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = 'leechiufung@163.com'
-EMAIL_HOST_PASSWORD = 'Lzf937'  #邮箱授权码
+EMAIL_HOST_PASSWORD = 'ELHGQPVQDECCOWMX'  #邮箱授权码
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False  # 是否使用SSL加密，qq企业邮箱要求使用
+EMAIL_FROM = "WuzhouAD<leechiufung@163.com>"
 CONFIRM_DAYS = 1
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/root/wuzhouv2/uwsgi/django.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+

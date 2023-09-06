@@ -210,7 +210,7 @@ def send_email(email, code):
                     <p>请点击以下链接完成注册确认！</p>
                     <p><a href="http://{}/confirm/?code={}" target=blank>确认注册</a></p>
                     <p>此链接有效期为{}天！</p>
-                    '''.format('127.0.0.1:8000', code, settings.CONFIRM_DAYS)
+                    '''.format('192.168.17.196', code, settings.CONFIRM_DAYS)
 
 	msg = EmailMultiAlternatives(subject, text_content, settings.EMAIL_HOST_USER, [email])
 	msg.attach_alternative(html_content, "text/html")
@@ -368,7 +368,7 @@ def send_forgetEmail(email, code):
                     <p>请点击以下链接完成找回确认！</p>
                     <p><a href="http://{}/updataPwd/?code={}" target=blank>修改密码</a></p>
                     <p>此链接有效期为3分钟！</p>
-                    '''.format('127.0.0.1:8000', code)
+                    '''.format('192.168.17.196', code)
 
 	msg = EmailMultiAlternatives(subject, text_content, settings.EMAIL_HOST_USER, [email])
 	msg.attach_alternative(html_content, "text/html")

@@ -18,6 +18,16 @@ from django.urls import path, include
 from django.conf import settings
 #from django.conf.urls import url, include
 from django.conf.urls.static import static
+#from . import views
+from django.shortcuts import render
+
+def page_not_found_view(request, exception):
+    message = "你访问的页面飞出地球啦~"
+    return render(request, 'login/error.html', {'message': message}, status=404)
+
+handler404 = page_not_found_view
+
+#handler404 = page_not_found_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),

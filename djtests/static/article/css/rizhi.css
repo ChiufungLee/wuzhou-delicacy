@@ -1,120 +1,106 @@
-.uc_left{
-		width: 200px;
-		min-height: 400px;
-		/*background: red;*/
-		background: #f8f8f8;
-		float: left;
-		border-right: 1px solid #e7e7e7;
-	}
-	.left_head_label{
-		text-align: center;
-		padding: 20px 0 10px 0;
-		color: red;
-		display: block;
-		font-size: 15px;
-	}
-	.glyphicon-fire{
-		color: orange;
-	}
-	.uc_right{
-		width: 880px;
-		float: left;
-		background: #f8f8f8;
-		margin-left: 10px;
-		padding: 10px;
-	}
-	.rizhi_item{
-		background: white;
-		width: 100%;
-		padding: 10px;
-		margin-bottom: 10px;
-		padding-bottom: 30px;
-		position: relative;
-	}
-	.rz_img{
-		width: 60px;
-		position: absolute;
-	}
-	.ri_detail{
-		/*float: left;*/
-		width: 760px;
-		margin-left: 70px;
-		height: 100%;
-		padding-bottom: 10px;
-		margin-bottom: 10px;
-		word-break: break-all;
-		word-wrap:break-word;
-		white-space:nowrap;
-	}
-
-	.rz_title{
-		height: 60px;
-		padding: 10px;
-		line-height: 40px;
-	}
-	.rz_name{
-
-		padding: 10px;
-		font-size: 16px;
-	}
-	.rz_time{
-		/*padding-top: 10px;*/
-		font-size: 12px;
-	}
-	.zhankai{
-		padding: 8px 20px;
-		color: red;
-	}
-	.zhankai:hover{
-		cursor: pointer;
-	}
-
-	.likes_handle{
-		position: absolute;
-		width: 100%;
-		bottom: 0;
-		padding: 0;
-	}
-	.likes_handle ul li{
-		padding: 0 20px;
-	}
-	.likes_handle .glyphicon{
-		font-size: 16px;
-		color: #808080;
-	}
-	.likes_handle .glyphicon:hover{
-		cursor: pointer;
-	}
-	.title_width{
-		/*background: red;*/
-		max-width: 125px;
-		white-space:nowrap;
-		overflow: hidden;
-		text-overflow:ellipsis;
-		display: inline-block;
-	}
-	.content-body{
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		
-		overflow: hidden;
-		position: relative;
-		
-	}
-	.content-body a:hover{
-		color: #000;
-	}
-	.content-body p{
-		word-break: break-all;
-		word-wrap:break-word;
-		white-space:pre-wrap;
-		/*word-break:normal; */
-	}
-	.content-body p img{
-		width: 400px;
-		height: 300px;
-	}
-	.ajax_page{
-		padding: 20px 0;
-		text-align: center;
-	}
+.uc_left img{
+	width: 100%;
+	height: 800px;
+}
+.left_head_label{
+	text-align: center;
+	padding: 20px 0 10px 0;
+	color: red;
+	display: block;
+	font-size: 15px;
+}
+.glyphicon-fire{
+	color: orange;
+}
+.rizhi_item{
+	background: #f5f7fa;
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	padding-bottom: 30px;
+	position: relative;
+}
+.rz_img{
+	width: 60px;
+	position: absolute;
+}
+.ri_detail{
+	/*float: left;
+	width: 760px;*/
+	margin-left: 70px;
+	height: 100%;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	word-break: break-all;
+	word-wrap:break-word;
+	white-space:nowrap;
+}
+.rz_title{
+	height: 60px;
+	padding: 10px;
+	line-height: 40px;
+}
+.rz_name{
+	padding: 10px;
+	font-size: 16px;
+}
+.rz_time{
+	/*padding-top: 10px;*/
+	font-size: 12px;
+}
+.zhankai{
+	padding: 8px 20px;
+	color: red;
+}
+.zhankai:hover{
+	cursor: pointer;
+}
+.likes_handle{
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	padding: 0;
+}
+.likes_handle ul li{
+	padding: 0 20px;
+}
+.likes_handle .glyphicon{
+	font-size: 16px;
+	color: #808080;
+}
+.likes_handle .glyphicon:hover{
+	cursor: pointer;
+}
+.title_width{
+	/*background: red;*/
+	max-width: 125px;
+	white-space:nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	display: inline-block;
+}
+.content-body{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	
+	overflow: hidden;
+	position: relative;
+	
+}
+.content-body a:hover{
+	color: #000;
+}
+.content-body p{
+	word-break: break-all;
+	word-wrap:break-word;
+	white-space:pre-wrap;
+	/*word-break:normal; */
+}
+.content-body p img{
+	width: 400px;
+	height: 300px;
+}
+.ajax_page{
+	padding: 20px 0;
+	text-align: center;
+}

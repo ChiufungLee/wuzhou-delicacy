@@ -1,5 +1,6 @@
 ﻿body {
-   background:url(/static/login/images/bg.jpg);
+   background:url(/static/login/images/bg.jpg) no-repeat;
+   background-size: 100%;
 }
 a {
     text-decoration:none;
@@ -43,6 +44,10 @@ a {
     padding: 8px;
     margin: 0 auto;
     text-align: center;
+}
+.group > label{
+	width: 80px;
+	display: inline-block;
 }
 .tologin{
     font-size: 15px;

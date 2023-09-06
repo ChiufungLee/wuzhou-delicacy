@@ -1,5 +1,6 @@
 ﻿body {
-   background:url(/static/login/images/bg.jpg);
+   background:url(/static/login/images/bg.jpg) no-repeat;
+   background-size: 100%;
 }
 a {
     text-decoration:none;
